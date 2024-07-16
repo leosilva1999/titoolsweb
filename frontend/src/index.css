@@ -1,0 +1,14 @@
+body{
+  background-color: #f6fcff;
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+a, 
+nav button{
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  color: #FFFF;
+}
