@@ -1,0 +1,41 @@
+.items{
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 20rem);
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+    margin: 1em;
+    padding: 1em;
+
+}
+.equipmentBox{
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px rgb(52, 52, 52);
+    outline: none;
+    padding: 20px 10px;
+}
+.equipmentBox:hover{
+    box-shadow: 4px 4px 4px rgb(52, 52, 52);
+}
+.equipmentBox h2{
+    font-family: "Roboto", sans-serif;
+    color: #484848;
+}
+.newItemIcon{
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+.newItemIcon:hover{
+    color: aliceblue;
+}
+
+.filterIcon{
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+.filterIcon:hover{
+    color: aliceblue;
+}

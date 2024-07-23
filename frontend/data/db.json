@@ -1,0 +1,68 @@
+{
+    "equipment": [
+        {
+            "id": "1",
+            "name": "CAP-NTB-ALUN011",
+            "status": "emprestado",
+            "macAddress": "1e:0b:1f:82:a3:15",
+            "ip": "10.1.16.26"
+        },
+        {
+            "id": "2",
+            "name": "CAP-NTB-ALUN016",
+            "status": "disponível",
+            "macAddress": "bf:6d:15:21:db:60",
+            "ip": "10.1.16.43"
+        },
+        {
+            "id": "3",
+            "name": "CAP-NTB-ALUN023",
+            "status": "disponível",
+            "macAddress": "bb:29:17:65:45:ea",
+            "ip": "10.1.16.18"
+        },
+        {
+            "id": "4",
+            "name": "CAP-NTB-ALUN047",
+            "status": "disponível",
+            "macAddress": "39:0a:1a:ab:6a:38",
+            "ip": "10.1.16.37"
+        },
+        {
+            "id": "5",
+            "name": "CAP-NTB-ALUN048",
+            "status": "disponível",
+            "macAddress": "1b:9c:76:f8:f8:e5",
+            "ip": "10.1.16.13"
+        },
+        {
+            "id": "6",
+            "name": "CAP-NTB-ALUN03",
+            "status": "disponível",
+            "macAddress": "4e:df:28:34:7c:1e",
+            "ip": "10.1.16.42"
+        },
+        {
+            "id": "7",
+            "name": "CAP-NTB-ALUN050",
+            "status": "disponível",
+            "macAddress": "1a:e2:2d:67:ca:ee",
+            "ip": "10.1.16.31"
+        },
+        {
+            "id": "8",
+            "name": "CAP-NTB-ALUN07",
+            "status": "disponível",
+            "macAddress": "fc:c9:c9:bb:a7:57",
+            "ip": "10.1.16.27"
+        },
+        {
+            "id": "9",
+            "name": "CAP-NTB-ALUN01",
+            "status": "disponível",
+            "macAddress": "fc:c9:c9:bb:a7:56",
+            "ip": "10.1.16.28"
+        }
+    ]
+
+}

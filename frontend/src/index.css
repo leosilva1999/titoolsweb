@@ -12,3 +12,7 @@ nav button{
   border: none;
   color: #FFFF;
 }
+
+li{
+  list-style-type: none;
+}
