@@ -8,6 +8,11 @@
     padding: 1em;
 
 }
+.topListBar{
+    display: flex;
+    justify-content: first baseline;
+    padding: 0.5em 2em;
+}
 .equipmentBox{
     border-radius: 10px;
     border: 1px solid black;
@@ -22,20 +27,66 @@
     font-family: "Roboto", sans-serif;
     color: #484848;
 }
-.newItemIcon{
+.newItemButton{
     cursor: pointer;
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 100%;
+    padding: 2.8px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #25c19c;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1.2em;
+    margin: 0.2em;
+    margin-bottom: 0;
 }
-.newItemIcon:hover{
-    color: aliceblue;
+.newItemButton:hover{
+    color: black;
+    background-color: white;
+    box-shadow: 2px 2px 2px rgb(52, 52, 52);
 }
 
-.filterIcon{
+.filterButton{
     cursor: pointer;
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 100%;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #2a8bf2;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1em;
+    margin: 0.2em;
+    margin-bottom: 0;
 }
-.filterIcon:hover{
-    color: aliceblue;
+.filterButton:hover{
+    color: black;
+    background-color: white;
+    box-shadow: 2px 2px 2px rgb(52, 52, 52);
+}
+.searchBarContainer{
+    width: 100%;
+}
+.searchBar{
+    border: 0px;
+    border-bottom: 1px solid #484848;;
+    margin: 0px;
+    color: #484848;
+    background-color: #f6fcff;
+    outline: 0;
+    height: 100%;
+    width: 100%;
+}
+.searchBar:hover{
+    box-shadow: 0px 0.2px 0.5px rgb(52, 52, 52);
+}
+.topListButtons{
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    display: flex;
 }

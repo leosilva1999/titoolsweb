@@ -12,13 +12,23 @@ const EquipmentList = () => {
   
   return (
     <div>
-        <div className='topListBar'>
-          <div className='searchBar'>
-            <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value) }/>
+        <div className={styles.topListBar}>
+          <div className={styles.searchBarContainer}>
+            <input 
+              type="search" 
+              className={styles.searchBar} 
+              value={searchQuery} 
+              onFocus={(e) => setSearchQuery("")} 
+              onChange={(e) => setSearchQuery(e.target.value) }
+            />
           </div>
-          <div className='topListButtons'>
-            <FaPlus className={styles.newItemIcon}/>
-            <FaFilter className={styles.filterIcon}/>
+          <div className={styles.topListButtons}>
+            <button className={styles.newItemButton}>
+              <FaPlus/>
+            </button>
+            <button className={styles.filterButton}>
+              <FaFilter/>
+            </button>       
           </div>        
         </div>
         <div>
