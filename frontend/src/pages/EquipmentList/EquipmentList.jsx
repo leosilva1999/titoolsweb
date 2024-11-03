@@ -4,11 +4,12 @@ import { useFetch } from '../../hooks/useFetch';
 import { FaPlus, FaFilter, FaHandshake, FaSearch } from "react-icons/fa";
 
 
-const url = "http://localhost:3000/equipment"
+const url = "https://localhost:7280/api/equipment"
 
 const EquipmentList = () => {
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
   const {data: equipments} = useFetch(url);
+
   
   return (
     <div>
@@ -34,10 +35,10 @@ const EquipmentList = () => {
         <div>
           <ul className={styles.items}>
             {equipments && equipments.map((equipment) => (
-              <li key={equipment.id}>
+              <li key={equipment.equipmentId}>
                 <div className={styles.equipmentBox}>
-                  <h2>{equipment.name}</h2>
-                  <p>{equipment.status}</p>
+                  <h2>{equipment.equipmentName}</h2>
+                  <p>{equipment.equipmentLoanStatus}</p>
                   <button>
                     <FaHandshake />
                   </button>
