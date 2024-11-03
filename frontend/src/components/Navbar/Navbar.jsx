@@ -15,7 +15,8 @@ const Navbar = () => {
   }
 
   return (
-    <nav className={styles.navbar}>
+    window.location.pathname !== "/login"? 
+      <nav className={styles.navbar}>
         <div>
             <FaBars onClick={showSidebar} className={styles.menuIcon}/>
             {sidebar && <Sidebar active={setSidebar} />}
@@ -28,7 +29,8 @@ const Navbar = () => {
         <div>
             <FaUser className={styles.userIcon} /><span className={styles.userName}>Leonardo</span>
         </div>
-    </nav>
+      </nav> 
+    : ''  
   )
 }
 

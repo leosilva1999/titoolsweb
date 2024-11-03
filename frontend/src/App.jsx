@@ -4,6 +4,7 @@ import './App.css'
 // pages
 import Home from './pages/Home/Home'
 import EquipmentList from './pages/EquipmentList/EquipmentList'
+import Login from './pages/Auth/Login'
 
 //components
 import Navbar from './components/Navbar/Navbar'
@@ -17,6 +18,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path='/' element={<Home />}></Route>
+              <Route path='/login' element={<Login />}></Route>
               <Route path='/equipmentlist' element={<EquipmentList />}></Route>
             </Routes>
           </BrowserRouter>

@@ -5,6 +5,16 @@ body{
   font-family: "Roboto", sans-serif;
 }
 
+#login-page{
+  background-color: #000;
+  color: white;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 a, 
 nav button{
   text-decoration: none;
