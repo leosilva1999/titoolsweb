@@ -13,11 +13,11 @@ const Login = () => {
             <form>
               <div className={styles.inputBox}>
                 <input type='text' placeholder='E-mail'/>
-                <FaEnvelope />
+                <FaEnvelope className={styles.faenvelope}/>
               </div>
               <div className={styles.inputBox}>
                 <input type="password" placeholder='Senha' />
-                <FaLock />
+                <FaLock className={styles.falock}/>
               </div>
               <button className={styles.loginBtn}>Entrar</button>
             </form>
