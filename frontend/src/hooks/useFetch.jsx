@@ -7,15 +7,23 @@ export const useFetch = (url, options) => {
 
         const fetchData = async (customOptions) => {
             setLoading(true);
+            setError(null);
+            setData(null)
             try{
                 const res = await fetch(url, {...options, ...customOptions});
                 if(!res.ok){
-                    throw new Error(`HTTP error! status: ${res.status}`);
+                    if(res.status == 401){
+                        throw new Error(`E-mail ou senha incorretos`);
+                    }else{
+                        throw new Error(`Erro interno do servidor: ${res.status}`);
+                    }
                 }
                 const json = await res.json();
                 setData(json)
+                return json;
             }catch(err){
-                setError(err.message)
+                setError(err.message || "Ocorreu um erro desconhecido")
+                throw err;
             }
             finally{
                 setLoading(false)

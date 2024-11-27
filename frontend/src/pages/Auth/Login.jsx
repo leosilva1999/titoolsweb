@@ -1,34 +1,49 @@
-import React, { useState } from 'react'
-import { useFetch } from '../../hooks/useFetch';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from "./Auth.module.css"
 import { FaEnvelope, FaLock } from "react-icons/fa";
 
+//redux
+import {login, reset} from "../../slices/authSlice";
+import {useSelector, useDispatch} from "react-redux"
 
-const url = "https://localhost:7280/api/Auth/login"
+
+//const url = "https://localhost:7280/api/Auth/login"
 
 const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {data, error, loading, fetchData} = useFetch(url, {});
+  const {error, loading, success} = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const body = JSON.stringify({email, password});
-    const headers = {"Content-Type": "application/json"};
-    
-    const jwtBearer = await fetchData({
-      method: "POST",
-      body,
-      headers
-    })
-     console.log("cheguei aqui")
-    console.info(jwtBearer);
+    const user = {
+      email,
+      password,
+    };
 
+    dispatch(login(user))
   }
+
+  // homepage if success is true
+  useEffect(() => {
+    if(success){
+      navigate("/");
+      window.location.reload();
+    }
+  }, [success, navigate])
+
+  // clean auth states
+ useEffect(() => {
+    dispatch(reset())
+  }, [dispatch]);
 
   return (
     <div id="login-page">
@@ -58,8 +73,15 @@ const Login = () => {
                 />
                 <FaLock className={styles.falock}/>
               </div>
-              <button type="submit" className={styles.loginBtn}>Entrar</button>
+              <button 
+                type="submit" 
+                disabled={loading}
+                className={styles.loginBtn}
+              >
+                {loading ? "Entrando..." : "Entrar"}
+              </button>
             </form>
+            {error && <p style={{color: "red"}}>{error}</p>}
             <a href="#" className={styles.forgotPassword}>Esqueci minha senha</a>
         </div>
     </div>

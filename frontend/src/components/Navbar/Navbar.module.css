@@ -32,3 +32,13 @@
     color: #FFFF;
     margin-left: 0.2em;
 }
+
+.userNameContainer{
+    cursor: pointer;
+}
+
+.userNameContainer:hover .userName:hover{
+    cursor: pointer;
+    background-color: white;
+    color: #000;
+}

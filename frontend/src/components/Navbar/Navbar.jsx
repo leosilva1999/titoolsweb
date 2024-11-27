@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "./Navbar.module.css"
 import { NavLink } from 'react-router-dom'
 import { FaBars, FaCog, FaUser } from "react-icons/fa";
 
 //components
 import Sidebar from '../Sidebar/Sidebar'
+import UserMenu from '../UserMenu/UserMenu';
 
 const Navbar = () => {
   const [sidebar, setSidebar] = useState(false);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
   
   const showSidebar = () => {
     setSidebar(!sidebar)
@@ -26,9 +28,12 @@ const Navbar = () => {
         <span>Aplac TI T<FaCog /><FaCog />ls</span>
             
         </NavLink>
-        <div>
-            <FaUser className={styles.userIcon} /><span className={styles.userName}>Leonardo</span>
+        <div className={styles.userNameContainer} onClick={() => setOpenUserMenu((prev) => !prev)}>
+            <span className={styles.userName}>Leonardo</span><FaUser className={styles.userIcon} />
         </div>
+        {
+          openUserMenu && <UserMenu />
+        }         
       </nav> 
     : ''  
   )

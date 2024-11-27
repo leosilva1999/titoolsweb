@@ -1,0 +1,37 @@
+.userMenu{
+    position: absolute;
+    top: 4.5rem;
+    right: 4rem;
+    width: 80px;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: white;
+    border: 1px solid gray;
+  }
+
+  .userMenu::before{
+    content: '';
+    position: absolute;
+    top: -0.7rem;
+    right: 1.1rem;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: white;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+    
+  }
+
+  .userMenuList{
+    margin: 0;
+    padding-left: 0;
+  }
+
+
+  .userMenuLink{
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 10px;
+    color: #191919;
+}
