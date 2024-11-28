@@ -6,10 +6,13 @@ import { FaBars, FaCog, FaUser } from "react-icons/fa";
 //components
 import Sidebar from '../Sidebar/Sidebar'
 import UserMenu from '../UserMenu/UserMenu';
+import { useAuth } from '../../hooks/useAuth';
 
 const Navbar = () => {
   const [sidebar, setSidebar] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
+
+  const {auth} = useAuth()
   
   const showSidebar = () => {
     setSidebar(!sidebar)
@@ -17,7 +20,7 @@ const Navbar = () => {
   }
 
   return (
-    window.location.pathname !== "/login"? 
+    auth? 
       <nav className={styles.navbar}>
         <div>
             <FaBars onClick={showSidebar} className={styles.menuIcon}/>

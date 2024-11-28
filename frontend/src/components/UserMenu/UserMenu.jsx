@@ -21,7 +21,6 @@ const UserMenu = () => {
      useEffect(() => {
       if(success){
         navigate("/login");
-        window.location.reload();
       }
     }, [success, navigate])
   
