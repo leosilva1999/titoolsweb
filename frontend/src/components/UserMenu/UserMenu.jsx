@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import styles from "./UserMenu.module.css"
 import { NavLink, useNavigate } from 'react-router-dom'
+import { FaCog, FaSignOutAlt, FaUser, FaUsers } from "react-icons/fa";
 import { useDispatch, useSelector} from "react-redux"
 import { logout, reset } from '../../slices/authSlice';
 
@@ -32,10 +33,10 @@ const UserMenu = () => {
     <div className={styles.userMenu}>
       <div className={styles.container}>
         <ul className={styles.userMenuList}>
-            <NavLink className={styles.userMenuLink} to="/"><li><span>UserName</span></li></NavLink>
-            <NavLink className={styles.userMenuLink} to="/"><li><span>EditUser</span></li></NavLink>
-            <NavLink className={styles.userMenuLink} to="/"><li><span>NewUser</span></li></NavLink>
-            <div className={styles.userMenuLink} onClick={handleLogout}><li><span>Logout</span></li></div>
+            <div className={styles.userMenuLink}><li><span>Profile</span><FaUser/></li></div>
+            <div className={styles.userMenuLink}><li><span>Users</span><FaUsers/></li></div>
+            <div className={styles.userMenuLink}><li><span>Settings</span><FaCog/></li></div>
+            <div className={styles.userMenuLink} onClick={handleLogout}><li>{loading?<span>Saindo...</span>:<span>Logout</span>}<FaSignOutAlt/></li></div>
         </ul>
       </div>
     </div>

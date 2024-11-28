@@ -30,8 +30,23 @@
 
 
   .userMenuLink{
-    margin-top: 10px;
+    margin-top: 5px;
     cursor: pointer;
-    padding: 10px;
     color: #191919;
-}
+  }
+  .userMenuLink span{
+    margin-right: 5px;
+  }
+
+  .userMenuLink:hover{
+    margin-top: 2px;
+    padding: 3px;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+  }
+
+  .menuIcons{
+    width: 25px;
+    height: 25px;
+  }
