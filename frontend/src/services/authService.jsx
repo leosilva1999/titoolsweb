@@ -20,22 +20,13 @@ const login = async(data) => {
     }
 }
 
-const logout = async(data, token) => {
-    const config = requestConfig("POST", data, token)
-
-    try{
-        const res = await fetch(api + `/Auth/revoke/${data}`, config)
-            .catch((err) => err);
-            if(res.status == "204"){
-                localStorage.clear()
-                return res.status
-            }else{
-                return res;
-            }
-    }catch(error){
-        console.log(error);
+const logout = async() => {
+    try {
+        localStorage.removeItem("user");
+        return
+    } catch (error) {
+        return error.message;
     }
-   console.log("cheguei em logout")
 }
 
 const authService = {

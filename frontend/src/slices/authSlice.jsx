@@ -1,6 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import authService from "../services/authService";
-import {jwtDecode} from "jwt-decode";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -30,17 +29,8 @@ export const login = createAsyncThunk(
 //sign out an user
 export const logout = createAsyncThunk(
     "auth/logout",
-    async(user, thunkAPI) => {
-        const userDecodedJwt  = jwtDecode(user.token)
-        const data = await authService.logout(userDecodedJwt.email, user.token);
-
-        // check for error
-        if(data.status != "200"){
-            localStorage.clear()
-            return thunkAPI.rejectWithValue(data.errors)
-        }
-
-        return data
+    async() => {
+        await authService.logout();
     }
 );
 
@@ -79,13 +69,9 @@ export const authSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            localStorage.clear();
+            state.user = null;
             console.log("fulfilled")
-        }).addCase(logout.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-            console.log("rejected: " + state.error)
-        });
+        })
     },
 });
 

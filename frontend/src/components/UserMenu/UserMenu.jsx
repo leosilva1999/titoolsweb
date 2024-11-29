@@ -10,25 +10,17 @@ const UserMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {error, loading, success} = useSelector((state) => state.auth);
-  const user = JSON.parse(localStorage.getItem("user"));
+  
 
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    dispatch(logout(user))
+    dispatch(logout());
+    dispatch(reset());
+
+    navigate("/login");
   }
 
-    // login page if success is true
-     useEffect(() => {
-      if(success){
-        navigate("/login");
-      }
-    }, [success, navigate])
-  
-    // clean auth states
-   useEffect(() => {
-      dispatch(reset())
-    }, [dispatch]);
   return (
     <div className={styles.userMenu}>
       <div className={styles.container}>
