@@ -2,11 +2,11 @@ import { generatePath } from 'react-router-dom';
 import {api, requestConfig} from '../utils/config'
 
 const getEquipments = async() => {
-    const config = requestConfig("POST")
+    const config = requestConfig("POST"/*, null, localStorage.getItem(token)*/)
 
     try {
         const res = await fetch(api + "/Equipment", config)
-            .then((res) => res.json())
+            //.then((res) => res.json())
             .catch((err) => err);
         
             return res;

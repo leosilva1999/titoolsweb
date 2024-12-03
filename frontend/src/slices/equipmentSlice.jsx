@@ -13,18 +13,18 @@ const initialState = {
 export const getEquipments = createAsyncThunk(
     "equipment/getEquipments",
     async(thunkAPI) => {
-        const data = await equipmentService();
+        const data = await equipmentService.getEquipments();
 
-        if(data.errors){
-            return thunkAPI.rejectWithValue(data.message)
+        if(data.status){
+            return thunkAPI.rejectWithValue(data.status)
         }
 
         return data;
     }
 )
 
-export const authSlice = createSlice({
-    name: "auth",
+export const equipmentSlice = createSlice({
+    name: "equipment",
     initialState,
     reducers: {
         reset: (state) => {

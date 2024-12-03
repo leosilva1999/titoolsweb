@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import styles from "./EquipmentList.module.css"
 import { useFetch } from '../../hooks/useFetch';
 import { FaPlus, FaFilter, FaHandshake, FaSearch } from "react-icons/fa";
-
-
-const url = "https://localhost:7280/api/equipment"
+import { useDispatch, useSelector} from "react-redux"
+import { getEquipments } from '../../slices/equipmentSlice';
 
 const EquipmentList = () => {
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
-  const {data: equipments} = useFetch(url);
+  const dispatch = useDispatch();
+  const {data: equipments} = dispatch(getEquipments());
+
+  //console.log(equipments.equipmentName)
 
   
   return (
