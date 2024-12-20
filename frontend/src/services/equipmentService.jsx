@@ -1,19 +1,19 @@
-import { generatePath } from 'react-router-dom';
 import {api, requestConfig} from '../utils/config'
 
 const getEquipments = async() => {
-    const config = requestConfig("POST"/*, null, localStorage.getItem(token)*/)
+    const user = JSON.parse(localStorage.getItem("user"))
+    const config = requestConfig("GET", null, user.token)
 
     try {
         const res = await fetch(api + "/Equipment", config)
-            //.then((res) => res.json())
+            .then((res) => res.json())
             .catch((err) => err);
         
-            return res;
-        
+        console.log("equipment service res: " + res);
+
+        return res;
     } catch (error) {
         console.log(error);
-        return ("erro: "+ error.message)
     }
 }
 

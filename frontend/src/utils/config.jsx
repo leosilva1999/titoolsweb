@@ -1,7 +1,7 @@
 export const api = "https://localhost:7280/api";
 
 
-export const requestConfig = (method, data, token = null) => {
+export const requestConfig = (method, data, token) => {
 
     let config
 

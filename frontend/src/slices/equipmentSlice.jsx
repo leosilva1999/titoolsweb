@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import equipmentService from "../services/equipmentService";
 
 const initialState = {
-    equipment: null,
+    equipments: null,
     error: false,
     success: false,
     loading: false,
@@ -13,12 +13,12 @@ const initialState = {
 export const getEquipments = createAsyncThunk(
     "equipment/getEquipments",
     async(thunkAPI) => {
-        const data = await equipmentService.getEquipments();
+        const findData = await equipmentService.getEquipments();
+        const data = findData.equipmentList;
 
-        if(data.status){
-            return thunkAPI.rejectWithValue(data.status)
+        if(findData.errors){
+            return thunkAPI.rejectWithValue(data.errors)
         }
-
         return data;
     }
 )
@@ -43,7 +43,7 @@ export const equipmentSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.equipment = action.payload;
+            state.equipments = action.payload;
             console.log("fulfilled")
         }).addCase(getEquipments.rejected, (state, action) => {
             state.loading = false;
