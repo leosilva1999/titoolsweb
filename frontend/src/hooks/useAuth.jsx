@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import {jwtDecode} from 'jwt-decode';
 
 export const useAuth = () => {
     const { user } = useSelector((state) => state.auth);
@@ -9,7 +10,9 @@ export const useAuth = () => {
 
     useEffect(() => {
       if(user){
-        setAuth(true)
+        const { exp } = jwtDecode(user.token);
+        const currentTime = Math.floor(Date.now() / 1000);
+        setAuth(exp > currentTime)
       }else{
         setAuth(false)
       }
