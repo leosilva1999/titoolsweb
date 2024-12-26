@@ -7,12 +7,16 @@ import { FaBars, FaCog, FaUser } from "react-icons/fa";
 import Sidebar from '../Sidebar/Sidebar'
 import UserMenu from '../UserMenu/UserMenu';
 import { useAuth } from '../../hooks/useAuth';
+import { useSelector } from "react-redux";
+import {jwtDecode} from 'jwt-decode';
 
 const Navbar = () => {
   const [sidebar, setSidebar] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
   const {auth} = useAuth()
+  const { user } = useSelector((state) => state.auth);
+  const { id } = jwtDecode(user.token);
   
   const showSidebar = () => {
     setSidebar(!sidebar)
@@ -32,10 +36,10 @@ const Navbar = () => {
             
         </NavLink>
         <div className={styles.userNameContainer} onClick={() => setOpenUserMenu((prev) => !prev)}>
-            <span className={styles.userName}>Leonardo</span><FaUser className={styles.userIcon} />
+            <span className={styles.userName}>{user?id:"Fazer Login"}</span><FaUser className={styles.userIcon} />
         </div>
         {
-          openUserMenu && <UserMenu />
+          openUserMenu && <UserMenu />          
         }         
       </nav> 
     : ''  

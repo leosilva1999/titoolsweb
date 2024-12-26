@@ -10,32 +10,11 @@ const EquipmentList = () => {
   const {equipments, error, loading, success} = useSelector((state) => state.equipment);
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
   const dispatch = useDispatch();
-  //const user = JSON.parse(localStorage.getItem("user"))
-  //const config = requestConfig("GET", null, user?.token)
 
   useEffect(()=>{
     dispatch(getEquipments());
   }, [])
 
-  /*useEffect(() => {
-   const fetchEquipments = async () => {
-    try {
-      const res = await fetch(api + "/Equipment", config);
-      if(!res.ok){
-        throw new Error("Failed to fetch equipments!");
-      }
-
-      const data = await res.json();
-
-      setEquipments(data);
-    } catch (error) {
-      console.log("error: " + error.message)
-    }
-   }
-
-   fetchEquipments();
-   console.log(equipments)
-  }, [])*/
   console.log(equipments?equipments:"deu ruim: "+error)
   return (
     <div>

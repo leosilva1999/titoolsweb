@@ -30,6 +30,7 @@
 
 .userName{
     margin-left: 0.2em;
+    margin-right: 0.2em;
 }
 
 .userNameContainer{
@@ -48,4 +49,19 @@
 .userNameContainer:hover{
     background-color: white;
     color: #000;
+}
+
+@media (max-width: 768px) {
+    userNameContainer{
+        cursor: pointer;
+        padding-bottom: 12px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 12px;
+        color: #FFFF;
+    }
+
+    .userName{
+        display: none;
+    }
 }
