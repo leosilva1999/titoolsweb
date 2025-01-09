@@ -15,8 +15,8 @@ const Navbar = () => {
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
   const {auth} = useAuth()
-  const { user } = useSelector((state) => state.auth);
-  const { id } = jwtDecode(user.token);
+  const { user } = useSelector((state) => state.auth) || null;
+  const { id } = user && user.token?jwtDecode(user.token):{id: null};
   
   const showSidebar = () => {
     setSidebar(!sidebar)
@@ -36,7 +36,7 @@ const Navbar = () => {
             
         </NavLink>
         <div className={styles.userNameContainer} onClick={() => setOpenUserMenu((prev) => !prev)}>
-            <span className={styles.userName}>{user?id:"Fazer Login"}</span><FaUser className={styles.userIcon} />
+            <span className={styles.userName}>{id?id:"Fazer Login"}</span><FaUser className={styles.userIcon} />
         </div>
         {
           openUserMenu && <UserMenu />          

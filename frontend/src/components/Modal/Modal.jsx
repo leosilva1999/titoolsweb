@@ -3,7 +3,9 @@ import styles from "./Modal.module.css"
 
 const Modal = () => {
   return (
-    <div className={styles.Modal}>Modal</div>
+    <div className={styles.background}>
+      <div className={styles.Modal}>Modal</div>
+    </div>
   )
 }
 

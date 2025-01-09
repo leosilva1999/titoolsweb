@@ -1,4 +1,5 @@
 import './App.css'
+import { ToastContainer } from "react-toastify"
 
 //router
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
@@ -26,6 +27,7 @@ function App() {
 
   return (   
       <div>
+        <ToastContainer />
           <BrowserRouter>
             <Navbar />
             <Routes>

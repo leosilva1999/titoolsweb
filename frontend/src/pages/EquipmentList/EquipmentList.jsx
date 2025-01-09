@@ -4,15 +4,19 @@ import { FaPlus, FaFilter, FaHandshake, FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import {api, requestConfig} from '../../utils/config'
+import { useAuth } from '../../hooks/useAuth'
 
 const EquipmentList = () => {
 
   const {equipments, error, loading, success} = useSelector((state) => state.equipment);
+  const { user } = useSelector((state) => state.auth) || {}
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
   const dispatch = useDispatch();
+  const {auth} = useAuth()
+  
 
   useEffect(()=>{
-    dispatch(getEquipments());
+    dispatch(getEquipments(user));
   }, [])
 
   console.log(equipments?equipments:"deu ruim: "+error)

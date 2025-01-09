@@ -12,7 +12,9 @@ const login = async(data) => {
             .catch((err) => err);
         
         if(res){
-            localStorage.setItem("user", JSON.stringify(res));
+            const {token, expiration, refreshToken} = res;
+            localStorage.setItem("user", JSON.stringify({token: token, expiration: expiration}));
+            sessionStorage.setItem("refreshToken", refreshToken);
             return res;
         }
     } catch (error) {
@@ -31,9 +33,28 @@ const logout = async() => {
     }
 }
 
+const refreshToken = async(data) => {
+    const config = requestConfig("POST", data)
+
+    try{
+        const res = await fetch(api + "/Auth/refresh-token", config)
+        .then((res) => res.json())
+        .catch((err) => err);
+
+        const { acessToken, refreshToken } = res;
+        localStorage.setItem("user", {"token": accessToken});
+        sessionStorage.setItem("refreshToken", refreshToken);
+
+        return res;
+    }catch(error){
+        return error.message;
+    }
+}
+
 const authService = {
     login,
     logout,
+    refreshToken,
 };
 
 export default authService;
