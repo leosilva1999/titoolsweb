@@ -30,11 +30,11 @@ export const postEquipment = createAsyncThunk(
         const data = await equipmentService.postEquipment(user, body);
 
         if(data.status != "Created"){
-            toast.error(data.message || 'Ocorreu um erro.');
+            //toast.error(data.message || 'Ocorreu um erro.');
             return thunkAPI.rejectWithValue(data.Message);
         }
 
-        toast.success(data.message || 'Operação realizada com sucesso!');
+        //toast.success(data.message || 'Operação realizada com sucesso!');
         return data;
     }
 )

@@ -5,6 +5,8 @@ import { useDispatch, useSelector} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import {api, requestConfig} from '../../utils/config'
 import { useAuth } from '../../hooks/useAuth'
+import Modal from '../../components/Modal/Modal';
+import AddEquipment from '../../components/AddEquipment/AddEquipment';
 
 const EquipmentList = () => {
 
@@ -13,6 +15,8 @@ const EquipmentList = () => {
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
   const dispatch = useDispatch();
   const {auth} = useAuth()
+
+  const [modalOpen, setModalOpen] = useState(false);
   
 
   useEffect(()=>{
@@ -22,6 +26,9 @@ const EquipmentList = () => {
   console.log(equipments?equipments:"deu ruim: "+error)
   return (
     <div>
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        <AddEquipment />
+      </Modal>
         <div className={styles.topListBar}>
           <div className={styles.searchBarContainer}>
             <input 
@@ -33,7 +40,7 @@ const EquipmentList = () => {
             />
           </div>
           <div className={styles.topListButtons}>
-            <button className={styles.newItemButton}>
+            <button className={styles.newItemButton} onClick={() => setModalOpen(!modalOpen)}>
               <FaPlus/>
             </button>
             <button className={styles.filterButton}>

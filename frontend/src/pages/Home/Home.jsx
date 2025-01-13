@@ -5,7 +5,6 @@ const Home = () => {
   return (
     <div>
         <h1>HOME</h1>
-        <AddEquipment />
     </div>
   )
 }

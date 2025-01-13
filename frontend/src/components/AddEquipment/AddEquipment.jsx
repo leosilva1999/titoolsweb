@@ -28,13 +28,31 @@ const AddEquipment = () => {
         };
     
         dispatch(postEquipment({user, body: equipment}))
+        
+       /*if(loading == false && success == true){
+            toast.success(message || 'Operação realizada com sucesso!')
+        }
+        else{
+            toast.error(message || 'Ocorreu um erro.');
+        }*/
       }
+
+      useEffect(()=>{
+        if(loading == false && success == true){
+            toast.success(message ? message.message : 'Operação realizada com sucesso!')
+            dispatch(reset())
+        }
+        else{
+            toast.error(message ? message.message : 'Ocorreu um erro.');
+            dispatch(reset())
+        }
+      }, [success, error, message, dispatch])
 
 
       // clean auth states
-       useEffect(() => {
+      /* useEffect(() => {
           dispatch(reset())
-        }, [dispatch]);
+        }, [dispatch]);*/
 
     return (
         <div className={styles.addEquipmentContainer}>
