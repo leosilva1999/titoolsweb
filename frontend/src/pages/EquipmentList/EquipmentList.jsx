@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./EquipmentList.module.css"
-import { FaPlus, FaFilter, FaHandshake, FaSearch } from "react-icons/fa";
+import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo } from "react-icons/fa";
 import { useDispatch, useSelector} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import {api, requestConfig} from '../../utils/config'
@@ -54,13 +54,25 @@ const EquipmentList = () => {
               <li key={equipment.equipmentId}>
                 <div className={styles.equipmentBox}>
                   <h2>{equipment.equipmentName}</h2>
-                  <p>{equipment.equipmentLoanStatus}</p>
-                  <button>
-                    <FaHandshake />
-                  </button>
-                  <button>
-                    <FaSearch />
-                  </button>
+                  {equipment.equipmentLoanStatus ? 
+                    <p style={{color: "red", fontWeight: "bold"}}>Emprestado</p>
+                    :
+                    <p style={{color: "green", fontWeight: "bold"}}>Disponível</p>
+                  }
+                  <div className={styles.itemButtonContainer}>
+                  {equipment.equipmentLoanStatus ? 
+                      <button title="Devolver" className={styles.undoLoanItemButton}>
+                        <FaUndo />
+                      </button>
+                    :
+                      <button title="Emprestar" className={styles.loanItemButton}>
+                        <FaHandshake />
+                      </button>
+                  }                   
+                    <button title="Remover" className={styles.deleteItemButton}>
+                      <FaTrash />
+                    </button>
+                  </div>
                 </div>
               </li>
             ))}

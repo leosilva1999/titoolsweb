@@ -38,11 +38,11 @@ const AddEquipment = () => {
       }
 
       useEffect(()=>{
-        if(loading == false && success == true){
+        if(loading == false && success == true && message != null){
             toast.success(message ? message.message : 'Operação realizada com sucesso!')
             dispatch(reset())
         }
-        else{
+        else if(loading == false && success == false && message != null){
             toast.error(message ? message.message : 'Ocorreu um erro.');
             dispatch(reset())
         }
@@ -57,8 +57,7 @@ const AddEquipment = () => {
     return (
         <div className={styles.addEquipmentContainer}>
             <div className={styles.brand}>
-                <div className={styles.brandTextTop}><h2>Novo</h2></div>
-                <div className={styles.brandTextBottom}><h2>Equipamento</h2></div>
+                <div className={styles.brandTextTop}><h2>Novo Equipamento</h2></div>
             </div>
             <form onSubmit={handleAddEquipment}>
                 <div className={styles.inputBox}>
@@ -91,7 +90,7 @@ const AddEquipment = () => {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={styles.loginBtn}
+                    className={styles.AddEquipmentBtn}
                 >
                     {loading ? "Adicionando..." : "Adicionar"}
                 </button>

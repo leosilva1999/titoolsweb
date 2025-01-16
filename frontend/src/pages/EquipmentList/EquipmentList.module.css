@@ -12,6 +12,7 @@
     display: flex;
     justify-content: first baseline;
     padding: 0.5em 2em;
+    margin: 1em 4em 0 4em;
 }
 .equipmentBox{
     border-radius: 10px;
@@ -19,6 +20,7 @@
     box-shadow: 2px 2px 2px rgb(52, 52, 52);
     outline: none;
     padding: 20px 10px;
+    background-color: white;
 }
 .equipmentBox:hover{
     box-shadow: 4px 4px 4px rgb(52, 52, 52);
@@ -89,4 +91,61 @@
     justify-content: center;
     height: 100%;
     display: flex;
+}
+.itemButtonContainer{
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    display: flex;
+}
+
+.loanItemButton{
+    cursor: pointer;
+    width: 30px;
+    height: 100%;
+    padding: 2.8px;
+    padding-top: 5px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #077920;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1em;
+    margin: 0.2em;
+    margin-bottom: 0;
+}
+
+.deleteItemButton{
+    cursor: pointer;
+    width: 35px;
+    height: 100%;
+    padding: 2.8px;
+    padding-top: 5px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #F42525;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1em;
+    margin: 0.2em;
+    margin-bottom: 0;
+}
+
+.undoLoanItemButton{
+    cursor: pointer;
+    width: 30px;
+    height: 100%;
+    padding: 2.8px;
+    padding-top: 5px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #ffbb2f;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1em;
+    margin: 0.2em;
+    margin-bottom: 0;
 }

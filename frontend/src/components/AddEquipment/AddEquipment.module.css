@@ -1,40 +1,37 @@
-.loginContainer,
-.registerContainer{
-    border: 1px solid #363636;
+.addEquipmentContainer{
     background-color: #ffffff;
     color: #363636;
-    padding: 2em 4em;
-    max-width: 33%;
+    padding: 1em 2em;
+    max-width: 100%;
     min-height: 30vh;
     /*margin: 2em auto;*/
     display: grid;
     align-items: center;
     justify-content: center;
-    border-radius: 3%;
 
 }
 
-.loginContainer a{
+.addEquipmentContainer a{
     text-align: center;
 }
 
-.loginContainer h2,
-.registerContainer h2{
+.addEquipmentContainer h2,
+.addEquipmentContainer h2{
     text-align: center;
     font-size: 2.1em;
     margin-top: 0;
     margin-bottom: 0;
 }
 
-.loginContainer form,
-.registerContainer form{
+.addEquipmentContainer form,
+.addEquipmentContainer form{
     display: grid;
     align-items: center;
     justify-content: center;
     padding-bottom: 1.5em;
 }
 
-.loginTitle{
+.addEquipmentTitle{
     align-items: start;
 }
 
@@ -63,7 +60,7 @@
     transform: translateY(-50%);
 }
 
-.loginBtn{
+.AddEquipmentBtn{
     background-color: #077920;
     color: white;
     font-weight: bold;
@@ -73,13 +70,4 @@
     cursor: pointer;
     height: 30px;
     margin: 10px 0;
-}
-
-.brand{
-    border: none;
-    border-bottom: 10px;
-}
-
-.forgotPassword{
-    color: #0000EE;   
 }
