@@ -1,0 +1,43 @@
+.paginationContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3vh;
+    background-color: #D9D9D9;
+    padding-left: 3vh;
+    padding-right: 3vh;
+}
+
+.registerCount{
+    margin-right: 0vh;
+    font-weight: bold;
+    color: grey;
+}
+
+.paginationButtons{
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.paginationButtons li + li{
+    margin-left: 0.5rem;
+}
+
+.paginationButtons button{
+    cursor: pointer;
+}
+
+.paginationButtons__item__active{
+    background: none;
+    font-weight: bold;
+    border: none;
+}
+
+.paginationButtons__item__active:focus{
+    outline: none;
+}
+
+.paginationContainer label{
+    font-weight: bolder;
+}

@@ -7,21 +7,28 @@ import {api, requestConfig} from '../../utils/config'
 import { useAuth } from '../../hooks/useAuth'
 import Modal from '../../components/Modal/Modal';
 import AddEquipment from '../../components/AddEquipment/AddEquipment';
+import Pagination from '../../components/Pagination/Pagination';
 
 const EquipmentList = () => {
 
-  const {equipments, error, loading, success} = useSelector((state) => state.equipment);
+  const {equipments, equipmentCount, error, loading, success} = useSelector((state) => state.equipment);
   const { user } = useSelector((state) => state.auth) || {}
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
   const dispatch = useDispatch();
-  const {auth} = useAuth()
+
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
 
   const [modalOpen, setModalOpen] = useState(false);
   
 
   useEffect(()=>{
-    dispatch(getEquipments(user));
+    dispatch(getEquipments({user, limit, offset}));
   }, [])
+
+  useEffect(()=>{
+    dispatch(getEquipments({user, limit, offset}));
+  }, [limit, offset])
 
   console.log(equipments?equipments:"deu ruim: "+error)
   return (
@@ -76,7 +83,8 @@ const EquipmentList = () => {
                 </div>
               </li>
             ))}
-          </ul>      
+          </ul>
+          <Pagination registerCount={equipmentCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />      
         </div>       
     </div>
   )

@@ -1,11 +1,13 @@
 import {api, requestConfig} from '../utils/config'
 
-const getEquipments = async(user) => {
+const getEquipments = async(user, limit, offset) => {
     //const user = JSON.parse(localStorage.getItem("user"))
     const config = requestConfig("GET", null, user.token)
 
+    console.log(`/Equipment?limit=${limit}&offset=${offset}`)
+
     try {
-        const res = await fetch(api + "/Equipment", config)
+        const res = await fetch(api + `/Equipment?limit=${Math.min(limit, 30)}&offset=${offset}`, config)
             .then((res) => res.json())
             .catch((err) => err);
         

@@ -1,9 +1,9 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import equipmentService from "../services/equipmentService";
-import { toast } from 'react-toastify';
 
 const initialState = {
     equipments: null,
+    equipmentCount: null,
     error: false,
     success: false,
     loading: false,
@@ -13,14 +13,14 @@ const initialState = {
 
 export const getEquipments = createAsyncThunk(
     "equipment/getEquipments",
-    async(user, thunkAPI) => {
-        const findData = await equipmentService.getEquipments(user);
+    async({user, limit, offset}, thunkAPI) => {
+        const findData = await equipmentService.getEquipments(user, limit, offset);
         const data = findData.equipmentList;
 
         if(findData.errors){
             return thunkAPI.rejectWithValue(data.errors);
         }
-        return data;
+        return findData;
     }
 )
 
@@ -60,7 +60,8 @@ export const equipmentSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.equipments = action.payload;
+            state.equipments = action.payload.equipmentList;
+            state.equipmentCount = action.payload.equipmentCount;
             console.log("fulfilled")
         }).addCase(getEquipments.rejected, (state, action) => {
             state.loading = false;
