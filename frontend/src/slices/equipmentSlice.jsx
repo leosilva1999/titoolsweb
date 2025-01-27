@@ -39,6 +39,19 @@ export const postEquipment = createAsyncThunk(
     }
 )
 
+export const deleteEquipment = createAsyncThunk(
+    "equipment/deleteEquipment",
+    async({user, equipmentId}, thunkAPI) => {
+        const data = await equipmentService.deleteEquipment(user, equipmentId);
+
+        if(data.status != "OK"){
+            return thunkAPI.rejectWithValue(data.message);
+        }
+
+        return data;
+    }
+)
+
 export const equipmentSlice = createSlice({
     name: "equipment",
     initialState,
@@ -79,6 +92,21 @@ export const equipmentSlice = createSlice({
             state.message = action.payload;
             console.log("fullfiled");
         }).addCase(postEquipment.rejected, (state, action)=>{
+            state.loading = false;
+            state.success = false;
+            state.error = action.payload.status;
+            state.message = action.payload.message
+        }).addCase(deleteEquipment.pending, (state)=>{
+            state.loading = true;
+            state.error = false;
+            console.log("pending")
+        }).addCase(deleteEquipment.fulfilled, (state, action)=>{
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.message = action.payload.message;
+            console.log("fullfiled");
+        }).addCase(deleteEquipment.rejected, (state, action)=>{
             state.loading = false;
             state.success = false;
             state.error = action.payload.status;

@@ -57,7 +57,7 @@ const AddEquipment = () => {
     return (
         <div className={styles.addEquipmentContainer}>
             <div className={styles.brand}>
-                <div className={styles.brandTextTop}><h2>Novo Equipamento</h2></div>
+                <div className={styles.brandTextTop}><h3>Adicionar Item</h3></div>
             </div>
             <form onSubmit={handleAddEquipment}>
                 <div className={styles.inputBox}>

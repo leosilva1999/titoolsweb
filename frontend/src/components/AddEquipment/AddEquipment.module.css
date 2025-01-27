@@ -69,5 +69,13 @@
     border-radius: 3px;
     cursor: pointer;
     height: 30px;
+    width: 60vh;
     margin: 10px 0;
+}
+
+.brand{
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }

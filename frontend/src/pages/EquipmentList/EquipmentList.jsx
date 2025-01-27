@@ -3,11 +3,10 @@ import styles from "./EquipmentList.module.css"
 import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo } from "react-icons/fa";
 import { useDispatch, useSelector} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
-import {api, requestConfig} from '../../utils/config'
-import { useAuth } from '../../hooks/useAuth'
 import Modal from '../../components/Modal/Modal';
 import AddEquipment from '../../components/AddEquipment/AddEquipment';
 import Pagination from '../../components/Pagination/Pagination';
+import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 
 const EquipmentList = () => {
 
@@ -20,6 +19,12 @@ const EquipmentList = () => {
   const [offset, setOffset] = useState(0);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
+  const handleShowComponent = (componentName, data=null) => {
+    componentName === "AddEquipment" ? setModalContent(<AddEquipment />) : null;
+    componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data}/>) : null;
+  };
   
 
   useEffect(()=>{
@@ -34,7 +39,7 @@ const EquipmentList = () => {
   return (
     <div>
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <AddEquipment />
+        {modalContent}
       </Modal>
         <div className={styles.topListBar}>
           <div className={styles.searchBarContainer}>
@@ -47,7 +52,10 @@ const EquipmentList = () => {
             />
           </div>
           <div className={styles.topListButtons}>
-            <button className={styles.newItemButton} onClick={() => setModalOpen(!modalOpen)}>
+            <button className={styles.newItemButton} onClick={() => {
+              setModalOpen(!modalOpen); 
+              handleShowComponent("AddEquipment");
+            }}>
               <FaPlus/>
             </button>
             <button className={styles.filterButton}>
@@ -76,7 +84,10 @@ const EquipmentList = () => {
                         <FaHandshake />
                       </button>
                   }                   
-                    <button title="Remover" className={styles.deleteItemButton}>
+                    <button title="Remover" className={styles.deleteItemButton} onClick={() => {
+                      setModalOpen(!modalOpen); 
+                      handleShowComponent("DeleteEquipment", equipment.equipmentId);
+                    }}>
                       <FaTrash />
                     </button>
                   </div>

@@ -39,7 +39,7 @@ const Navbar = () => {
             <span className={styles.userName}>{id?id:"Fazer Login"}</span><FaUser className={styles.userIcon} />
         </div>
         {
-          openUserMenu && <UserMenu />          
+          openUserMenu && <UserMenu setOpenUserMenu={setOpenUserMenu}/>          
         }         
       </nav> 
     : ''  
