@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./EquipmentList.module.css"
+import Select from "react-select"
 import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo } from "react-icons/fa";
 import { useDispatch, useSelector} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
@@ -7,6 +8,7 @@ import Modal from '../../components/Modal/Modal';
 import AddEquipment from '../../components/AddEquipment/AddEquipment';
 import Pagination from '../../components/Pagination/Pagination';
 import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
+import AddLoan from '../../components/AddLoan/AddLoan';
 
 const EquipmentList = () => {
 
@@ -24,6 +26,7 @@ const EquipmentList = () => {
   const handleShowComponent = (componentName, data=null) => {
     componentName === "AddEquipment" ? setModalContent(<AddEquipment />) : null;
     componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data}/>) : null;
+    componentName === "AddLoan" ? setModalContent(<AddLoan data={data}/>) : null;
   };
   
 
@@ -80,7 +83,10 @@ const EquipmentList = () => {
                         <FaUndo />
                       </button>
                     :
-                      <button title="Emprestar" className={styles.loanItemButton}>
+                      <button title="Emprestar" className={styles.loanItemButton} onClick={() => {
+                        setModalOpen(!modalOpen); 
+                        handleShowComponent("AddLoan", equipment.equipmentId);
+                      }}>
                         <FaHandshake />
                       </button>
                   }                   
