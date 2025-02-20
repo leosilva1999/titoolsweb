@@ -14,13 +14,12 @@ const initialState = {
 export const getEquipments = createAsyncThunk(
     "equipment/getEquipments",
     async({user, limit, offset}, thunkAPI) => {
-        const findData = await equipmentService.getEquipments(user, limit, offset);
-        const data = findData.equipmentList;
+        const data = await equipmentService.getEquipments(user, limit, offset);
 
-        if(findData.errors){
+        if(data.errors){
             return thunkAPI.rejectWithValue(data.errors);
         }
-        return findData;
+        return data;
     }
 )
 
