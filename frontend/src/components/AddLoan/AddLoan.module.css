@@ -43,7 +43,7 @@
     margin: 5px 0;
 }
 
-.inputBox input{
+.inputBox input, select{
     margin: 0 0 0.5em 0;
     width: 98%;
     height: 100%;
@@ -51,13 +51,6 @@
     outline: none;
     border-bottom: 1px solid;
     font-size: 16px;
-}
-
-.falock, .faenvelope{
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 .AddLoanBtn{
@@ -78,4 +71,13 @@
     align-items: center;
     justify-content: center;
     display: flex;
+}
+
+.loadMoreBtn{
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
 }

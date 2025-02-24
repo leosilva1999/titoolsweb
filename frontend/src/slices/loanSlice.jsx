@@ -79,7 +79,7 @@ export const equipmentSlice = createSlice({
                 state.success = false;
                 state.error = action.payload.status;
                 state.message = action.payload.message
-            }).addCase(deleteLoan.pending, (state)=>{
+            })/*.addCase(deleteLoan.pending, (state)=>{
                 state.loading = true;
                 state.error = false;
                 console.log("pending")
@@ -94,7 +94,7 @@ export const equipmentSlice = createSlice({
                 state.success = false;
                 state.error = action.payload.status;
                 state.message = action.payload.message
-            })
+            })*/
         }})
     
         export const {reset} = equipmentSlice.actions;
