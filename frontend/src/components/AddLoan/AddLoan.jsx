@@ -35,7 +35,7 @@ const AddLoan = () =>{
     ))
       
     const handleShowEquipments = () =>{
-        console.log("array de equipamentos: "+options[1]+"equipments count: "+ equipmentCount)
+        console.log("array de equipamentos: "+options[1].value+"equipments count: "+ equipmentCount)
     }
 
 
@@ -83,9 +83,12 @@ const AddLoan = () =>{
                             <Select 
                                 isMulti 
                                 options={options} 
-                                onChange={(e) => setLoanIds(e.target.value)} 
                                 placeholder="Selecione os equipamentos"
                                 components={{MenuList: CustomMenuList}}
+                                onChange={(selectedOptions) => {
+                                    const selectedValues = selectedOptions.map(option => option.value)
+                                    setLoanIds(selectedValues)
+                                }} 
                             />
                         </div>
                         <button
