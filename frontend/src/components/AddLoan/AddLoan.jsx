@@ -3,6 +3,7 @@ import styles from "./AddLoan.module.css"
 
 import {useSelector, useDispatch} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
+import { getLoans, postLoan } from "../../slices/loanSlice";
 import Select from 'react-select'
 import { toast } from 'react-toastify';
 
@@ -12,7 +13,7 @@ const AddLoan = () =>{
     
     const [loanIds, setLoanIds] = useState([]);
     const { user } = useSelector((state) => state.auth) || {}
-    const {equipments, equipmentCount, error, loading, success} = useSelector((state) => state.equipment);
+    const {equipments, message, error, loading, success} = useSelector((state) => state.equipment);
     const [limit, setLimit] = useState(20);
     const [offset, setOffset] = useState(0);
     
@@ -34,10 +35,29 @@ const AddLoan = () =>{
         }
     ))
       
-    const handleShowEquipments = () =>{
-        console.log("array de equipamentos: "+options[1].value+"equipments count: "+ equipmentCount)
+    const handleAddLoan = async (e) => {
+            e.preventDefault();
+        
+            const loan = {
+              applicantName: applicantName,
+              requestTime: requestTime,
+              equipmentIds: loanIds
+            };
+        
+            dispatch(postLoan({user, body: loan}))
     }
 
+        
+    useEffect(()=>{
+            if(loading == false && success == true && message != null){
+                toast.success(message ? message.message : 'Operação realizada com sucesso!')
+                dispatch(reset())
+            }
+            else if(loading == false && success == false && message != null){
+                toast.error(message ? message.message : 'Ocorreu um erro.');
+                dispatch(reset())
+            }
+          }, [success, error, message, dispatch])
 
 
     // menulist personlizado
@@ -57,7 +77,7 @@ const AddLoan = () =>{
                     <div className={styles.brand}>
                         <div className={styles.brandTextTop}><h3>Novo Emprestimo</h3></div>
                     </div>
-                    <form /*onSubmit={handleAddLoan}*/>
+                    <form onSubmit={handleAddLoan}>
                         <div className={styles.inputBox}>
                             <input
                                 type='text'
@@ -95,7 +115,6 @@ const AddLoan = () =>{
                             type="submit"
                             disabled={loading}
                             className={styles.AddLoanBtn}
-                            onClick={handleShowEquipments}
                         >
                             {loading ? "Adicionando..." : "Adicionar"}
                         </button>

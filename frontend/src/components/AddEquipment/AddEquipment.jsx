@@ -28,13 +28,6 @@ const AddEquipment = () => {
         };
     
         dispatch(postEquipment({user, body: equipment}))
-        
-       /*if(loading == false && success == true){
-            toast.success(message || 'Operação realizada com sucesso!')
-        }
-        else{
-            toast.error(message || 'Ocorreu um erro.');
-        }*/
       }
 
       useEffect(()=>{

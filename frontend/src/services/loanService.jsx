@@ -21,12 +21,11 @@ const getLoans = async(user, limit, offset) => {
 
 const postLoan = async(user, body) => {
     const config = requestConfig("POST", body, user.token)
+    console.log(config)
     try{
-        const res = await fetch(api + "/Loan", config)
+        const res = await fetch(api + "/Loans", config)
             .then((res) => res.json())
             .catch((err) => err);
-
-            console.log("postLoan res: " + res);
 
             return res;
     }catch(error){
