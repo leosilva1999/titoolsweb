@@ -19,7 +19,7 @@ const Sidebar = ({ active }) => {
                         <NavLink className={styles.navlink} to="/"><li><FaHome /><span>Home</span></li></NavLink>
                         <NavLink className={styles.navlink} to="/equipmentlist"><li><FaLaptop /><span>Controle de equipamentos</span></li></NavLink>
                         <NavLink className={styles.navlink} to="/"><li><FaBullhorn /><span>Atendimentos</span></li></NavLink>
-                        <NavLink className={styles.navlink} to="/"><li><FaHandshake /><span>Empréstimos</span></li></NavLink>
+                        <NavLink className={styles.navlink} to="/loanlist"><li><FaHandshake /><span>Empréstimos</span></li></NavLink>
                     </ul>
                 </nav>
             </div>

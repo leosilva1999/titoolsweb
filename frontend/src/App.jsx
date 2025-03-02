@@ -15,6 +15,7 @@ import Login from './pages/Auth/Login'
 //components
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
+import LoanList from './pages/LoanList/LoanList'
 
 function App() {
   const {auth, loading} = useAuth()
@@ -34,6 +35,7 @@ function App() {
               <Route path='/' element={auth?<Home />:<Navigate to="/login"/>}></Route>
               <Route path='/login' element={!auth ? <Login /> : <Navigate to="/"/>}></Route>
               <Route path='/equipmentlist' element={auth ? <EquipmentList /> : <Navigate to="/login"/>}></Route>
+              <Route path='/loanlist' element={auth ? <LoanList /> : <Navigate to="/login"/>}></Route>
             </Routes>
           </BrowserRouter>
           <Footer />

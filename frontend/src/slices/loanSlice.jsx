@@ -56,7 +56,7 @@ export const equipmentSlice = createSlice({
                 state.loading = false;
                 state.success = true;
                 state.error = null;
-                state.loans = action.payload.loansList;
+                state.loans = action.payload.loanList;
                 state.loanCount = action.payload.loanCount;
                 console.log("fulfilled")
             }).addCase(getLoans.rejected, (state, action) => {

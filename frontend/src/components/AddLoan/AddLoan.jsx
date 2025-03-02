@@ -4,7 +4,7 @@ import styles from "./AddLoan.module.css"
 import {useSelector, useDispatch} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import { getLoans, postLoan } from "../../slices/loanSlice";
-import Select from 'react-select'
+import Select, {components} from 'react-select'
 import { toast } from 'react-toastify';
 
 const AddLoan = () =>{
@@ -16,16 +16,20 @@ const AddLoan = () =>{
     const {equipments, message, error, loading, success} = useSelector((state) => state.equipment);
     const [limit, setLimit] = useState(20);
     const [offset, setOffset] = useState(0);
+
+    const [equipmentsSelect, setEquipmentsSelect] = useState();
     
     const dispatch = useDispatch();
     
     useEffect(()=>{
         dispatch(getEquipments({user, limit, offset}));
+        setEquipmentsSelect(equipments)
     }, [])
 
   
     useEffect(()=>{
       dispatch(getEquipments({user, limit, offset}));
+      setEquipmentsSelect(...equipments)
     }, [limit, offset])
 
     const options = equipments && equipments.map((equipment) =>(
@@ -47,6 +51,8 @@ const AddLoan = () =>{
             dispatch(postLoan({user, body: loan}))
     }
 
+    //const handleShowMoreSelect = async
+
         
     useEffect(()=>{
             if(loading == false && success == true && message != null){
@@ -63,12 +69,12 @@ const AddLoan = () =>{
     // menulist personlizado
     const CustomMenuList = ({children, ...props}) => {
         return(
-            <div>
+            <components.MenuList{...props}>
                 {children}
                 <button className={styles.loadMoreBtn}>
-                    Carregar mais
+                    {loading ? "Carregando..." : "Carregar mais"}
                 </button>
-            </div>
+            </components.MenuList>
         )
     }
 
@@ -101,7 +107,9 @@ const AddLoan = () =>{
                         </div>
                         <div className={styles.inputBox}>
                             <Select 
-                                isMulti 
+                                isMulti
+                                maxMenuHeight={150}
+                                menuPlacement="auto" 
                                 options={options} 
                                 placeholder="Selecione os equipamentos"
                                 components={{MenuList: CustomMenuList}}
