@@ -1,14 +1,75 @@
-table {
-    border: none;
-    width: 100vh;
-    height: 200px;
+.loanListTable{
+    justify-content: center;
+    align-items: center;
+    margin: 5em;
+    padding: 1em;
+    background-color: fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .42rem;
 }
 
-th {
-    border-bottom: 0.1px solid black;
-    padding: 0;
+.loanListTable table{ 
+    border: none;
+    min-height: 100vh;
+    border-collapse: collapse;
+    width: 82vw;
+    height: 90vh;
+    margin: 3rem;
+}
+
+.tableBody{
+    justify-content: center;
+    align-items: center;
+}
+
+
+th {    
+    padding: 0vh;
 }
 
 td {
     text-align: center;
+}
+
+.tableBody button{
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    padding: 2.8px;
+    padding-top: 5px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1em;
+    margin: 0.2em;
+    margin-bottom: 0;
+}
+
+.editLoanButton{
+    background-color: #006b21;
+}
+.undoLoanButton{
+    background-color: #ffbb2f;
+}
+
+.deleteLoanButton{
+    background-color: #F42525;
+}
+
+.statusBase{
+    
+    padding: .4rem;
+    border-radius: 2rem;
+    color: aliceblue;
+}
+
+.statusFinalizado{
+    color: #006b21;
+}
+
+.statusEmAndamento{
+    color: #b30021;
 }

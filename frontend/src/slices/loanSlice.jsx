@@ -3,7 +3,7 @@ import loanService from "../services/loanService";
 
 const initialState = {
     loans: null,
-    loansCount: null,
+    loanCount: null,
     error: false,
     success: false,
     loading: false,

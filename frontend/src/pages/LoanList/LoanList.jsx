@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./LoanList.module.css"
-import { FaPlus, FaFilter, FaTrash, FaUndo } from "react-icons/fa";
+import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit } from "react-icons/fa";
+import Pagination from '../../components/Pagination/Pagination';
 
 //hooks
 import {useSelector, useDispatch} from "react-redux"
@@ -11,7 +12,7 @@ import { toast } from 'react-toastify';
 
 const LoanList = () => {
 
-    const {loans, loansCount, error, loading, success, message} = useSelector((state) => state.loan);
+    const {loans, loanCount, error, loading, success, message} = useSelector((state) => state.loan);
     const { user } = useSelector((state) => state.auth) || {}
     const dispatch = useDispatch();
 
@@ -23,29 +24,45 @@ const LoanList = () => {
         console.table(loans)
     }, [])
 
+    useEffect(()=>{
+        dispatch(getLoans({user, limit, offset}));
+        console.table(loans)
+    }, [limit, offset])
+
   return (
     <div className={styles.loanListContainer}>
         <div className={styles.loanListTable}>
-            <table className={styles.table}>
-                <tr>
+            <table>
+                <tr className={styles.tableHeader}>
                     <th>Id</th>
                     <th>Solicitante</th>
                     <th>Retirada</th>
                     <th>Retorno</th>
+                    <th>Status</th>
+                    <th>Ações</th>
                 </tr>
                 {loans && loans.map((loan) => (
-                    <tr>
-                        <th>{loan.loanId}</th>
-                        <th>{loan.applicantName}</th>
-                        <th>{loan.requestTime}</th>
-                        <th>{loan.returnTime ? loan.returnTime : "Em aberto"}</th>
-                        <th>
-                            <button><FaUndo/></button>
-                            <button><FaTrash/></button>
-                        </th>
+                    <tr className={styles.tableBody}>
+                        <td>{loan.loanId}</td>
+                        <td>{loan.applicantName}</td>
+                        <td>{loan.requestTime}</td>
+                        <td>{loan.returnTime ? loan.returnTime : "-"}</td>
+                        <td>{loan.returnTime ? (
+                                    <p className={`${styles.statusBase} ${styles.statusFinalizado}`}>Finalizado</p>
+                                ) : (
+                                    <p className={`${styles.statusBase} ${styles.statusEmAndamento}`}>Em andamento</p>
+                                )
+                            }
+                        </td>
+                        <td>
+                            <button className={styles.editLoanButton}><FaEdit/></button>
+                            <button className={styles.undoLoanButton}><FaUndo/></button>
+                            <button className={styles.deleteLoanButton}><FaTrash/></button>
+                        </td>
                     </tr>
                 ))}
             </table>
+            <Pagination registerCount={loanCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />
         </div>
     </div>
   )

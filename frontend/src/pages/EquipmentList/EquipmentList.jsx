@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./EquipmentList.module.css"
 import Select from "react-select"
-import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo } from "react-icons/fa";
+import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop } from "react-icons/fa";
 import { useDispatch, useSelector} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import Modal from '../../components/Modal/Modal';
@@ -40,7 +40,12 @@ const EquipmentList = () => {
 
   console.log(equipments?equipments:"deu ruim: "+error)
   return (
+
     <div>
+      <div className={styles.equipmentsHeader}>
+             <h3><FaLaptop />Equipamentos</h3>
+      </div>
+      <div className={styles.equipmentsContainer}>
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         {modalContent}
       </Modal>
@@ -103,6 +108,7 @@ const EquipmentList = () => {
           </ul>
           <Pagination registerCount={equipmentCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />      
         </div>       
+    </div>
     </div>
   )
 }
