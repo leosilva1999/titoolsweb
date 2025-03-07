@@ -3,6 +3,8 @@ import styles from "./LoanList.module.css"
 import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit } from "react-icons/fa";
 import Pagination from '../../components/Pagination/Pagination';
 
+import { formatToBrazilianDate } from '../../utils/dateFormatter';
+
 //hooks
 import {useSelector, useDispatch} from "react-redux"
 
@@ -45,8 +47,8 @@ const LoanList = () => {
                     <tr className={styles.tableBody}>
                         <td>{loan.loanId}</td>
                         <td>{loan.applicantName}</td>
-                        <td>{loan.requestTime}</td>
-                        <td>{loan.returnTime ? loan.returnTime : "-"}</td>
+                        <td>{formatToBrazilianDate(loan.requestTime)}</td>
+                        <td>{loan.returnTime ? formatToBrazilianDate(loan.returnTime) : "-"}</td>
                         <td>{loan.returnTime ? (
                                     <p className={`${styles.statusBase} ${styles.statusFinalizado}`}>Finalizado</p>
                                 ) : (
