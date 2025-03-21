@@ -3,12 +3,13 @@ import styles from "./AddLoan.module.css"
 
 import {useSelector, useDispatch} from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
-import { getLoans, postLoan } from "../../slices/loanSlice";
+import { postLoan, reset } from "../../slices/loanSlice";
 import Select, {components} from 'react-select'
 import { toast } from 'react-toastify';
 
 const AddLoan = () =>{
     const [applicantName, setApplicantName] = useState("");
+    const [authorizedBy, setAuthorizedBy] = useState("");
     const [requestTime, setRequestTime] = useState("");
     
     const [loanIds, setLoanIds] = useState([]);
@@ -23,13 +24,15 @@ const AddLoan = () =>{
     
     useEffect(()=>{
         dispatch(getEquipments({user, limit, offset}));
-        setEquipmentsSelect(equipments)
     }, [])
 
+    useEffect(()=>{
+        equipments && setEquipmentsSelect(equipments)
+    }, [equipments])
   
     useEffect(()=>{
       dispatch(getEquipments({user, limit, offset}));
-      setEquipmentsSelect(...equipments)
+      equipments && setEquipmentsSelect(...equipments)
     }, [limit, offset])
 
     const options = equipments && equipments.map((equipment) =>(
@@ -44,7 +47,9 @@ const AddLoan = () =>{
         
             const loan = {
               applicantName: applicantName,
+              authorizedBy: authorizedBy,
               requestTime: requestTime,
+              returnTime: null,
               equipmentIds: loanIds
             };
         
@@ -55,7 +60,7 @@ const AddLoan = () =>{
 
         
     useEffect(()=>{
-            if(loading == false && success == true && message != null){
+            if(loading == false && success == true && message == null){
                 toast.success(message ? message.message : 'Operação realizada com sucesso!')
                 dispatch(reset())
             }
@@ -90,6 +95,15 @@ const AddLoan = () =>{
                                 value={applicantName}
                                 placeholder='Requisitante'
                                 onChange={(e) => setApplicantName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className={styles.inputBox}>
+                            <input
+                                type='text'
+                                value={authorizedBy}
+                                placeholder='Autorizado por...'
+                                onChange={(e) => setAuthorizedBy(e.target.value)}
                                 required
                             />
                         </div>

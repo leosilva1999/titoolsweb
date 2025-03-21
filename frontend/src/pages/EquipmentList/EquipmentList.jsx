@@ -42,13 +42,13 @@ const EquipmentList = () => {
   return (
 
     <div>
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        {modalContent}
+      </Modal>
       <div className={styles.equipmentsHeader}>
              <h3><FaLaptop />Equipamentos</h3>
       </div>
       <div className={styles.equipmentsContainer}>
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        {modalContent}
-      </Modal>
         <div className={styles.topListBar}>
           <div className={styles.searchBarContainer}>
             <input 

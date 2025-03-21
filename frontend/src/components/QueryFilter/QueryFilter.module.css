@@ -1,0 +1,65 @@
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .queryFilter{
+      position: absolute;
+      top: 13rem;
+      right: 6rem;
+      width: 80px;
+      padding: 15px;
+      border-radius: 15px;
+      background-color: white;
+      border: 1px solid gray;
+    }
+  
+    .queryFilter::before{
+      content: '';
+      position: absolute;
+      top: -0.7rem;
+      right: 1.1rem;
+      width: 20px;
+      height: 20px;
+      transform: rotate(45deg);
+      background-color: white;
+      border-left: 1px solid gray;
+      border-top: 1px solid gray;
+      
+    }
+  
+    .filterFieldsList{
+      margin: 0;
+      padding-left: 0;
+    }
+  
+  
+    .userMenuLink{
+      margin-top: 5px;
+      cursor: pointer;
+      color: #191919;
+    }
+    .userMenuLink span{
+      margin-right: 5px;
+    }
+  
+    .userMenuLink:hover{
+      margin-top: 2px;
+      padding: 3px;
+      cursor: pointer;
+      color: white;
+      background-color: black;
+    }
+  
+    .menuIcons{
+      width: 25px;
+      height: 25px;
+    }
