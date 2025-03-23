@@ -1,13 +1,24 @@
 import {api, requestConfig} from '../utils/config'
 
-const getLoans = async(user, limit, offset) => {
+const getLoans = async(user, limit, offset, filters = {}) => {
     //const user = JSON.parse(localStorage.getItem("user"))
     const config = requestConfig("GET", null, user.token)
 
-    console.log(`/Loan?limit=${limit}&offset=${offset}`)
+    const params = {
+        limit: Math.min(limit, 30), 
+        offset,
+        ...filters
+    }
+
+    const queryString = Object.keys(params)
+        .filter(key => params[key] != null && params[key] !== "")
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        .join("&");
+
+    console.log(queryString)
 
     try {
-        const res = await fetch(api + `/Loans?limit=${Math.min(limit, 30)}&offset=${offset}`, config)
+        const res = await fetch(api + `/Loans?${queryString}`, config)
             .then((res) => res.json())
             .catch((err) => err);
         

@@ -15,11 +15,12 @@
       position: absolute;
       top: 13rem;
       right: 6rem;
-      width: 80px;
-      padding: 15px;
+      width: 200px;
+      padding: 30px;
       border-radius: 15px;
       background-color: white;
       border: 1px solid gray;
+      box-shadow: 0 .4rem .8rem #0005;
     }
   
     .queryFilter::before{
@@ -62,4 +63,34 @@
     .menuIcons{
       width: 25px;
       height: 25px;
+    }
+
+    .inputBox{
+        position: relative;
+        display: inline;
+        width: 60vh;
+        height: 40px;
+        margin: 5px 0;
+    }
+    
+    .inputBox input, select{
+        margin: 0 0 1em 0;
+        width: 98%;
+        height: 100%;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid;
+        font-size: 16px;
+    }
+
+    .FilterBtn{
+        background-color: #077920;
+        color: white;
+        font-weight: bold;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        cursor: pointer;
+        height: 30px;
+        width: 10vh;
     }
