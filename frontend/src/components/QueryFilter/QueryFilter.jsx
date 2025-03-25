@@ -1,17 +1,34 @@
 import React, { useState, useEffect } from "react";
 import styles from "./QueryFilter.module.css"
+import {useSelector, useDispatch} from "react-redux"
+import { getLoans, reset } from "../../slices/loanSlice";
 
-const QueryFilter = ({ setOpenQueryFilter }) => {
-    const [applicantName, setApplicantName] = useState("");
-    const [authorizedBy, setAuthorizedBy] = useState("");
-    const [requestTime, setRequestTime] = useState("");
-    const [returnTime, setReturnTime] = useState("");
-    const [status, setStatus] = useState("");
+const QueryFilter = ({ setOpenQueryFilter, setFilters, filtersInPage }) => {
+    const [applicantName, setApplicantName] = useState(filtersInPage.applicantName);
+    const [authorizedBy, setAuthorizedBy] = useState(filtersInPage.authorizedBy);
+    const [requestTimeMin, setRequestTimeMin] = useState(filtersInPage.requestTimeMin);
+    const [requestTimeMax, setRequestTimeMax] = useState(filtersInPage.requestTimeMax);
+    const [returnTimeMin, setReturnTimeMin] = useState(filtersInPage.returnTimeMin);
+    const [returnTimeMax, setReturnTimeMax] = useState(filtersInPage.returnTimeMax);
+    const [loanStatus, setLoanStatus] = useState(filtersInPage.loanStatus);
+    const [orderByDescending, setOrderByDescending] = useState(filtersInPage.orderByDescending);
 
     const handleFilter = async (e) => {
         e.preventDefault();
-        console.log("handleFilter:"  + status);
-        return null;
+
+        const filters = {
+            applicantName,
+            authorizedBy,
+            requestTimeMin,
+            requestTimeMax,
+            returnTimeMin,
+            returnTimeMax,
+            loanStatus,
+            orderByDescending
+        };
+
+        setFilters(filters);
+        setOpenQueryFilter(false);
     }
 
     return (
@@ -22,11 +39,18 @@ const QueryFilter = ({ setOpenQueryFilter }) => {
                         <div className={StyleSheet.fieldsContainer}>
                             <form onSubmit={handleFilter}>
                                 <div className={styles.inputBox}>
-                                    {!status && <label>Status:</label>}
-                                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                                    <label className={styles.fieldLabel}>Status:</label>
+                                    <select value={loanStatus} onChange={(e) => setLoanStatus(e.target.value)}>
                                         <option value="">Todos</option>
                                         <option value="true">Em Andamento</option>
                                         <option value="false">Finalizado</option>
+                                    </select>
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <label className={styles.fieldLabel}>Ordenar por:</label>
+                                    <select value={orderByDescending} onChange={(e) => setOrderByDescending(e.target.value)}>
+                                        <option value="true">Mais recentes</option>
+                                        <option value="false">Mais antigos</option>
                                     </select>
                                 </div>
                                 <div className={styles.inputBox}>
@@ -46,23 +70,39 @@ const QueryFilter = ({ setOpenQueryFilter }) => {
                                     />
                                 </div>
                                 <div className={styles.inputBox}>
-                                    {!requestTime && <label>Data da retirada:</label>}
+                                    <label className={styles.fieldLabel}>Data da retirada entre:</label>
                                     <input
-                                        type="datetime-local"
-                                        value={requestTime}
-                                        placeholder="Data de retirada"
-                                        onChange={(e) => setRequestTime(e.target.value)}
+                                        type="date"
+                                        value={requestTimeMin}
+                                        onChange={(e) => setRequestTimeMin(e.target.value)}
                                         onFocus={(e) => e.target.showPicker()}
                                     />
                                 </div>
                                 <div className={styles.inputBox}>
-                                    {!requestTime && <label>Data da devolução:</label>}
+                                    <label className={styles.fieldLabel}>e:</label>
                                     <input
-                                        type="datetime-local"
-                                        value={returnTime}
-                                        placeholder="Data de devolução"
-                                        onChange={(e) => setReturnTime(e.target.value)}
-                                        onFocus={(e) => e.target.showPicker()}                          
+                                        type="date"
+                                        value={requestTimeMax}
+                                        onChange={(e) => setRequestTimeMax(e.target.value)}
+                                        onFocus={(e) => e.target.showPicker()}
+                                    />
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <label className={styles.fieldLabel}>Data da devolução entre:</label>
+                                    <input
+                                        type="date"
+                                        value={returnTimeMin}
+                                        onChange={(e) => setReturnTimeMin(e.target.value)}
+                                        onFocus={(e) => e.target.showPicker()}
+                                    />
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <label className={styles.fieldLabel}>e:</label>
+                                    <input
+                                        type="date"
+                                        value={returnTimeMax}
+                                        onChange={(e) => setReturnTimeMax(e.target.value)}
+                                        onFocus={(e) => e.target.showPicker()}
                                     />
                                 </div>
                                 <button type="submit" className={styles.FilterBtn}>Filtrar</button>

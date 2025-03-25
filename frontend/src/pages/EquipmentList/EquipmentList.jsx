@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from "./EquipmentList.module.css"
 import Select from "react-select"
 import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop } from "react-icons/fa";
-import { useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import Modal from '../../components/Modal/Modal';
 import AddEquipment from '../../components/AddEquipment/AddEquipment';
@@ -12,7 +12,7 @@ import AddLoan from '../../components/AddLoan/AddLoan';
 
 const EquipmentList = () => {
 
-  const {equipments, equipmentCount, error, loading, success} = useSelector((state) => state.equipment);
+  const { equipments, equipmentCount, error, loading, success } = useSelector((state) => state.equipment);
   const { user } = useSelector((state) => state.auth) || {}
   const [searchQuery, setSearchQuery] = useState("Pesquisar");
   const dispatch = useDispatch();
@@ -23,22 +23,22 @@ const EquipmentList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
 
-  const handleShowComponent = (componentName, data=null) => {
+  const handleShowComponent = (componentName, data = null) => {
     componentName === "AddEquipment" ? setModalContent(<AddEquipment />) : null;
-    componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data}/>) : null;
-    componentName === "AddLoan" ? setModalContent(<AddLoan data={data}/>) : null;
+    componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} />) : null;
+    componentName === "AddLoan" ? setModalContent(<AddLoan data={data} />) : null;
   };
-  
 
-  useEffect(()=>{
-    dispatch(getEquipments({user, limit, offset}));
+
+  useEffect(() => {
+    dispatch(getEquipments({ user, limit, offset }));
   }, [])
 
-  useEffect(()=>{
-    dispatch(getEquipments({user, limit, offset}));
+  useEffect(() => {
+    dispatch(getEquipments({ user, limit, offset }));
   }, [limit, offset])
 
-  console.log(equipments?equipments:"deu ruim: "+error)
+  console.log(equipments ? equipments : "deu ruim: " + error)
   return (
 
     <div>
@@ -46,30 +46,31 @@ const EquipmentList = () => {
         {modalContent}
       </Modal>
       <div className={styles.equipmentsHeader}>
-             <h3><FaLaptop />Equipamentos</h3>
+        <label><FaLaptop /></label>
+        <h2>Equipamentos</h2>
       </div>
       <div className={styles.equipmentsContainer}>
         <div className={styles.topListBar}>
           <div className={styles.searchBarContainer}>
-            <input 
-              type="search" 
-              className={styles.searchBar} 
-              value={searchQuery} 
-              onFocus={(e) => setSearchQuery("")} 
-              onChange={(e) => setSearchQuery(e.target.value) }
+            <input
+              type="search"
+              className={styles.searchBar}
+              value={searchQuery}
+              onFocus={(e) => setSearchQuery("")}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className={styles.topListButtons}>
             <button className={styles.newItemButton} onClick={() => {
-              setModalOpen(!modalOpen); 
+              setModalOpen(!modalOpen);
               handleShowComponent("AddEquipment");
             }}>
-              <FaPlus/>
+              <FaPlus />
             </button>
             <button className={styles.filterButton}>
-              <FaFilter/>
-            </button>       
-          </div>        
+              <FaFilter />
+            </button>
+          </div>
         </div>
         <div>
           <ul className={styles.items}>
@@ -77,26 +78,26 @@ const EquipmentList = () => {
               <li key={equipment.equipmentId}>
                 <div className={styles.equipmentBox}>
                   <h2>{equipment.equipmentName}</h2>
-                  {equipment.equipmentLoanStatus ? 
-                    <p style={{color: "red", fontWeight: "bold"}}>Emprestado</p>
+                  {equipment.equipmentLoanStatus ?
+                    <p style={{ color: "red", fontWeight: "bold" }}>Emprestado</p>
                     :
-                    <p style={{color: "green", fontWeight: "bold"}}>Disponível</p>
+                    <p style={{ color: "green", fontWeight: "bold" }}>Disponível</p>
                   }
                   <div className={styles.itemButtonContainer}>
-                  {equipment.equipmentLoanStatus ? 
+                    {equipment.equipmentLoanStatus ?
                       <button title="Devolver" className={styles.undoLoanItemButton}>
                         <FaUndo />
                       </button>
-                    :
+                      :
                       <button title="Emprestar" className={styles.loanItemButton} onClick={() => {
-                        setModalOpen(!modalOpen); 
+                        setModalOpen(!modalOpen);
                         handleShowComponent("AddLoan", equipment.equipmentId);
                       }}>
                         <FaHandshake />
                       </button>
-                  }                   
+                    }
                     <button title="Remover" className={styles.deleteItemButton} onClick={() => {
-                      setModalOpen(!modalOpen); 
+                      setModalOpen(!modalOpen);
                       handleShowComponent("DeleteEquipment", equipment.equipmentId);
                     }}>
                       <FaTrash />
@@ -106,9 +107,9 @@ const EquipmentList = () => {
               </li>
             ))}
           </ul>
-          <Pagination registerCount={equipmentCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />      
-        </div>       
-    </div>
+          <Pagination registerCount={equipmentCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />
+        </div>
+      </div>
     </div>
   )
 }

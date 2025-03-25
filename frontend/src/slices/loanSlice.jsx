@@ -12,8 +12,8 @@ const initialState = {
 
 export const getLoans = createAsyncThunk(
     "loan/getLoans",
-    async({user, limit, offset}, thunkAPI) => {
-        const data = await loanService.getLoans(user, limit, offset);
+    async({user, limit, offset, filters}, thunkAPI) => {
+        const data = await loanService.getLoans(user, limit, offset, filters);
 
         if(data.errors){
             return thunkAPI.rejectWithValue(data.errors);

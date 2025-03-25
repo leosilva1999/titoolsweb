@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./LoanList.module.css"
-import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit } from "react-icons/fa";
+import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit, FaHandshake } from "react-icons/fa";
 import Pagination from '../../components/Pagination/Pagination';
 import Modal from '../../components/Modal/Modal';
 import AddLoan from '../../components/AddLoan/AddLoan';
@@ -24,6 +24,17 @@ const LoanList = () => {
     const [limit, setLimit] = useState(10);
     const [offset, setOffset] = useState(0);
 
+    const [filters, setFilters] = useState({
+        applicantName: "",
+        authorizedBy: "",
+        requestTimeMin: "",
+        requestTimeMax: "",
+        returnTimeMin: "",
+        returnTimeMax: "",
+        loanStatus: "",
+        orderByDescending: ""
+    });
+
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
@@ -33,20 +44,24 @@ const LoanList = () => {
     };
 
     useEffect(() => {
-        dispatch(getLoans({ user, limit, offset }));
+        dispatch(getLoans({ user, limit, offset, filters }));
         console.table(loans)
     }, [])
 
     useEffect(() => {
-        dispatch(getLoans({ user, limit, offset }));
+        dispatch(getLoans({ user, limit, offset, filters }));
         console.table(loans)
-    }, [limit, offset])
+    }, [limit, offset, filters])
 
     return (
         <div>
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
                 {modalContent}
             </Modal>
+            <div className={styles.loansHeader}>
+                <label><FaHandshake /></label>
+                <h2>Empréstimos</h2>
+            </div>
             <div className={styles.loanListContainer}>
                 <div className={styles.loanListTable}>
                     <div className={styles.topListButtons}>
@@ -94,7 +109,7 @@ const LoanList = () => {
                 </div>
             </div>
             {
-                openQueryFilter && <QueryFilter setOpenQueryFilter={setOpenQueryFilter} />
+                openQueryFilter && <QueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
             }
         </div>
     )
