@@ -3,6 +3,7 @@ import equipmentService from "../services/equipmentService";
 
 const initialState = {
     equipments: null,
+    availableEquipments: null,
     equipmentCount: null,
     error: false,
     success: false,
@@ -13,13 +14,13 @@ const initialState = {
 
 export const getEquipments = createAsyncThunk(
     "equipment/getEquipments",
-    async({user, limit, offset, filters}, thunkAPI) => {
+    async({user, limit, offset, filters, forSelect = false}, thunkAPI) => {
         const data = await equipmentService.getEquipments(user, limit, offset, filters);
 
         if(data.errors){
             return thunkAPI.rejectWithValue(data.errors);
         }
-        return data;
+        return {...data, meta: {forSelect}};
     }
 )
 
@@ -72,8 +73,12 @@ export const equipmentSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.equipments = action.payload.equipmentList;
-            state.equipmentCount = action.payload.equipmentCount;
+            if(action.payload.meta?.forSelect){
+                state.availableEquipments = action.payload.equipmentList;
+            }else{
+                state.equipments = action.payload.equipmentList;
+                state.equipmentCount = action.payload.equipmentCount;   
+            }
             console.log("fulfilled")
         }).addCase(getEquipments.rejected, (state, action) => {
             state.loading = false;
