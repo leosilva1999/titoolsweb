@@ -35,7 +35,20 @@ export const postLoan = createAsyncThunk(
     }
 )
 
-export const equipmentSlice = createSlice({
+export const deleteLoan = createAsyncThunk(
+    "loan/deleteLoan",
+    async({user, loanId}, thunkAPI) => {
+        const data = await loanService.deleteLoan(user, loanId);
+
+        if(data.status != 204){
+            return thunkAPI.rejectWithValue(data.message);
+        }
+
+        return data;
+    }
+)
+
+export const loanSlice = createSlice({
     name: "loan",
     initialState,
     reducers: {
@@ -48,54 +61,58 @@ export const equipmentSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(getLoans.pending, (state)=>{
+        builder
+        // Cases para getLoans
+        .addCase(getLoans.pending, (state)=>{
                 state.loading = true;
                 state.error = false;
                 console.log("pending")
             }).addCase(getLoans.fulfilled, (state, action)=>{
                 state.loading = false;
                 state.success = true;
-                state.error = null;
                 state.loans = action.payload.loanList;
                 state.loanCount = action.payload.loanCount;
                 console.log("fulfilled")
             }).addCase(getLoans.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload;
-                state.loan = null;
+                state.error = action.payload?.message || "Erro ao buscar empréstimo";
                 console.log("rejected: " + state.error)
-            }).addCase(postLoan.pending, (state)=>{
+            })
+            
+            // Cases para postLoan
+            .addCase(postLoan.pending, (state)=>{
                 state.loading = true;
                 state.error = false;
                 console.log("pending")
             }).addCase(postLoan.fulfilled, (state, action)=>{
                 state.loading = false;
                 state.success = true;
-                state.error = null;
-                state.message = action.payload;
+                state.message = action.payload.message || "Empréstimo criado com sucesso";
                 console.log("fullfiled");
             }).addCase(postLoan.rejected, (state, action)=>{
                 state.loading = false;
                 state.success = false;
-                state.error = action.payload.status;
-                state.message = action.payload.message
-            })/*.addCase(deleteLoan.pending, (state)=>{
+                state.error = true;
+                state.message = action.payload.message || "Erro ao criar empréstimo";
+            })
+            
+            // Cases para deleteLoan
+            .addCase(deleteLoan.pending, (state)=>{
                 state.loading = true;
                 state.error = false;
                 console.log("pending")
             }).addCase(deleteLoan.fulfilled, (state, action)=>{
                 state.loading = false;
                 state.success = true;
-                state.error = null;
-                state.message = action.payload.message;
+                state.message = action.payload?.message || "Emprestimo excluído com sucesso!";
                 console.log("fullfiled");
             }).addCase(deleteLoan.rejected, (state, action)=>{
                 state.loading = false;
                 state.success = false;
                 state.error = action.payload.status;
-                state.message = action.payload.message
-            })*/
+                state.message = action.payload?.message || "Erro ao deletar empréstimo";
+            })
         }})
     
-        export const {reset} = equipmentSlice.actions;
-        export default equipmentSlice.reducer;
+        export const {reset} = loanSlice.actions;
+        export default loanSlice.reducer;

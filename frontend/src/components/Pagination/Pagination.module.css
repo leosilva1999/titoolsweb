@@ -8,6 +8,24 @@
     padding-right: 3vh;
 }
 
+.setLimitContainer{
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    height: 3vh;
+}
+
+.setLimitContainer label{
+    margin-right: 4px;
+}
+
+.setLimitContainer select{
+    width: 4vh;
+    height: 3vh;
+    border-bottom: 0;
+    cursor: pointer;
+}
+
 .registerCount{
     margin-right: 0vh;
     font-weight: bold;

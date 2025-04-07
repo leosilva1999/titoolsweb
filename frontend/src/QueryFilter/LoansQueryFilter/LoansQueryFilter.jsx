@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./QueryFilter.module.css"
+import styles from "./LoansQueryFilter.module.css"
 import {useSelector, useDispatch} from "react-redux"
 import { getLoans, reset } from "../../slices/loanSlice";
 

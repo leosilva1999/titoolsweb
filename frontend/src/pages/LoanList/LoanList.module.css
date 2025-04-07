@@ -35,6 +35,9 @@
     backdrop-filter: blur(7px);
     box-shadow: 0 .2rem .4rem #0005;
     border-radius: .42rem;
+    overflow: auto;
+    min-width: 600px;
+    border-collapse: collapse;
 }
 
 .loanListTable table{ 
@@ -44,6 +47,11 @@
     width: 82vw;
     min-height: 10vh;
     margin: 3rem;
+}
+
+.loanListTable th, td{
+    padding: 8px 16px;
+    white-space: nowrap;
 }
 
 .tableBody{

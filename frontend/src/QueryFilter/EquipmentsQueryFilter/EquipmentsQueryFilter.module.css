@@ -1,0 +1,101 @@
+.background {
+    position: fixed;
+    top: 1em;
+    left: -3em;
+    width: 100vw;
+    height: 100vh;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .queryFilter{
+      position: absolute;
+      top: 13rem;
+      right: 6rem;
+      width: 200px;
+      padding: 30px;
+      border-radius: 15px;
+      background-color: white;
+      border: 1px solid gray;
+      box-shadow: 0 .4rem .8rem #0005;
+    }
+  
+    .queryFilter::before{
+      content: '';
+      position: absolute;
+      top: -0.7rem;
+      right: 1.1rem;
+      width: 20px;
+      height: 20px;
+      transform: rotate(45deg);
+      background-color: white;
+      border-left: 1px solid gray;
+      border-top: 1px solid gray;
+      
+    }
+  
+    .filterFieldsList{
+      margin: 0;
+      padding-left: 0;
+    }
+  
+  
+    .userMenuLink{
+      margin-top: 5px;
+      cursor: pointer;
+      color: #191919;
+    }
+    .userMenuLink span{
+      margin-right: 5px;
+    }
+  
+    .userMenuLink:hover{
+      margin-top: 2px;
+      padding: 3px;
+      cursor: pointer;
+      color: white;
+      background-color: black;
+    }
+  
+    .menuIcons{
+      width: 25px;
+      height: 25px;
+    }
+
+    .inputBox{
+        position: relative;
+        display: inline;
+        width: 60vh;
+        height: 40px;
+        margin: 5px 0;
+    }
+    
+    .inputBox input, select{
+        margin: 0 0 1em 0;
+        width: 98%;
+        height: 100%;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid;
+        font-size: 16px;
+    }
+
+    .FilterBtn{
+        background-color: #077920;
+        color: white;
+        font-weight: bold;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        cursor: pointer;
+        height: 30px;
+        width: 10vh;
+    }
+
+    .fieldLabel{
+        color: rgba(0, 0, 0, 0.4);
+       
+    }

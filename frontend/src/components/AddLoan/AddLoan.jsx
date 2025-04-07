@@ -60,7 +60,7 @@ const AddLoan = () =>{
 
         
     useEffect(()=>{
-            if(loading == false && success == true && message == null){
+            if(loading == false && success == true && message != null){
                 toast.success(message ? message.message : 'Operação realizada com sucesso!')
                 dispatch(reset())
             }

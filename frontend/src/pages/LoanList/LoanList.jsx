@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./LoanList.module.css"
-import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit, FaHandshake } from "react-icons/fa";
+import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit, FaHandshake, FaListUl } from "react-icons/fa";
 import Pagination from '../../components/Pagination/Pagination';
 import Modal from '../../components/Modal/Modal';
 import AddLoan from '../../components/AddLoan/AddLoan';
@@ -10,9 +10,10 @@ import { formatToBrazilianDate } from '../../utils/dateFormatter';
 //hooks
 import { useSelector, useDispatch } from "react-redux"
 
-import { getLoans, postLoan } from "../../slices/loanSlice";
+import { getLoans, postLoan, reset } from "../../slices/loanSlice";
 import { toast } from 'react-toastify';
-import QueryFilter from '../../components/QueryFilter/QueryFilter';
+import LoansQueryFilter from '../../QueryFilter/LoansQueryFilter/LoansQueryFilter';
+import DeleteLoan from '../../components/DeleteLoan/DeleteLoan';
 
 
 const LoanList = () => {
@@ -41,16 +42,19 @@ const LoanList = () => {
 
     const handleShowComponent = (componentName, data = null) => {
         componentName === "AddLoan" ? setModalContent(<AddLoan data={data} />) : null;
+        componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
     };
 
     useEffect(() => {
         dispatch(getLoans({ user, limit, offset, filters }));
         console.table(loans)
+        dispatch(reset());
     }, [])
 
     useEffect(() => {
         dispatch(getLoans({ user, limit, offset, filters }));
         console.table(loans)
+        dispatch(reset());
     }, [limit, offset, filters])
 
     return (
@@ -79,6 +83,7 @@ const LoanList = () => {
                         <tr className={styles.tableHeader}>
                             <th>Id</th>
                             <th>Solicitante</th>
+                            <th>Autorizado por</th>
                             <th>Retirada</th>
                             <th>Retorno</th>
                             <th>Status</th>
@@ -88,6 +93,7 @@ const LoanList = () => {
                             <tr className={styles.tableBody}>
                                 <td>{loan.loanId}</td>
                                 <td>{loan.applicantName}</td>
+                                <td>{loan.authorizedBy}</td>
                                 <td>{formatToBrazilianDate(loan.requestTime)}</td>
                                 <td>{loan.returnTime ? formatToBrazilianDate(loan.returnTime) : "-"}</td>
                                 <td>{loan.loanStatus == true ? (
@@ -98,9 +104,12 @@ const LoanList = () => {
                                 }
                                 </td>
                                 <td>
-                                    <button className={styles.editLoanButton}><FaEdit /></button>
-                                    <button className={styles.undoLoanButton}><FaUndo /></button>
-                                    <button className={styles.deleteLoanButton}><FaTrash /></button>
+                                    <button className={styles.editLoanButton}><FaListUl /></button>
+                                    {loan.loanStatus && <button className={styles.undoLoanButton}><FaUndo /></button>}
+                                    <button className={styles.deleteLoanButton} onClick={() => {
+                                        setModalOpen(!modalOpen);
+                                        handleShowComponent("DeleteLoan", loan.loanId);
+                                    }}><FaTrash /></button>
                                 </td>
                             </tr>
                         ))}
@@ -109,7 +118,7 @@ const LoanList = () => {
                 </div>
             </div>
             {
-                openQueryFilter && <QueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
+                openQueryFilter && <LoansQueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
             }
         </div>
     )
