@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 3vh;
     background-color: #D9D9D9;
     padding-left: 3vh;
     padding-right: 3vh;
@@ -20,7 +19,7 @@
 }
 
 .setLimitContainer select{
-    width: 4vh;
+    width: 40px;
     height: 3vh;
     border-bottom: 0;
     cursor: pointer;

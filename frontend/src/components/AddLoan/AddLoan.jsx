@@ -18,7 +18,6 @@ const AddLoan = () => {
     const [limit, setLimit] = useState(20);
     const [offset, setOffset] = useState(0);
 
-    const [equipmentsSelect, setEquipmentsSelect] = useState();
 
     const dispatch = useDispatch();
 
@@ -27,12 +26,7 @@ const AddLoan = () => {
     }, [])
 
     useEffect(() => {
-        availableEquipments && setEquipmentsSelect(availableEquipments)
-    }, [equipments])
-
-    useEffect(() => {
         dispatch(getEquipments({ user, limit, offset, filters: { equipmentLoanStatus: false }, forSelect: true }));
-        availableEquipments && setEquipmentsSelect(...availableEquipments)
     }, [limit, offset])
 
     const options = availableEquipments && availableEquipments.map((equipment) => (

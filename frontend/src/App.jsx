@@ -13,33 +13,35 @@ import EquipmentList from './pages/EquipmentList/EquipmentList'
 import Login from './pages/Auth/Login'
 
 //components
+import Layout from './Layout/Layout'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import LoanList from './pages/LoanList/LoanList'
 
 function App() {
-  const {auth, loading} = useAuth()
+  const { auth, loading } = useAuth()
 
-  console.log("loading: "+loading)
+  console.log("loading: " + loading)
 
-  if(loading){
+  if (loading) {
     return <p>Carregando...</p>;
   }
 
-  return (   
-      <div>
-        <ToastContainer />
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route path='/' element={auth?<Home />:<Navigate to="/login"/>}></Route>
-              <Route path='/login' element={!auth ? <Login /> : <Navigate to="/"/>}></Route>
-              <Route path='/equipmentlist' element={auth ? <EquipmentList /> : <Navigate to="/login"/>}></Route>
-              <Route path='/loanlist' element={auth ? <LoanList /> : <Navigate to="/login"/>}></Route>
-            </Routes>
-          </BrowserRouter>
-          <Footer />
-      </div>
+  return (
+    <div>
+      <ToastContainer />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route index element={auth ? <Home /> : <Navigate to="/login" />}></Route>
+            <Route path='/login' element={!auth ? <Login /> : <Navigate to="/" />}></Route>
+            <Route path='/equipmentlist' element={auth ? <EquipmentList /> : <Navigate to="/login" />}></Route>
+            <Route path='/loanlist' element={auth ? <LoanList /> : <Navigate to="/login" />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
 

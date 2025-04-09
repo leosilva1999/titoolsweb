@@ -80,7 +80,7 @@ const LoanList = () => {
                         </button>
                     </div>
                     <table>
-                        <tr className={styles.tableHeader}>
+                        <thead className={styles.tableHeader}>
                             <th>Id</th>
                             <th>Solicitante</th>
                             <th>Autorizado por</th>
@@ -88,31 +88,33 @@ const LoanList = () => {
                             <th>Retorno</th>
                             <th>Status</th>
                             <th>Ações</th>
-                        </tr>
-                        {loans && loans.result.map((loan) => (
-                            <tr className={styles.tableBody}>
-                                <td>{loan.loanId}</td>
-                                <td>{loan.applicantName}</td>
-                                <td>{loan.authorizedBy}</td>
-                                <td>{formatToBrazilianDate(loan.requestTime)}</td>
-                                <td>{loan.returnTime ? formatToBrazilianDate(loan.returnTime) : "-"}</td>
-                                <td>{loan.loanStatus == true ? (
-                                    <p className={`${styles.statusBase} ${styles.statusEmAndamento}`}>Em andamento</p>
-                                ) : (
-                                    <p className={`${styles.statusBase} ${styles.statusFinalizado}`}>Finalizado</p>
-                                )
-                                }
-                                </td>
-                                <td>
-                                    <button className={styles.editLoanButton}><FaListUl /></button>
-                                    {loan.loanStatus && <button className={styles.undoLoanButton}><FaUndo /></button>}
-                                    <button className={styles.deleteLoanButton} onClick={() => {
-                                        setModalOpen(!modalOpen);
-                                        handleShowComponent("DeleteLoan", loan.loanId);
-                                    }}><FaTrash /></button>
-                                </td>
-                            </tr>
-                        ))}
+                        </thead>
+                        <tbody className={styles.tableBody}>
+                            {loans && loans.result.map((loan, index) => (
+                                <tr className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
+                                    <td>{loan.loanId}</td>
+                                    <td>{loan.applicantName}</td>
+                                    <td>{loan.authorizedBy}</td>
+                                    <td>{formatToBrazilianDate(loan.requestTime)}</td>
+                                    <td>{loan.returnTime ? formatToBrazilianDate(loan.returnTime) : "-"}</td>
+                                    <td>{loan.loanStatus == true ? (
+                                        <p className={`${styles.statusBase} ${styles.statusEmAndamento}`}>Em andamento</p>
+                                    ) : (
+                                        <p className={`${styles.statusBase} ${styles.statusFinalizado}`}>Finalizado</p>
+                                    )
+                                    }
+                                    </td>
+                                    <td>
+                                        <button className={styles.editLoanButton}><FaListUl /></button>
+                                        {loan.loanStatus && <button className={styles.undoLoanButton}><FaUndo /></button>}
+                                        <button className={styles.deleteLoanButton} onClick={() => {
+                                            setModalOpen(!modalOpen);
+                                            handleShowComponent("DeleteLoan", loan.loanId);
+                                        }}><FaTrash /></button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                     <Pagination registerCount={loanCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />
                 </div>

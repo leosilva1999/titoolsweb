@@ -29,7 +29,7 @@
 .equipmentsContainer{
     justify-content: center;
     align-items: center;
-    margin: 1em 5em 5em;
+    margin: 1em 5em 2em;
     padding: 0;
     background-color: fff5;
     backdrop-filter: blur(7px);
