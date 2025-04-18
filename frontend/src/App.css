@@ -1,9 +1,3 @@
-.container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 5em;
-}
 
 .appContainer{
   display: flex;
@@ -16,6 +10,7 @@
 }
 
 .footer{
+  bottom: 0;
   background: #036;
   color: white;
   padding: 0.1px;

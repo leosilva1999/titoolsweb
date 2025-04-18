@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styles from "./EquipmentList.module.css"
-import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop } from "react-icons/fa";
+import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable } from "react-icons/fa";
+import { BlobProvider } from '@react-pdf/renderer';
 import { useDispatch, useSelector } from "react-redux"
 import { getEquipments } from '../../slices/equipmentSlice';
 import Modal from '../../components/Modal/Modal';
@@ -9,13 +10,13 @@ import Pagination from '../../components/Pagination/Pagination';
 import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
+import EquipmentsReport from '../../reports/equipmentsReport';
 
 const EquipmentList =
   () => {
 
     const { equipments, equipmentCount, error, loading, success } = useSelector((state) => state.equipment);
     const { user } = useSelector((state) => state.auth) || {}
-    const [searchQuery, setSearchQuery] = useState("Pesquisar");
     const dispatch = useDispatch();
 
     const [limit, setLimit] = useState(10);
@@ -30,6 +31,12 @@ const EquipmentList =
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
+    const isDownloading = useRef(false);
+    const [reportType, setReportType] = useState(null);
+    const [reportState, setReportState] = useState({
+      generating: false,
+      downloaded: false,
+    })
 
     const handleShowComponent = (componentName, data = null) => {
       componentName === "AddEquipment" ? setModalContent(<AddEquipment />) : null;
@@ -37,6 +44,13 @@ const EquipmentList =
       componentName === "AddLoan" ? setModalContent(<AddLoan data={data} setModalOpen={setModalOpen} />) : null;
     };
 
+    const handleDownloadPdf = () => {
+      setReportState({
+        generating: true,
+        downloaded: false
+      })
+      isDownloading.current = false;
+    }
 
     useEffect(() => {
       dispatch(getEquipments({ user, limit, offset, filters }));
@@ -68,6 +82,15 @@ const EquipmentList =
               </button>
               <button className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
                 <FaFilter />
+              </button>
+              <button className={styles.filterButton} onClick={() => {
+                handleDownloadPdf();
+                setReportType("PDF")
+                }}>
+                <FaFilePdf />
+              </button>
+              <button className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
+                <FaTable />
               </button>
             </div>
           </div>
@@ -112,6 +135,40 @@ const EquipmentList =
         {
           openQueryFilter && <EquipmentsQueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
         }
+        {
+          reportState.generating && !reportState.downloaded && (<BlobProvider
+          document={<EquipmentsReport data={equipments} reportType={reportType} />}
+        >
+          {({blob, loading}) => {
+            if(blob && !loading && !isDownloading.current){
+              isDownloading.current = true
+              const link = document.createElement("a");
+              link.href = URL.createObjectURL(blob);
+              if(reportType == "PDF"){
+                link.download = 'equipamentos.pdf';
+              }else if(reportType == "XLSX"){
+                link.download = 'equipamentos.xlsx';
+              }
+              link.style.display = 'none';
+
+              link.onclick = ()=>{
+                setTimeout(() => {
+                  document.body.removeChild(link);
+                  URL.revokeObjectURL(link.href)
+                  setReportState({
+                    generating: false,
+                    downloaded: true
+                  }, 100);
+                });
+              };
+              
+              document.body.appendChild(link);
+              link.click();
+            }
+            return null
+          }}
+        </BlobProvider>
+        )}
       </div>
     )
   }

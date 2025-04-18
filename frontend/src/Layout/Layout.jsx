@@ -5,7 +5,7 @@ import "../App.css"
 
 const Layout = () => {
   return (
-    <div className={styles.appContainer}>
+    <div className="appContainer">
         <main className="content">
             <Outlet />
         </main>
