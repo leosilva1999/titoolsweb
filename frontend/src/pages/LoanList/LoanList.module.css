@@ -159,3 +159,30 @@ td {
     background-color: white;
     box-shadow: 2px 2px 2px rgb(52, 52, 52);
 }
+
+.exportButton{
+    cursor: pointer;
+    width: 40px;
+    height: 100%;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    color: antiquewhite;
+    background-color: #eb9b46;
+    border: 0;
+    border-radius: 10%;
+    font-size: 1em;
+    margin: 0.2em;
+    margin-bottom: 0;
+}
+.exportButton:hover{
+    color: black;
+    background-color: white;
+    box-shadow: 2px 2px 2px rgb(52, 52, 52);
+}
+
+.pipe{
+    color: black;
+    font-weight: bold;
+    padding: 0 5px 0;
+}

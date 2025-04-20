@@ -4,7 +4,6 @@ import styles from "./EquipmentList.module.css"
 import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable } from "react-icons/fa";
 import { BlobProvider } from '@react-pdf/renderer';
 import { useDispatch, useSelector } from "react-redux"
-import * as XLSX from 'xlsx'
 
 import { getEquipments } from '../../slices/equipmentSlice';
 import Modal from '../../components/Modal/Modal';
@@ -36,7 +35,6 @@ const EquipmentList =
     const [modalContent, setModalContent] = useState("");
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
     const isDownloading = useRef(false);
-    const [reportType, setReportType] = useState(null);
     const [reportState, setReportState] = useState({
       generating: false,
       downloaded: false,

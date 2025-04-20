@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styles from "./LoanList.module.css"
-import { FaPlus, FaFilter, FaTrash, FaUndo, FaEdit, FaHandshake, FaListUl } from "react-icons/fa";
+import { FaPlus, FaFilter, FaTrash, FaUndo, FaHandshake, FaListUl, FaFilePdf, FaTable } from "react-icons/fa";
+import { BlobProvider } from '@react-pdf/renderer';
+
 import Pagination from '../../components/Pagination/Pagination';
 import Modal from '../../components/Modal/Modal';
 import AddLoan from '../../components/AddLoan/AddLoan';
+import LoansReport from '../../reports/loansReport';
 
 import { formatToBrazilianDate } from '../../utils/dateFormatter';
+import { exportToExcel } from '../../utils/exportToXlsx'
 
 //hooks
 import { useSelector, useDispatch } from "react-redux"
@@ -40,6 +44,12 @@ const LoanList = () => {
     const [modalContent, setModalContent] = useState("");
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
 
+    const isDownloading = useRef(false);
+    const [reportState, setReportState] = useState({
+        generating: false,
+        downloaded: false,
+    })
+
     const handleShowComponent = (componentName, data = null) => {
         componentName === "AddLoan" ? setModalContent(<AddLoan data={data} />) : null;
         componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
@@ -56,6 +66,23 @@ const LoanList = () => {
         console.table(loans)
         dispatch(reset());
     }, [limit, offset, filters])
+
+    const dataToReports = loans && loans.result.map(loan => ({
+        ID: loan.loanId,
+        Solicitante: loan.applicantName,
+        Autorizado_por: loan.authorizedBy,
+        Retirada: formatToBrazilianDate(loan.requestTime),
+        Retorno: formatToBrazilianDate(loan.returnTime),
+        Status: loan.loanStatus ? "Em andamento" : "Finalizado"
+    }))
+
+    const handleDownloadPdf = () => {
+        setReportState({
+            generating: true,
+            downloaded: false
+        })
+        isDownloading.current = false;
+    }
 
     return (
         <div>
@@ -75,6 +102,18 @@ const LoanList = () => {
                         }}>
                             <FaPlus />
                         </button>
+                        <p className={styles.pipe}>|</p>
+                        <button title="Exportar PDF" className={styles.exportButton} onClick={() => {
+                            handleDownloadPdf();
+                        }}>
+                            <FaFilePdf />
+                        </button>
+                        <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
+                            exportToExcel(dataToReports);
+                        }}>
+                            <FaTable />
+                        </button>
+                        <p className={styles.pipe}>|</p>
                         <button className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
                             <FaFilter />
                         </button>
@@ -122,6 +161,36 @@ const LoanList = () => {
             {
                 openQueryFilter && <LoansQueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
             }
+            {
+                reportState.generating && !reportState.downloaded && (<BlobProvider
+                    document={<LoansReport data={dataToReports} />}
+                >
+                    {({ blob, loading }) => {
+                        if (blob && !loading && !isDownloading.current) {
+                            isDownloading.current = true
+                            const link = document.createElement("a");
+                            link.href = URL.createObjectURL(blob);
+                            link.download = 'emprestimos.pdf';
+                            link.style.display = 'none';
+
+                            link.onclick = () => {
+                                setTimeout(() => {
+                                    document.body.removeChild(link);
+                                    URL.revokeObjectURL(link.href)
+                                    setReportState({
+                                        generating: false,
+                                        downloaded: true
+                                    }, 100);
+                                });
+                            };
+
+                            document.body.appendChild(link);
+                            link.click();
+                        }
+                        return null
+                    }}
+                </BlobProvider>
+                )}
         </div>
     )
 }
