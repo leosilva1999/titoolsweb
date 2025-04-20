@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 const EquipmentsReport = ({data}) => (
   <Document>
     <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>Relatório de Clientes</Text>
+        <Text style={styles.title}>Relatório de Empréstimos</Text>
         <PdfTable
             columns={[
                 {key: 'ID', title: 'ID'},

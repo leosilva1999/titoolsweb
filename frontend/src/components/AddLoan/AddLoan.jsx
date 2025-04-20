@@ -7,17 +7,17 @@ import { postLoan, reset } from "../../slices/loanSlice";
 import Select, { components } from 'react-select'
 import { toast } from 'react-toastify';
 
-const AddLoan = () => {
+const AddLoan = ({selectedEquipment}) => {
     const [applicantName, setApplicantName] = useState("");
     const [authorizedBy, setAuthorizedBy] = useState("");
     const [requestTime, setRequestTime] = useState("");
 
+    const [selectedOptions, setSelectedOptions] = useState([]);
     const [loanIds, setLoanIds] = useState([]);
     const { user } = useSelector((state) => state.auth) || {}
-    const { equipments, availableEquipments, message, error, loading, success } = useSelector((state) => state.equipment);
+    const { availableEquipments, message, error, loading, success } = useSelector((state) => state.equipment);
     const [limit, setLimit] = useState(20);
     const [offset, setOffset] = useState(0);
-
 
     const dispatch = useDispatch();
 
@@ -28,6 +28,14 @@ const AddLoan = () => {
     useEffect(() => {
         dispatch(getEquipments({ user, limit, offset, filters: { equipmentLoanStatus: false }, forSelect: true }));
     }, [limit, offset])
+
+    useEffect(() => {
+        if(selectedEquipment && selectedEquipment.value){
+            setSelectedOptions([selectedEquipment]);
+            setLoanIds([selectedEquipment.value]);
+        };
+
+    }, [selectedEquipment])
 
     const options = availableEquipments && availableEquipments.map((equipment) => (
         {
@@ -120,8 +128,10 @@ const AddLoan = () => {
                 <div className={styles.inputBox}>
                     <Select
                         isMulti
+                        isLoading={!options}
                         maxMenuHeight={150}
                         menuPlacement="auto"
+                        value={selectedOptions}
                         options={options}
                         placeholder="Selecione os equipamentos"
                         components={{ MenuList: CustomMenuList }}

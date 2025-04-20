@@ -51,7 +51,7 @@ const LoanList = () => {
     })
 
     const handleShowComponent = (componentName, data = null) => {
-        componentName === "AddLoan" ? setModalContent(<AddLoan data={data} />) : null;
+        componentName === "AddLoan" ? setModalContent(<AddLoan />) : null;
         componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
     };
 
@@ -109,7 +109,7 @@ const LoanList = () => {
                             <FaFilePdf />
                         </button>
                         <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
-                            exportToExcel(dataToReports);
+                            exportToExcel(dataToReports, "Empréstimos");
                         }}>
                             <FaTable />
                         </button>

@@ -31,8 +31,10 @@ const EquipmentList =
       equipmentLoanStatus: "",
     });
 
+    const [selectedEquipmentToLoan, setSelectedEquipmentToLoan] = useState(null);
+
     const [modalOpen, setModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState("");
+    const [modalContent, setModalContent] = useState(null);
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
     const isDownloading = useRef(false);
     const [reportState, setReportState] = useState({
@@ -41,9 +43,9 @@ const EquipmentList =
     })
 
     const handleShowComponent = (componentName, data = null) => {
-      componentName === "AddEquipment" ? setModalContent(<AddEquipment />) : null;
+      componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} />) : null;
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
-      componentName === "AddLoan" ? setModalContent(<AddLoan data={data} setModalOpen={setModalOpen} />) : null;
+      //componentName === "AddLoan" ? setModalContent(<AddLoan selectedEquipment={selectedEquipmentToLoan} />) : null;
     };
 
     useEffect(() => {
@@ -98,7 +100,7 @@ const EquipmentList =
                 <FaFilePdf />
               </button>
               <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
-                exportToExcel(dataToReports);
+                exportToExcel(dataToReports, "Equipamentos");
               }}>
                 <FaTable />
               </button>
@@ -126,8 +128,19 @@ const EquipmentList =
                         </button>
                         :
                         <button title="Emprestar" className={styles.loanItemButton} onClick={() => {
+                          const selected = {
+                            value: equipment.equipmentId, 
+                            label: equipment.equipmentName
+                          };
+                          //setSelectedEquipmentToLoan(selected)
                           setModalOpen(!modalOpen);
-                          handleShowComponent("AddLoan", equipment.equipmentId);
+                          setModalContent(
+                            <AddLoan
+                              selectedEquipment={selected}
+                              onClose={() => setModalOpen(false)}
+                            />
+                          )
+                          //handleShowComponent("AddLoan");
                         }}>
                           <FaHandshake />
                         </button>
