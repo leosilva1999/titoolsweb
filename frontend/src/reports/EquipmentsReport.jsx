@@ -13,11 +13,11 @@ const EquipmentsReport = ({data}) => (
         <Text style={styles.title}>Relatório de Clientes</Text>
         <PdfTable
             columns={[
-                {key: 'equipmentId', title: 'ID'},
-                {key: 'equipmentName', title: 'Nome'},
-                {key: 'ipAddress', title: 'IP'},
-                {key: 'macAddress', title: 'MAC'},
-                {key: 'equipmentLoanStatus', title: 'Status'},
+                {key: 'ID', title: 'ID'},
+                {key: 'Nome', title: 'Nome'},
+                {key: 'IP', title: 'IP'},
+                {key: 'MAC', title: 'MAC'},
+                {key: 'Status', title: 'Status'},
 
             ]}
             data={data}

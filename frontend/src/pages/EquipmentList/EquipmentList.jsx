@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styles from "./EquipmentList.module.css"
+
 import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable } from "react-icons/fa";
 import { BlobProvider } from '@react-pdf/renderer';
 import { useDispatch, useSelector } from "react-redux"
+import * as XLSX from 'xlsx'
+
 import { getEquipments } from '../../slices/equipmentSlice';
 import Modal from '../../components/Modal/Modal';
 import AddEquipment from '../../components/AddEquipment/AddEquipment';
@@ -44,14 +47,6 @@ const EquipmentList =
       componentName === "AddLoan" ? setModalContent(<AddLoan data={data} setModalOpen={setModalOpen} />) : null;
     };
 
-    const handleDownloadPdf = () => {
-      setReportState({
-        generating: true,
-        downloaded: false
-      })
-      isDownloading.current = false;
-    }
-
     useEffect(() => {
       dispatch(getEquipments({ user, limit, offset, filters }));
     }, [])
@@ -60,7 +55,31 @@ const EquipmentList =
       dispatch(getEquipments({ user, limit, offset, filters }));
     }, [limit, offset, filters])
 
-    console.log(equipments ? equipments : "deu ruim: " + error)
+
+    const dataToReports = equipments && equipments.map(equip => ({
+      ID: equip.equipmentId,
+      Nome: equip.equipmentName,
+      IP: equip.ipAddress,
+      MAC: equip.macAddress,
+      Status: equip.equipmentLoanStatus ? "Emprestado" : "Disponível"
+    }))
+
+    const handleDownloadPdf = () => {
+      setReportState({
+        generating: true,
+        downloaded: false
+      })
+      isDownloading.current = false;
+    }
+
+    const exportToExcel = () => {
+      const worksheet = XLSX.utils.json_to_sheet(dataToReports);
+
+      const workbook = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Relatorio");
+      XLSX.writeFile(workbook, "Equipamentos.xlsx")
+    }
     return (
 
       <div>
@@ -74,23 +93,26 @@ const EquipmentList =
         <div className={styles.equipmentsContainer}>
           <div className={styles.topListBar}>
             <div className={styles.topListButtons}>
-              <button className={styles.newItemButton} onClick={() => {
+              <button title="Novo Equipamento" className={styles.newItemButton} onClick={() => {
                 setModalOpen(!modalOpen);
                 handleShowComponent("AddEquipment");
               }}>
                 <FaPlus />
               </button>
-              <button className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
-                <FaFilter />
-              </button>
-              <button className={styles.filterButton} onClick={() => {
+              <p className={styles.pipe}>|</p>
+              <button title="Exportar PDF" className={styles.exportButton} onClick={() => {
                 handleDownloadPdf();
-                setReportType("PDF")
-                }}>
+              }}>
                 <FaFilePdf />
               </button>
-              <button className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
+              <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
+                exportToExcel();
+              }}>
                 <FaTable />
+              </button>
+              <p className={styles.pipe}>|</p>
+              <button title="Filtrar" className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
+                <FaFilter />
               </button>
             </div>
           </div>
@@ -137,38 +159,34 @@ const EquipmentList =
         }
         {
           reportState.generating && !reportState.downloaded && (<BlobProvider
-          document={<EquipmentsReport data={equipments} reportType={reportType} />}
-        >
-          {({blob, loading}) => {
-            if(blob && !loading && !isDownloading.current){
-              isDownloading.current = true
-              const link = document.createElement("a");
-              link.href = URL.createObjectURL(blob);
-              if(reportType == "PDF"){
-                link.download = 'equipamentos.pdf';
-              }else if(reportType == "XLSX"){
-                link.download = 'equipamentos.xlsx';
-              }
-              link.style.display = 'none';
+            document={<EquipmentsReport data={dataToReports} />}
+          >
+            {({ blob, loading }) => {
+              if (blob && !loading && !isDownloading.current) {
+                isDownloading.current = true
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = 'equipamentos.pdf';           
+                link.style.display = 'none';
 
-              link.onclick = ()=>{
-                setTimeout(() => {
-                  document.body.removeChild(link);
-                  URL.revokeObjectURL(link.href)
-                  setReportState({
-                    generating: false,
-                    downloaded: true
-                  }, 100);
-                });
-              };
-              
-              document.body.appendChild(link);
-              link.click();
-            }
-            return null
-          }}
-        </BlobProvider>
-        )}
+                link.onclick = () => {
+                  setTimeout(() => {
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href)
+                    setReportState({
+                      generating: false,
+                      downloaded: true
+                    }, 100);
+                  });
+                };
+
+                document.body.appendChild(link);
+                link.click();
+              }
+              return null
+            }}
+          </BlobProvider>
+          )}
       </div>
     )
   }
