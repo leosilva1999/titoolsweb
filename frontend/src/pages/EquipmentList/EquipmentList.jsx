@@ -14,6 +14,7 @@ import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
+import {exportToExcel} from '../../utils/exportToXlsx'
 
 const EquipmentList =
   () => {
@@ -72,14 +73,7 @@ const EquipmentList =
       isDownloading.current = false;
     }
 
-    const exportToExcel = () => {
-      const worksheet = XLSX.utils.json_to_sheet(dataToReports);
-
-      const workbook = XLSX.utils.book_new();
-
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Relatorio");
-      XLSX.writeFile(workbook, "Equipamentos.xlsx")
-    }
+    
     return (
 
       <div>
@@ -106,7 +100,7 @@ const EquipmentList =
                 <FaFilePdf />
               </button>
               <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
-                exportToExcel();
+                exportToExcel(dataToReports);
               }}>
                 <FaTable />
               </button>
