@@ -96,7 +96,7 @@ const LoanList = () => {
             <div className={styles.loanListContainer}>
                 <div className={styles.loanListTable}>
                     <div className={styles.topListButtons}>
-                        <button className={styles.newItemButton} onClick={() => {
+                        <button title="Novo Empréstimo" className={styles.newItemButton} onClick={() => {
                             setModalOpen(!modalOpen);
                             handleShowComponent("AddLoan");
                         }}>
@@ -114,7 +114,7 @@ const LoanList = () => {
                             <FaTable />
                         </button>
                         <p className={styles.pipe}>|</p>
-                        <button className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
+                        <button title="Filtrar" className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
                             <FaFilter />
                         </button>
                     </div>
@@ -144,12 +144,12 @@ const LoanList = () => {
                                     }
                                     </td>
                                     <td>
-                                        <button className={styles.editLoanButton}><FaListUl /></button>
-                                        {loan.loanStatus && <button className={styles.undoLoanButton}><FaUndo /></button>}
-                                        <button className={styles.deleteLoanButton} onClick={() => {
+                                        <button title="Detalhes" className={styles.editLoanButton}><FaListUl /></button>
+                                        {loan.loanStatus && <button title="Devolver" className={styles.undoLoanButton}><FaUndo /></button>}
+                                        {!loan.loanStatus && <button title="Apagar" className={styles.deleteLoanButton} onClick={() => {
                                             setModalOpen(!modalOpen);
                                             handleShowComponent("DeleteLoan", loan.loanId);
-                                        }}><FaTrash /></button>
+                                        }}><FaTrash /></button>}
                                     </td>
                                 </tr>
                             ))}

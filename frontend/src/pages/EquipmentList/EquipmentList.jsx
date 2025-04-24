@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styles from "./EquipmentList.module.css"
 
-import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable } from "react-icons/fa";
+import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable, FaListUl } from "react-icons/fa";
 import { BlobProvider } from '@react-pdf/renderer';
 import { useDispatch, useSelector } from "react-redux"
 
@@ -122,6 +122,7 @@ const EquipmentList =
                       <p style={{ color: "green", fontWeight: "bold" }}>Disponível</p>
                     }
                     <div className={styles.itemButtonContainer}>
+                      <button title="Detalhes" className={styles.editEquipmentButton}><FaListUl /></button>
                       {equipment.equipmentLoanStatus ?
                         <button title="Devolver" className={styles.undoLoanItemButton}>
                           <FaUndo />
@@ -145,12 +146,12 @@ const EquipmentList =
                           <FaHandshake />
                         </button>
                       }
-                      <button title="Remover" className={styles.deleteItemButton} onClick={() => {
+                      {!equipment.equipmentLoanStatus && <button title="Remover" className={styles.deleteItemButton} onClick={() => {
                         setModalOpen(!modalOpen);
                         handleShowComponent("DeleteEquipment", equipment.equipmentId);
                       }}>
                         <FaTrash />
-                      </button>
+                      </button>}
                     </div>
                   </div>
                 </li>

@@ -44,6 +44,19 @@ const postLoan = async(user, body) => {
     }
 }
 
+const putLoan = async(user, loanId, body) =>{
+    const config = requestConfig("PUT", body, user.token)
+    
+    try {
+        const res = await fetch(api + `/Loans/${loanId}`, config)
+        console.log("putLoan res: " + res);
+
+        return res
+    } catch (error) {
+        console.log("putLoan error: " + error)
+    }
+}
+
 const deleteLoan = async(user, loanId) => {
     const config = requestConfig("DELETE", null, user.token)
 
@@ -63,6 +76,7 @@ const deleteLoan = async(user, loanId) => {
 const loanService = {
     getLoans,
     postLoan,
+    putLoan,
     deleteLoan,
 }
 
