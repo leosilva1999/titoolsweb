@@ -18,6 +18,7 @@ import { getLoans, postLoan, reset } from "../../slices/loanSlice";
 import { toast } from 'react-toastify';
 import LoansQueryFilter from '../../QueryFilter/LoansQueryFilter/LoansQueryFilter';
 import DeleteLoan from '../../components/DeleteLoan/DeleteLoan';
+import UpdateLoan from '../../components/UpdateLoan/UpdateLoan';
 
 
 const LoanList = () => {
@@ -52,6 +53,7 @@ const LoanList = () => {
 
     const handleShowComponent = (componentName, data = null) => {
         componentName === "AddLoan" ? setModalContent(<AddLoan />) : null;
+        componentName === "UpdateLoan" ? setModalContent(<UpdateLoan selectedLoan={data} />) : null;
         componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
     };
 
@@ -144,7 +146,10 @@ const LoanList = () => {
                                     }
                                     </td>
                                     <td>
-                                        <button title="Detalhes" className={styles.editLoanButton}><FaListUl /></button>
+                                        <button title="Detalhes" className={styles.editLoanButton}  onClick={() => {
+                                            setModalOpen(!modalOpen);
+                                            handleShowComponent("UpdateLoan", loan);
+                                        }}><FaListUl /></button>
                                         {loan.loanStatus && <button title="Devolver" className={styles.undoLoanButton}><FaUndo /></button>}
                                         {!loan.loanStatus && <button title="Apagar" className={styles.deleteLoanButton} onClick={() => {
                                             setModalOpen(!modalOpen);

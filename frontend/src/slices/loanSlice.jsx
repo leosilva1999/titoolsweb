@@ -35,6 +35,19 @@ export const postLoan = createAsyncThunk(
     }
 )
 
+export const putLoan = createAsyncThunk(
+    "loan/putLoan",
+    async({user, loanId, body}, thunkAPI) => {
+        const data = await loanService.putLoan(user, loanId, body);
+        
+        if(data.status != 204){
+            return thunkAPI.rejectWithValue(data.message);
+        };
+
+        return data;
+    }
+)
+
 export const deleteLoan = createAsyncThunk(
     "loan/deleteLoan",
     async({user, loanId}, thunkAPI) => {
@@ -94,6 +107,23 @@ export const loanSlice = createSlice({
                 state.success = false;
                 state.error = true;
                 state.message = action.payload.message || "Erro ao criar empréstimo";
+            })
+
+            // cases pra putLoan
+            .addCase(putLoan.pending, (state)=>{
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(putLoan.fulfilled, (state, action)=>{
+                state.loading = false;
+                state.success = true;
+                state.message = action.payload?.message || "Emprestimo alterado com sucesso!";
+                console.log("fullfiled");
+            }).addCase(putLoan.rejected, (state, action)=>{
+                state.loading = false;
+                state.success = false;
+                state.error = action.payload.status;
+                state.message = action.payload?.message || "Erro ao alterar empréstimo";
             })
             
             // Cases para deleteLoan

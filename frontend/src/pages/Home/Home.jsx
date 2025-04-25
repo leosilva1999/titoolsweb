@@ -1,10 +1,15 @@
 import React from 'react'
-import AddEquipment from '../../components/AddEquipment/AddEquipment'
-
+import styles from './Home.module.css'
+import aplacLogo from '../../assets/aplacLogo.png'
 const Home = () => {
   return (
     <div>
-        <h1>HOME</h1>
+      <div className={styles.header}>
+        <h1 className={styles.homeTitle}>Seja bem-vindo!</h1>
+      </div>
+      <div className={styles.logoContainer}>
+        <img src={aplacLogo} alt="logo" style={{width: "40vw"}} />
+      </div>
     </div>
   )
 }
