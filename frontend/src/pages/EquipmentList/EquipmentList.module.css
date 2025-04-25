@@ -6,7 +6,7 @@
     margin-right: 5em;
     margin-bottom: 0;
     margin-top: 1.5em;
-    padding: 1em 2em 1em;
+    padding: 0;
     background-color: #fff5;
     color: #202020;
     backdrop-filter: blur(8px);
@@ -16,14 +16,24 @@
 
 .equipmentsHeader h2{
     margin: 0;
+    color: #036;
+    margin-left: 3rem;
 }
 
 .equipmentsHeader label{
-    padding-right: 0.8em;
-    padding-bottom: 0.2em;
     font-size: 30px;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+.headerIcon{
+    background-color: #036;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+    width: 8vw;
 }
 
 .equipmentsContainer{

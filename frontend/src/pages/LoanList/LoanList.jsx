@@ -92,7 +92,9 @@ const LoanList = () => {
                 {modalContent}
             </Modal>
             <div className={styles.loansHeader}>
-                <label><FaHandshake /></label>
+                <div className={styles.headerIcon}>
+                    <label><FaHandshake /></label>
+                </div>
                 <h2>Empréstimos</h2>
             </div>
             <div className={styles.loanListContainer}>
@@ -146,7 +148,7 @@ const LoanList = () => {
                                     }
                                     </td>
                                     <td>
-                                        <button title="Detalhes" className={styles.editLoanButton}  onClick={() => {
+                                        <button title="Detalhes" className={styles.editLoanButton} onClick={() => {
                                             setModalOpen(!modalOpen);
                                             handleShowComponent("UpdateLoan", loan);
                                         }}><FaListUl /></button>

@@ -12,22 +12,23 @@
 
 .userMenu{
     position: absolute;
-    top: 4.5rem;
-    right: 4rem;
-    width: 80px;
-    padding: 15px;
-    border-radius: 15px;
+    top: 3.5rem;
+    right: 2rem;
+    width: 150px;
+    padding: 0;
     background-color: white;
-    border: 1px solid gray;
+    border: 0.2px solid gray;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 .2rem .4rem #0005;
   }
 
-  .userMenu::before{
+  .userMenu::after{
     content: '';
     position: absolute;
-    top: -0.7rem;
-    right: 1.1rem;
-    width: 20px;
-    height: 20px;
+    top: -0.2rem;
+    right: 4.5rem;
+    width: 5px;
+    height: 5px;
     transform: rotate(45deg);
     background-color: white;
     border-left: 1px solid gray;
@@ -44,7 +45,10 @@
   .userMenuLink{
     margin-top: 5px;
     cursor: pointer;
-    color: #191919;
+    color: #036;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .userMenuLink span{
     margin-right: 5px;
@@ -55,8 +59,30 @@
     padding: 3px;
     cursor: pointer;
     color: white;
-    background-color: black;
+    background-color: #036;
   }
+
+  .userMenuLinkLogout{
+    margin-top: 5px;
+    cursor: pointer;
+    color: #b30021;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .userMenuLinkLogout span{
+    margin-right: 5px;
+  }
+
+  .userMenuLinkLogout:hover{
+    margin-top: 2px;
+    padding: 3px;
+    cursor: pointer;
+    color: white;
+    background-color: #b30021;
+  }
+
 
   .menuIcons{
     width: 25px;

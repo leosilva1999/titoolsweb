@@ -13,7 +13,7 @@ import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
-import {exportToExcel} from '../../utils/exportToXlsx'
+import { exportToExcel } from '../../utils/exportToXlsx'
 
 const EquipmentList =
   () => {
@@ -73,7 +73,7 @@ const EquipmentList =
       isDownloading.current = false;
     }
 
-    
+
     return (
 
       <div>
@@ -81,7 +81,9 @@ const EquipmentList =
           {modalContent}
         </Modal>
         <div className={styles.equipmentsHeader}>
-          <label><FaLaptop /></label>
+          <div className={styles.headerIcon}>
+            <label><FaLaptop /></label>
+          </div>
           <h2>Equipamentos</h2>
         </div>
         <div className={styles.equipmentsContainer}>
@@ -130,7 +132,7 @@ const EquipmentList =
                         :
                         <button title="Emprestar" className={styles.loanItemButton} onClick={() => {
                           const selected = {
-                            value: equipment.equipmentId, 
+                            value: equipment.equipmentId,
                             label: equipment.equipmentName
                           };
                           //setSelectedEquipmentToLoan(selected)
@@ -172,7 +174,7 @@ const EquipmentList =
                 isDownloading.current = true
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
-                link.download = 'equipamentos.pdf';           
+                link.download = 'equipamentos.pdf';
                 link.style.display = 'none';
 
                 link.onclick = () => {

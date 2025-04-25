@@ -3,7 +3,6 @@
     justify-content: start;
     align-items: center;
     margin: 1.5em 2em 0em;
-    padding: 1em 2em 1em;
     background-color: #fff5;
     color: #202020;
     backdrop-filter: blur(8px);
@@ -13,14 +12,26 @@
 
 .loansHeader h2{
     margin: 0;
+    color: #036;
+    margin-left: 3rem;
 }
 
 .loansHeader label{
-    padding-right: 0.8em;
-    padding-bottom: 0.2em;
     font-size: 30px;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+.headerIcon{
+    background-color: #036;
+    max-width: 86px;
+    min-width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+    width: 8vw;
 }
 
 .loanListTable{
@@ -42,7 +53,7 @@
     border-collapse: collapse;
     width: 100%;
     min-height: 10vh;
-    margin: 3rem 1rem 0rem;
+    margin: none;
 }
 
 .loanListTable th, td{
@@ -116,6 +127,7 @@ td {
     justify-content: right;
     height: 100%;
     display: flex;
+    margin-right: 1vw;
 }
 
 .newItemButton{
