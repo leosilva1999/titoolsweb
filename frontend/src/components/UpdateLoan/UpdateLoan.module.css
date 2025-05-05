@@ -36,11 +36,10 @@
 }
 
 .inputBox{
-    position: relative;
-    display: inline;
+    display: grid;
     width: 60vh;
     height: 40px;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 
 .inputBox input, select{
@@ -62,8 +61,28 @@
     border-radius: 3px;
     cursor: pointer;
     height: 30px;
-    width: 60vh;
+    width: 30%;
     margin: 10px 0;
+}
+
+.CancelBtn{
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 30px;
+    width: 30%;
+    margin: 10px 0;
+}
+
+.formButtonsContainer{
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+
 }
 
 .brand{

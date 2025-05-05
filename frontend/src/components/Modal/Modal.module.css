@@ -13,7 +13,7 @@
   
   .Modal {
     background: white;
-    padding: 5vh;
+    padding: none;
     border-radius: 8px;
     max-width: 700px;
     width: auto;

@@ -73,6 +73,13 @@ const AddLoan = ({selectedEquipment}) => {
     }, [success, error, message, dispatch])
 
 
+    useEffect(() => {
+        return () => {
+            setSelectedOptions([]);
+            setLoanIds([]);
+        };
+    }, []);
+
     const loadMoreEquipmentsSelect = () => {
         setLimit(limit + 10);
     }
@@ -82,7 +89,7 @@ const AddLoan = ({selectedEquipment}) => {
         return (
             <components.MenuList{...props}>
                 {children}
-                <button onClick={() => loadMoreEquipmentsSelect} className={styles.loadMoreBtn}>
+                <button onClick={() => loadMoreEquipmentsSelect()} className={styles.loadMoreBtn}>
                     {loading ? "Carregando..." : "Carregar mais"}
                 </button>
             </components.MenuList>
@@ -136,8 +143,8 @@ const AddLoan = ({selectedEquipment}) => {
                         placeholder="Selecione os equipamentos"
                         components={{ MenuList: CustomMenuList }}
                         onChange={(selectedOptions) => {
-                            const selectedValues = selectedOptions.map(option => option.value)
-                            setLoanIds(selectedValues)
+                            setSelectedOptions(selectedOptions || []);
+                            setLoanIds(selectedOptions ? selectedOptions.map(option => option.value) : []);
                         }}
                     />
                 </div>
