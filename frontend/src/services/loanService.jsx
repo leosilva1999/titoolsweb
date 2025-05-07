@@ -51,7 +51,7 @@ const putLoan = async(user, loanId, body) =>{
         const res = await fetch(api + `/Loans/${loanId}`, config)
         console.log("putLoan res: " + res);
 
-        return res
+        return {success: true, status: 204}
     } catch (error) {
         console.log("putLoan error: " + error)
     }

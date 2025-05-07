@@ -3,7 +3,7 @@ import styles from "./UpdateLoan.module.css"
 
 
 import { useSelector, useDispatch } from "react-redux"
-import { getEquipments } from '../../slices/equipmentSlice';
+import { getEquipments, updateStatus } from '../../slices/equipmentSlice';
 import { putLoan, reset } from "../../slices/loanSlice";
 
 import {FaEdit, FaSave} from "react-icons/fa";
@@ -59,15 +59,20 @@ const UpdateLoan = ({ selectedLoan }) => {
     const handleUpdateLoan = async (e) => {
         e.preventDefault();
 
-        const loan = {
-            applicantName: applicantName,
-            authorizedBy: authorizedBy,
-            requestTime: requestTime,
-            returnTime: returnTime,
-            equipmentIds: loanIds
-        };
+        let loan = {};
+        
+        applicantName ? loan = {...loan, applicantName: applicantName} : null;
+        authorizedBy ? loan = {...loan, authorizedBy: authorizedBy} : null;
+        requestTime ? loan = {...loan, requestTime: requestTime} : null;
+        returnTime ? loan = {...loan, returnTime: returnTime} : null;
+        loanIds ? loan = {...loan, equipmentIds: loanIds} : null;
 
         dispatch(putLoan({ user, loanId: selectedLoan.loanId, body: loan }))
+        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds }))
+        
+        let equipmentsToRemove = loanIds.filter(loanId => !selectedLoan.equipments.some(le => le.equipmentId === loanId))
+
+        equipmentsToRemove && dispatch(updateStatus({user, equipmentStatus: false , body: equipmentsToRemove }))
     }
 
     const handleCancelEdit = () => {
@@ -144,9 +149,8 @@ const UpdateLoan = ({ selectedLoan }) => {
                     {!requestTime && <label className="absolute left-3 top-2 text-grey-400 pointer-events-none">Data da retirada</label>}
                     {isUpdating && <input
                         type="datetime-local"
-                        value={requestTime}
+                        value={selectedLoan.requestTime}
                         disabled={!isUpdating}
-                        placeholder="Hora da requisição"
                         onChange={(e) => setRequestTime(e.target.value)}
                         onFocus={(e) => e.target.showPicker()}
                         className="w-full border p-2 text-black bg-transparent"
@@ -154,20 +158,19 @@ const UpdateLoan = ({ selectedLoan }) => {
                     />}
                     {!isUpdating && <input type="text" disabled={!isUpdating} placeholder={formatToBrazilianDate(selectedLoan.requestTime)} />}
                 </div>
-                <div className={styles.inputBox}>
+                {selectedLoan.returnTime && <div className={styles.inputBox}>
                     {!returnTime && <label className="absolute left-3 top-2 text-grey-400 pointer-events-none">Data da devolução</label>}
                     {isUpdating && <input
                         type="datetime-local"
-                        value={returnTime}
+                        value={selectedLoan.returnTime}
                         disabled={!isUpdating}
-                        placeholder="Hora da requisição"
                         onChange={(e) => setReturnTime(e.target.value)}
                         onFocus={(e) => e.target.showPicker()}
                         className="w-full border p-2 text-black bg-transparent"
                         
                     />}
                     {!isUpdating && <input type="text" disabled={!isUpdating} placeholder={formatToBrazilianDate(selectedLoan.returnTime)} />}
-                </div>
+                </div>}
                 <div className={styles.inputBox}>
                     <Select
                         isMulti

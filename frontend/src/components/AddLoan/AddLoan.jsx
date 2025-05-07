@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./AddLoan.module.css"
 
 import { useSelector, useDispatch } from "react-redux"
-import { getEquipments } from '../../slices/equipmentSlice';
+import { getEquipments, updateStatus } from '../../slices/equipmentSlice';
 import { postLoan, reset } from "../../slices/loanSlice";
 import Select, { components } from 'react-select'
 import { toast } from 'react-toastify';
@@ -55,7 +55,8 @@ const AddLoan = ({selectedEquipment}) => {
             equipmentIds: loanIds
         };
 
-        dispatch(postLoan({ user, body: loan }))
+        dispatch(postLoan({ user, body: loan }));
+        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds }));
     }
 
     //const handleShowMoreSelect = async

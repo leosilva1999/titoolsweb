@@ -52,6 +52,19 @@ export const deleteEquipment = createAsyncThunk(
     }
 )
 
+export const updateStatus = createAsyncThunk(
+    "equipment/updateStatus",
+    async({user, equipmentStatus, body}, thunkAPI) => {
+        const data = await equipmentService.updateStatus(user, equipmentStatus, body);
+
+        if(data.status != 204){
+            return thunkAPI.rejectWithValue(data.message);
+        }
+
+        return data
+    }
+)
+
 export const equipmentSlice = createSlice({
     name: "equipment",
     initialState,
@@ -65,7 +78,9 @@ export const equipmentSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(getEquipments.pending, (state)=>{
+        builder
+        //get equipments
+        .addCase(getEquipments.pending, (state)=>{
             state.loading = true;
             state.error = false;
             console.log("pending")
@@ -85,7 +100,10 @@ export const equipmentSlice = createSlice({
             state.error = action.payload;
             state.equipment = null;
             console.log("rejected: " + state.error)
-        }).addCase(postEquipment.pending, (state)=>{
+        })
+        
+        //post equipments
+        .addCase(postEquipment.pending, (state)=>{
             state.loading = true;
             state.error = false;
             console.log("pending")
@@ -100,7 +118,10 @@ export const equipmentSlice = createSlice({
             state.success = false;
             state.error = action.payload.status;
             state.message = action.payload.message
-        }).addCase(deleteEquipment.pending, (state)=>{
+        })
+        
+        //delete equipments
+        .addCase(deleteEquipment.pending, (state)=>{
             state.loading = true;
             state.error = false;
             console.log("pending")
@@ -115,6 +136,24 @@ export const equipmentSlice = createSlice({
             state.success = false;
             state.error = action.payload.status;
             state.message = action.payload.message
+        })
+
+        //update equipment status
+        .addCase(updateStatus.pending, (state)=>{
+            state.loading = true;
+            state.error = false;
+            console.log("pending")
+        }).addCase(updateStatus.fulfilled, (state)=>{
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.message = "Status alterado com sucesso";
+            console.log("fulfilled");
+        }).addCase(updateStatus.rejected, (state, action)=>{
+            state.loading = false;
+            state.success = false;
+            state.error = action.payload.status;
+            state.message = action.payload.message;
         })
     }})
 

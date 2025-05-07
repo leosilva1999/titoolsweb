@@ -114,7 +114,7 @@ export const loanSlice = createSlice({
                 state.loading = true;
                 state.error = false;
                 console.log("pending")
-            }).addCase(putLoan.fulfilled, (state, action)=>{
+            }).addCase(putLoan.fulfilled, (state)=>{
                 state.loading = false;
                 state.success = true;
                 state.message = "Emprestimo alterado com sucesso!";

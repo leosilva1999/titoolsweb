@@ -54,7 +54,7 @@ const deleteEquipment = async(user, equipmentId) => {
     try{
         const res = await fetch(api + `/Equipment/${equipmentId}`, config)
             .then((res) => res.json())
-            .catch((err) => err)
+            .catch((err) => err);
 
             console.log("deleteEquipment res: " + res);
 
@@ -64,10 +64,25 @@ const deleteEquipment = async(user, equipmentId) => {
     }
 }
 
+const updateStatus = async(user, equipmentStatus, body) => {
+    const config = requestConfig("PUT", body, user.token)
+    
+    try{
+        const res = await fetch(api + `/Equipment/updatestatus/${equipmentStatus}`, config)
+            .then((res) => res.json())
+            .catch((err) => err);
+
+            return res;
+    }catch(error){
+        console.log("updatestatus error: " + error);
+    }
+}
+
 const equipmentService = {
     getEquipments,
     postEquipment,
     deleteEquipment,
+    updateStatus,
 }
 
 export default equipmentService;
