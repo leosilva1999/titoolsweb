@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import LoansQueryFilter from '../../QueryFilter/LoansQueryFilter/LoansQueryFilter';
 import DeleteLoan from '../../components/DeleteLoan/DeleteLoan';
 import UpdateLoan from '../../components/UpdateLoan/UpdateLoan';
+import FinishLoan from '../../components/FinishLoan/FinishLoan';
 
 
 const LoanList = () => {
@@ -55,6 +56,7 @@ const LoanList = () => {
         componentName === "AddLoan" ? setModalContent(<AddLoan />) : null;
         componentName === "UpdateLoan" ? setModalContent(<UpdateLoan selectedLoan={data} />) : null;
         componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
+        componentName === "FinishLoan" ? setModalContent(<FinishLoan loanToFinish={data} setModalOpen={setModalOpen} />) : null;
     };
 
     useEffect(() => {
@@ -152,7 +154,12 @@ const LoanList = () => {
                                             setModalOpen(!modalOpen);
                                             handleShowComponent("UpdateLoan", loan);
                                         }}><FaListUl /></button>
-                                        {loan.loanStatus && <button title="Devolver" className={styles.undoLoanButton}><FaUndo /></button>}
+                                        {loan.loanStatus && <button title="Devolver" className={styles.undoLoanButton} onClick={
+                                            ()=> {
+                                                setModalOpen(!modalOpen);
+                                                handleShowComponent("FinishLoan", loan);
+                                            }
+                                        }><FaUndo /></button>}
                                         {!loan.loanStatus && <button title="Apagar" className={styles.deleteLoanButton} onClick={() => {
                                             setModalOpen(!modalOpen);
                                             handleShowComponent("DeleteLoan", loan.loanId);

@@ -44,7 +44,7 @@ export const putLoan = createAsyncThunk(
             return thunkAPI.rejectWithValue(data.message);
         };
 
-        return data;
+        return {status: data.status, message: "NoContent"};
     }
 )
 

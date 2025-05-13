@@ -4,7 +4,7 @@ export const formatToBrazilianDate = (date) => {
     return format(date, 'dd/MM/yyyy')
 }
 
-export const formatToInput = (date) => {
-    const dataObj = typeof date === 'string' ? parseISO(date) : date;
+export const formatToISO = (date) => {
+    const dataObj = new Date(date);
     return formatISO(dataObj).substring(0, 16);
 }

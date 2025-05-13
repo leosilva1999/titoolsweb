@@ -61,7 +61,7 @@ export const updateStatus = createAsyncThunk(
             return thunkAPI.rejectWithValue(data.message);
         }
 
-        return data
+        return {status: data.status, message: "NoContent"};
     }
 )
 
@@ -147,7 +147,7 @@ export const equipmentSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.error = null;
-            state.message = "Status alterado com sucesso";
+            state.message = "NoContent";
             console.log("fulfilled");
         }).addCase(updateStatus.rejected, (state, action)=>{
             state.loading = false;
