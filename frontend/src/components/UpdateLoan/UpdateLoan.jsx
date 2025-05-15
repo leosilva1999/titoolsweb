@@ -67,12 +67,13 @@ const UpdateLoan = ({ selectedLoan }) => {
         returnTime ? loan = {...loan, returnTime: returnTime} : null;
         loanIds ? loan = {...loan, equipmentIds: loanIds} : null;
 
-        dispatch(putLoan({ user, loanId: selectedLoan.loanId, body: loan }))
-        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds }))
-        
-        let equipmentsToRemove = loanIds.filter(loanId => !selectedLoan.equipments.some(le => le.equipmentId === loanId))
+        let selectedLoanEquipmentIds = selectedLoan.equipments.map(se => se.equipmentId)
 
+        let equipmentsToRemove = selectedLoanEquipmentIds.filter(equipmentId => !loanIds.some(le => le === equipmentId))
         equipmentsToRemove && dispatch(updateStatus({user, equipmentStatus: false , body: equipmentsToRemove }))
+
+        dispatch(putLoan({ user, loanId: selectedLoan.loanId, body: loan }))
+        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds })) 
     }
 
     const handleCancelEdit = () => {

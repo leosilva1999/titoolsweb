@@ -39,7 +39,7 @@ const LoanList = () => {
         returnTimeMin: "",
         returnTimeMax: "",
         loanStatus: "",
-        orderByDescending: ""
+        orderByDescending: true
     });
 
     const [modalOpen, setModalOpen] = useState(false);
