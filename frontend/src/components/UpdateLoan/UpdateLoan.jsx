@@ -25,7 +25,7 @@ const UpdateLoan = ({ selectedLoan }) => {
 
     const [isUpdating, setIsUpdating] = useState(false);
 
-    const [limit, setLimit] = useState(20);
+    const [limit, setLimit] = useState(300);
     const [offset, setOffset] = useState(0);
 
     const dispatch = useDispatch();
@@ -94,6 +94,7 @@ const UpdateLoan = ({ selectedLoan }) => {
     useEffect(() => {
         if (loading == false && success == true && message != null) {
             toast.success(message ? message.message : 'Operação realizada com sucesso!')
+            setIsUpdating(false)
             dispatch(reset())
         }
         else if (loading == false && success == false && message != null) {

@@ -39,6 +39,19 @@ export const postEquipment = createAsyncThunk(
     }
 )
 
+export const putEquipment = createAsyncThunk(
+    "equipment/putEquipment",
+    async({user, equipmentId, body}, thunkAPI) => {
+        const data = await equipmentService.putEquipment(user, equipmentId, body);
+        
+        if(data.status != 204){
+            return thunkAPI.rejectWithValue(data.message);
+        };
+
+        return {status: data.status, message: "NoContent"};
+    }
+)
+
 export const deleteEquipment = createAsyncThunk(
     "equipment/deleteEquipment",
     async({user, equipmentId}, thunkAPI) => {
@@ -120,6 +133,23 @@ export const equipmentSlice = createSlice({
             state.message = action.payload.message
         })
         
+        // cases pra putEquipment
+            .addCase(putEquipment.pending, (state)=>{
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(putEquipment.fulfilled, (state)=>{
+                state.loading = false;
+                state.success = true;
+                state.message = "Equipamento alterado com sucesso!";
+                console.log("fullfiled");
+            }).addCase(putEquipment.rejected, (state, action)=>{
+                state.loading = false;
+                state.success = false;
+                state.error = action.payload.status;
+                state.message = action.payload?.message || "Erro ao alterar equipamento";
+            })
+
         //delete equipments
         .addCase(deleteEquipment.pending, (state)=>{
             state.loading = true;

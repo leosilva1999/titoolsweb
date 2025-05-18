@@ -48,6 +48,19 @@ const postEquipment = async(user, body) => {
     }
 }
 
+const putEquipment = async(user, equipmentId, body) =>{
+    const config = requestConfig("PUT", body, user.token)
+    
+    try {
+        const res = await fetch(api + `/Equipment/${equipmentId}`, config)
+        console.log("putEquipment res: " + res);
+
+        return {success: true, status: 204}
+    } catch (error) {
+        console.log("putLoan error: " + error)
+    }
+}
+
 const deleteEquipment = async(user, equipmentId) => {
     const config = requestConfig("DELETE", null, user.token)
 
@@ -81,6 +94,7 @@ const updateStatus = async(user, equipmentStatus, body) => {
 const equipmentService = {
     getEquipments,
     postEquipment,
+    putEquipment,
     deleteEquipment,
     updateStatus,
 }

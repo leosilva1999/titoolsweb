@@ -10,6 +10,7 @@ import Modal from '../../components/Modal/Modal';
 import AddEquipment from '../../components/AddEquipment/AddEquipment';
 import Pagination from '../../components/Pagination/Pagination';
 import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
+import UpdateEquipment from '../../components/UpdateEquipment/UpdateEquipment';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
@@ -44,6 +45,7 @@ const EquipmentList =
 
     const handleShowComponent = (componentName, data = null) => {
       componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} />) : null;
+      componentName === "UpdateEquipment" ? setModalContent(<UpdateEquipment selectedEquipment={data} setModalOpen={setModalOpen} />) : null;
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
       //componentName === "AddLoan" ? setModalContent(<AddLoan selectedEquipment={selectedEquipmentToLoan} />) : null;
     };
@@ -124,7 +126,10 @@ const EquipmentList =
                       <p style={{ color: "green", fontWeight: "bold" }}>Disponível</p>
                     }
                     <div className={styles.itemButtonContainer}>
-                      <button title="Detalhes" className={styles.editEquipmentButton}><FaListUl /></button>
+                      <button title="Detalhes" className={styles.editEquipmentButton} onClick={() => {
+                        setModalOpen(!modalOpen);
+                        handleShowComponent("UpdateEquipment", equipment)
+                      }}><FaListUl /></button>
                       {equipment.equipmentLoanStatus ?
                         <button title="Devolver" className={styles.undoLoanItemButton}>
                           <FaUndo />

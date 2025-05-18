@@ -16,7 +16,7 @@ const AddLoan = ({selectedEquipment}) => {
     const [loanIds, setLoanIds] = useState([]);
     const { user } = useSelector((state) => state.auth) || {}
     const { availableEquipments, message, error, loading, success } = useSelector((state) => state.equipment);
-    const [limit, setLimit] = useState(20);
+    const [limit, setLimit] = useState(300);
     const [offset, setOffset] = useState(0);
 
     const dispatch = useDispatch();
