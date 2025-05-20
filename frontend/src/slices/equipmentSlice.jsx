@@ -3,6 +3,7 @@ import equipmentService from "../services/equipmentService";
 
 const initialState = {
     equipments: null,
+    equipmentWithLoans: null,
     availableEquipments: null,
     equipmentCount: null,
     error: false,
@@ -21,6 +22,18 @@ export const getEquipments = createAsyncThunk(
             return thunkAPI.rejectWithValue(data.errors);
         }
         return {...data, meta: {forSelect}};
+    }
+)
+
+export const getEquipmentWithLoans = createAsyncThunk(
+    "equipment/getEquipmentWithLoans",
+    async({user, equipmentId}, thunkAPI) => {
+        const data = await equipmentService.getEquipmentWithLoans(user, equipmentId);
+
+        if(data.errors){
+            return thunkAPI.rejectWithValue(data.errors);
+        }
+        return data;
     }
 )
 
@@ -113,6 +126,24 @@ export const equipmentSlice = createSlice({
             state.error = action.payload;
             state.equipment = null;
             console.log("rejected: " + state.error)
+        })
+
+
+        //get equipment with loans
+        .addCase(getEquipmentWithLoans.pending, (state)=>{
+            state.loading = true;
+            state.error = false;
+            console.log("pending")
+        }).addCase(getEquipmentWithLoans.fulfilled, (state, action)=>{
+            state.loading = false;
+            state.success = true;
+            state.equipmentWithLoans = action.payload;
+            console.log("fullfiled");
+        }).addCase(getEquipmentWithLoans.rejected, (state, action)=>{
+            state.loading = false;
+            state.success = false;
+            state.error = action.payload.status;
+            state.message = action.payload?.message || "Erro buscar empréstimos";
         })
         
         //post equipments

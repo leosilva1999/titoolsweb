@@ -3,20 +3,20 @@ import styles from "./UpdateEquipment.module.css"
 
 
 import { useSelector, useDispatch } from "react-redux"
-import { putEquipment, reset } from '../../slices/equipmentSlice';
+import { getEquipmentWithLoans, putEquipment, reset } from '../../slices/equipmentSlice';
 
-import {FaEdit, FaSave} from "react-icons/fa";
+import { FaEdit, FaSave } from "react-icons/fa";
 import { toast } from 'react-toastify';
 
 import { formatToBrazilianDate } from '../../utils/dateFormatter';
 
 const UpdateEquipment = ({ selectedEquipment }) => {
-    const [equipmentName, setEquipmentName] = useState("");
-    const [ipAddress, setIpAddress] = useState("");
-    const [macAddress, setMacAddress] = useState("");
+    const [equipmentName, setEquipmentName] = useState(selectedEquipment.equipmentName);
+    const [ipAddress, setIpAddress] = useState(selectedEquipment.ipAddress);
+    const [macAddress, setMacAddress] = useState(selectedEquipment.macAddress);
 
     const { user } = useSelector((state) => state.auth) || {}
-    const { message, error, loading, success } = useSelector((state) => state.equipment);
+    const { equipmentWithLoans, message, error, loading, success } = useSelector((state) => state.equipment);
 
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -29,12 +29,12 @@ const UpdateEquipment = ({ selectedEquipment }) => {
         e.preventDefault();
 
         let equipment = {};
-        
-        equipmentName ? equipment = {...equipment, equipmentName: equipmentName} : null;
-        ipAddress ? equipment = {...equipment, ipAddress: ipAddress} : null;
-        macAddress ? equipment = {...equipment, macAddress: macAddress} : null;
 
-        dispatch(putEquipment({ user, equipmentId: selectedEquipment.equipmentId, body: equipment })) 
+        equipmentName && equipmentName != selectedEquipment.equipmentName ? equipment = { ...equipment, equipmentName: equipmentName } : null;
+        ipAddress && ipAddress != selectedEquipment.ipAddress ? equipment = { ...equipment, ipAddress: ipAddress } : null;
+        macAddress && macAddress != selectedEquipment.macAddress ? equipment = { ...equipment, macAddress: macAddress } : null;
+
+        dispatch(putEquipment({ user, equipmentId: selectedEquipment.equipmentId, body: equipment }))
     }
 
     const handleCancelEdit = () => {
@@ -44,6 +44,10 @@ const UpdateEquipment = ({ selectedEquipment }) => {
         setIpAddress("");
         setMacAddress("");
     }
+
+    useEffect(() => {
+        dispatch(getEquipmentWithLoans({ user, equipmentId: selectedEquipment.equipmentId }));
+    }, [])
 
 
     useEffect(() => {
@@ -72,7 +76,7 @@ const UpdateEquipment = ({ selectedEquipment }) => {
                         disabled={!isUpdating}
                         placeholder={selectedEquipment.equipmentName}
                         onChange={(e) => setEquipmentName(e.target.value)}
-                        
+
                     />
                 </div>
                 <div className={styles.inputBox}>
@@ -82,7 +86,7 @@ const UpdateEquipment = ({ selectedEquipment }) => {
                         disabled={!isUpdating}
                         placeholder={selectedEquipment.ipAddress}
                         onChange={(e) => setIpAddress(e.target.value)}
-                        
+
                     />
                 </div>
                 <div className={styles.inputBox}>
@@ -92,9 +96,40 @@ const UpdateEquipment = ({ selectedEquipment }) => {
                         disabled={!isUpdating}
                         placeholder={selectedEquipment.macAddress}
                         onChange={(e) => setMacAddress(e.target.value)}
-                        
+
                     />
-                </div>           
+                </div>
+                {
+                    !isUpdating && <div className={styles.loansContainer}>
+                    <label className={styles.loansHeader}><h3>Empréstimos</h3></label>
+                        <table>
+                            <thead className={styles.tableHeader}>
+                                <th>Solicitante</th>
+                                <th>Solicitado</th>
+                                <th>Devolvido</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                {
+                                    equipmentWithLoans && equipmentWithLoans[0].loans.map((loan, index) => (
+                                        <tr className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
+                                            <td>{loan.applicantName}</td>
+                                            <td>{formatToBrazilianDate(loan.requestTime)}</td>
+                                            <td>{loan.returnTime ? formatToBrazilianDate(loan.returnTime) : "-"}</td>
+                                            <td>{loan.loanStatus == true ? (
+                                                <label className={`${styles.statusBase} ${styles.statusEmAndamento}`}>Em andamento</label>
+                                            ) : (
+                                                <label className={`${styles.statusBase} ${styles.statusFinalizado}`}>Finalizado</label>
+                                            )
+                                            }
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
                 <div className={styles.formButtonsContainer}>
                     {!isUpdating && <button
                         type="button"
@@ -102,14 +137,14 @@ const UpdateEquipment = ({ selectedEquipment }) => {
                         className={styles.AddLoanBtn}
                         onClick={() => setIsUpdating(!isUpdating)}
                     >
-                        <FaEdit/> Editar
+                        <FaEdit /> Editar
                     </button>}
                     {isUpdating && <button
                         type="submit"
                         disabled={loading}
                         className={styles.AddLoanBtn}
                     >
-                        <FaSave/>{loading ? "Salvando..." : "Salvar"}
+                        <FaSave />{loading ? "Salvando..." : "Salvar"}
                     </button>}
                     {isUpdating && <button
                         type="button"

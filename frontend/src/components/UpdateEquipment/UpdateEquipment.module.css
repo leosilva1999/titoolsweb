@@ -101,3 +101,60 @@
     background-color: #f9f9f9;
     cursor: pointer;
 }
+
+.statusBase{   
+    border-radius: 2rem;
+    color: aliceblue;
+}
+
+.statusFinalizado{
+    color: #006b21;
+}
+
+.statusEmAndamento{
+    color: #b30021;
+}
+
+.loansHeader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loansHeader h3{
+    color: #036;
+}
+
+.loansContainer{
+    justify-content: center;
+    align-items: center;
+    padding: 0em 0em 1em;
+    overflow: auto;
+    min-width: 30vw;
+    border-collapse: collapse;
+}
+
+.loansContainer table{
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    min-height: 10vh;
+    margin: none;
+}
+
+.loansContainer th, td{
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
+.evenRow{
+    background-color: #ffffff;
+}
+.oddRow{
+    background-color: #D9D9D9;
+}
+
+.tableHeader{
+    background-color: #036;
+    color: white;
+}
