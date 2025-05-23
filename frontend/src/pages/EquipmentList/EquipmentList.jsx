@@ -11,6 +11,7 @@ import AddEquipment from '../../components/AddEquipment/AddEquipment';
 import Pagination from '../../components/Pagination/Pagination';
 import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 import UpdateEquipment from '../../components/UpdateEquipment/UpdateEquipment';
+import ReleaseEquipment from '../../components/ReleaseEquipment/ReleaseEquipment';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
@@ -32,7 +33,6 @@ const EquipmentList =
       equipmentLoanStatus: "",
     });
 
-    const [selectedEquipmentToLoan, setSelectedEquipmentToLoan] = useState(null);
 
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState(null);
@@ -47,7 +47,7 @@ const EquipmentList =
       componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} />) : null;
       componentName === "UpdateEquipment" ? setModalContent(<UpdateEquipment selectedEquipment={data} setModalOpen={setModalOpen} />) : null;
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
-      //componentName === "AddLoan" ? setModalContent(<AddLoan selectedEquipment={selectedEquipmentToLoan} />) : null;
+      componentName === "ReleaseEquipment" ? setModalContent(<ReleaseEquipment data={data} />) : null;
     };
 
     useEffect(() => {
@@ -131,7 +131,10 @@ const EquipmentList =
                         handleShowComponent("UpdateEquipment", equipment)
                       }}><FaListUl /></button>
                       {equipment.equipmentLoanStatus ?
-                        <button title="Devolver" className={styles.undoLoanItemButton}>
+                        <button title="Devolver" className={styles.undoLoanItemButton} onClick={() => {
+                          setModalOpen(!modalOpen);
+                          handleShowComponent("ReleaseEquipment", equipment.equipmentId)
+                        }}>
                           <FaUndo />
                         </button>
                         :

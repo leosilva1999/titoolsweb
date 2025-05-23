@@ -47,6 +47,18 @@ export const putLoan = createAsyncThunk(
         return {status: data.status, message: "NoContent"};
     }
 )
+export const deleteEquipmentFromLoan = createAsyncThunk(
+    "loan/deleteEquipmentFromLoan",
+    async({user, equipmentId}, thunkAPI) => {
+        const data = await loanService.deleteEquipmentFromLoan(user, equipmentId);
+        
+        if(data.status != 204){
+            return thunkAPI.rejectWithValue(data.message);
+        };
+
+        return {status: data.status, message: "NoContent"};
+    }
+)
 
 export const deleteLoan = createAsyncThunk(
     "loan/deleteLoan",

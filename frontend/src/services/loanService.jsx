@@ -57,6 +57,20 @@ const putLoan = async(user, loanId, body) =>{
     }
 }
 
+const deleteEquipmentFromLoan = async(user, equipmentId) =>{
+    const config = requestConfig("PUT", null, user.token)
+    
+    try {
+        const res = await fetch(api + `/Loans/deleteequipmentfromloan/${equipmentId}`, config)
+        console.log("deleteEquipmentFromLoan res: ");
+        console.dir(res)
+
+        return res
+    } catch (error) {
+        console.log("deleteEquipmentFromLoan error: " + error)
+    }
+}
+
 const deleteLoan = async(user, loanId) => {
     const config = requestConfig("DELETE", null, user.token)
 
@@ -77,6 +91,7 @@ const loanService = {
     getLoans,
     postLoan,
     putLoan,
+    deleteEquipmentFromLoan,
     deleteLoan,
 }
 
