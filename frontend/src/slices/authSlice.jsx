@@ -24,9 +24,36 @@ export const login = createAsyncThunk(
             return thunkAPI.rejectWithValue(data.message)
         }
 
-        return data
+        return data;
     }
 );
+
+export const createUser = createAsyncThunk(
+    "auth/createUser",
+    async(user, thunkAPI) => {
+        const data = await authService.createUser(user);
+
+        //check for errors
+        if(data.errors){
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
+export const getUsers = createAsyncThunk(
+    "auth/getUsers",
+    async({user, limit, offset}, thunkAPI) => {
+        const data = await authService.getUsers(user, limit, offset);
+
+        //check for errors
+        if(data.errors){
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
 
 //sign out an user
 export const logout = createAsyncThunk(

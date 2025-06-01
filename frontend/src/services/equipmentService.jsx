@@ -6,7 +6,7 @@ const getEquipments = async(user, limit, offset, filters = {}) => {
 
 
     const params = {
-        limit: Math.min(limit, 30), 
+        limit: Math.min(limit, 300), 
         offset,
         ...filters
     }
