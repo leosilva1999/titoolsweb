@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -6,6 +6,8 @@ const refreshToken = sessionStorage.getItem("refreshToken");
 
 const initialState = {
     user: user ? user : null,
+    users: null,
+    usersCount: null,
     //refreshToken: refreshToken ? refreshToken : null,
     error: false,
     success: false,
@@ -16,11 +18,11 @@ const initialState = {
 
 export const login = createAsyncThunk(
     "auth/login",
-    async(user, thunkAPI) => {
+    async (user, thunkAPI) => {
         const data = await authService.login(user);
 
         // check for error
-        if(data.errors){
+        if (data.errors) {
             return thunkAPI.rejectWithValue(data.message)
         }
 
@@ -30,11 +32,11 @@ export const login = createAsyncThunk(
 
 export const createUser = createAsyncThunk(
     "auth/createUser",
-    async(user, thunkAPI) => {
+    async (user, thunkAPI) => {
         const data = await authService.createUser(user);
 
         //check for errors
-        if(data.errors){
+        if (data.errors) {
             return thunkAPI.rejectWithValue(data.message)
         }
 
@@ -43,11 +45,11 @@ export const createUser = createAsyncThunk(
 )
 export const getUsers = createAsyncThunk(
     "auth/getUsers",
-    async({user, limit, offset}, thunkAPI) => {
+    async ({ user, limit, offset }, thunkAPI) => {
         const data = await authService.getUsers(user, limit, offset);
 
         //check for errors
-        if(data.errors){
+        if (data.errors) {
             return thunkAPI.rejectWithValue(data.message)
         }
 
@@ -58,7 +60,7 @@ export const getUsers = createAsyncThunk(
 //sign out an user
 export const logout = createAsyncThunk(
     "auth/logout",
-    async() => {
+    async () => {
         await authService.logout();
     }
 );
@@ -92,38 +94,63 @@ export const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(login.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(login.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.success = true;
-            state.error = null;
-            state.user = {
-                token: action.payload.token,
-                expiration: action.payload.expiration,
-                errors: action.payload.errors
-            };
-            state.refreshToken = action.payload.refreshToken;
-            console.log("fulfilled")
-        }).addCase(login.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-            state.user = null;
-            console.log("rejected: " + state.error)
-        }).addCase(logout.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(logout.fulfilled, (state)=>{
-            state.loading = false;
-            state.success = true;
-            state.error = null;
-            state.user = null;
-            state.refreshToken = null;
-            console.log("fulfilled")
-        })/*.addCase(refreshtoken.pending,  (state)=>{
+        builder
+            // cases para Login
+            .addCase(login.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(login.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.user = {
+                    token: action.payload.token,
+                    expiration: action.payload.expiration,
+                    errors: action.payload.errors
+                };
+                state.refreshToken = action.payload.refreshToken;
+                console.log("fulfilled")
+            }).addCase(login.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+                state.user = null;
+                console.log("rejected: " + state.error)
+            })
+
+            //cases para logout
+            .addCase(logout.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(logout.fulfilled, (state) => {
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.user = null;
+                state.refreshToken = null;
+                console.log("fulfilled")
+            })
+
+            //cases para getUsers
+            .addCase(getUsers.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(getUsers.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.users = action.payload.users;
+                state.usersCount = action.payload.usersCount;
+                console.log("fulfilled")
+            }).addCase(getUsers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message || "Erro ao buscar usuários";
+                console.table("rejected: " + state.error)
+            })
+
+        // cases para refreshToken(desativado)
+        /*.addCase(refreshtoken.pending,  (state)=>{
             state.loading = true;
             state.error = false;
             console.log("pending")
@@ -146,6 +173,6 @@ export const authSlice = createSlice({
     },
 });
 
-export const {reset} = authSlice.actions;
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;
 

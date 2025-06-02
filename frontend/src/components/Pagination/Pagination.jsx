@@ -20,7 +20,7 @@ const Pagination = ({ limit, setLimit, registerCount, offset, setOffset }) => {
     return (
         <div className={styles.paginationContainer}>
             <div className={styles.setLimitContainer}>
-                <label>Registros por pagina:</label>
+                <label>Itens por pagina:</label>
                 <select value={limit} onChange={e => setLimit(e.target.value)}>
                     <option value="10">10</option>
                     <option value="20">20</option>

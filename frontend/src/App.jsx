@@ -10,13 +10,14 @@ import { useAuth } from './hooks/useAuth'
 // pages
 import Home from './pages/Home/Home'
 import EquipmentList from './pages/EquipmentList/EquipmentList'
+import LoanList from './pages/LoanList/LoanList'
+import Users from './pages/Auth/Users/Users'
 import Login from './pages/Auth/Login'
 
 //components
 import Layout from './Layout/Layout'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
-import LoanList from './pages/LoanList/LoanList'
 
 function App() {
   const { auth, loading } = useAuth()
@@ -36,6 +37,7 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route index element={auth ? <Home /> : <Navigate to="/login" />}></Route>
             <Route path='/login' element={!auth ? <Login /> : <Navigate to="/" />}></Route>
+            <Route path='/users' element={auth ? <Users /> : <Navigate to="/login" />}></Route>
             <Route path='/equipmentlist' element={auth ? <EquipmentList /> : <Navigate to="/login" />}></Route>
             <Route path='/loanlist' element={auth ? <LoanList /> : <Navigate to="/login" />}></Route>
           </Route>

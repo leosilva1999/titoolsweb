@@ -1,0 +1,81 @@
+.usersPage{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.usersHeader{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 1.5em 2em 0em;
+    background-color: #fff5;
+    color: #202020;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 .2rem .4rem #0005;
+    border-radius: .42rem;
+}
+
+.usersHeader h2{
+    margin: 0;
+    color: #036;
+    margin-left: 3rem;
+}
+
+.usersHeader label{
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+.headerIcon{
+    background-color: #036;
+    max-width: 86px;
+    min-width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+    width: 8vw;
+}
+
+.usersTable{
+    justify-content: center;
+    align-items: center;
+    margin: 1em 2em 5em;
+    padding: 1em 0em 0em;
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .2rem .4rem #0005;
+    border-radius: .42rem;
+    overflow: auto;
+    min-width: 30vw;
+    max-width: 900px;
+    border-collapse: collapse;
+}
+
+.usersTable table{ 
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    min-height: 10vh;
+    margin: none;
+}
+
+.tableHeader{
+    background-color: #036;
+    color: white;
+}
+
+.usersTable th, td{
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
+.evenRow{
+    background-color: #ffffff;
+}
+.oddRow{
+    background-color: #D9D9D9;
+}

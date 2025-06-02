@@ -27,7 +27,7 @@ const UserMenu = ({setOpenUserMenu}) => {
         <div className={styles.container}>
           <ul className={styles.userMenuList}>
               <div className={styles.userMenuLink}><li><span>Profile</span><FaUser/></li></div>
-              <div className={styles.userMenuLink}><li><span>Users</span><FaUsers/></li></div>
+              <NavLink className={styles.userMenuLink} to="/users"><li><span>Users</span><FaUsers/></li></NavLink>
               <div className={styles.userMenuLink}><li><span>Settings</span><FaCog/></li></div>
               <div className={styles.userMenuLinkLogout} onClick={handleLogout}><li>{loading?<span>Saindo...</span>:<span>Logout</span>}<FaSignOutAlt/></li></div>
           </ul>

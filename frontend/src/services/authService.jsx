@@ -73,9 +73,11 @@ const refreshToken = async (data) => {
 const getUsers = async (user, limit, offset) => {
     const config = requestConfig("GET", null, user.token)
 
-    res = await fetch(api + `/Auth?limit=${limit}&offset=${offset}`, config)
+    const res = await fetch(api + `/Auth?limit=${limit}&offset=${offset}`, config)
         .then((res) => res.json())
         .catch((err) => err);;
+
+    console.table(res.response);
     
     return res;
 }
