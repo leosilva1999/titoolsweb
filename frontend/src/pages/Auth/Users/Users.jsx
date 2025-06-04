@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 
-import { FaPlus, FaFilter, FaTrash, FaUser } from "react-icons/fa";
+import { FaPlus, FaFilter, FaTrash, FaUser, FaListUl } from "react-icons/fa";
 
 import styles from "./Users.module.css"
 
@@ -47,9 +47,21 @@ const Users = () => {
         <div className={styles.headerIcon}>
           <label><FaUser /></label>
         </div>
-        <h2>Empréstimos</h2>
+        <h2>Usuários</h2>
       </div>
       <div className={styles.usersTable}>
+        <div className={styles.topListButtons}>
+          <button title="Novo Empréstimo" className={styles.newItemButton} /*onClick={() => {
+            setModalOpen(!modalOpen);
+            handleShowComponent("AddLoan");
+          }}*/>
+            <FaPlus />
+          </button>
+          <p className={styles.pipe}>|</p>
+          <button title="Filtrar" className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
+            <FaFilter />
+          </button>
+        </div>
         <table>
           <thead className={styles.tableHeader}>
             <th>Nome</th>
@@ -61,7 +73,16 @@ const Users = () => {
               <tr className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                 <td>{user.userName}</td>
                 <td>{user.email}</td>
-                <td>botão</td>
+                <td>
+                  <button title="Detalhes" className={styles.editUserButton} /*onClick={() => {
+                    setModalOpen(!modalOpen);
+                    handleShowComponent("UpdateLoan", loan);
+                  }}*/><FaListUl /></button>
+                  <button title="Apagar" className={styles.deleteUserButton} /*onClick={() => {
+                    setModalOpen(!modalOpen);
+                    handleShowComponent("DeleteLoan", loan.loanId);
+                  }}*/><FaTrash /></button>
+                </td>
               </tr>
             ))}
           </tbody>
