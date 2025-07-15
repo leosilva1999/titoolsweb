@@ -10,6 +10,8 @@ import Modal from '../../../components/Modal/Modal';
 
 import { getUsers, reset } from "../../../slices/authSlice";
 
+import AddUser from '../../../components/AddUser/AddUser'
+import DeleteUser from '../../../components/DeleteUser/DeleteUser';
 
 import { formatToBrazilianDate } from '../../../utils/dateFormatter';
 
@@ -25,6 +27,11 @@ const Users = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
+
+  const handleShowComponent = (componentName, data = null) => {
+    componentName === "AddUser" ? setModalContent(<AddUser />) : null;
+    componentName === "DeleteUser" ? setModalContent(<DeleteUser data={data} setModalOpen={setModalOpen} />) : null;
+};
 
   useEffect(() => {
     dispatch(getUsers({ user, limit, offset }));
@@ -51,10 +58,10 @@ const Users = () => {
       </div>
       <div className={styles.usersTable}>
         <div className={styles.topListButtons}>
-          <button title="Novo Empréstimo" className={styles.newItemButton} /*onClick={() => {
+          <button title="Novo Usuário" className={styles.newItemButton} onClick={() => {
             setModalOpen(!modalOpen);
-            handleShowComponent("AddLoan");
-          }}*/>
+            handleShowComponent("AddUser");
+          }}>
             <FaPlus />
           </button>
           <p className={styles.pipe}>|</p>
@@ -64,13 +71,15 @@ const Users = () => {
         </div>
         <table>
           <thead className={styles.tableHeader}>
-            <th>Nome</th>
-            <th>E-mail</th>
-            <th>Ações</th>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Ações</th>
+            </tr>
           </thead>
           <tbody className={styles.tableBody}>
             {users && users.map((user, index) => (
-              <tr className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
+              <tr key={user.id} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                 <td>{user.userName}</td>
                 <td>{user.email}</td>
                 <td>
@@ -78,10 +87,10 @@ const Users = () => {
                     setModalOpen(!modalOpen);
                     handleShowComponent("UpdateLoan", loan);
                   }}*/><FaListUl /></button>
-                  <button title="Apagar" className={styles.deleteUserButton} /*onClick={() => {
+                  <button title="Apagar" className={styles.deleteUserButton} onClick={() => {
                     setModalOpen(!modalOpen);
-                    handleShowComponent("DeleteLoan", loan.loanId);
-                  }}*/><FaTrash /></button>
+                    handleShowComponent("DeleteUser", user.email);
+                  }}><FaTrash /></button>
                 </td>
               </tr>
             ))}

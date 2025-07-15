@@ -24,8 +24,8 @@ const login = async (data) => {
 
 //create an user
 
-const createUser = async (data) => {
-    const config = requestConfig("POST", data)
+const createUser = async (body) => {
+    const config = requestConfig("POST", body.user)
 
     try {
 
@@ -82,12 +82,55 @@ const getUsers = async (user, limit, offset) => {
     return res;
 }
 
+const addUserToRole = async (user, body) => {
+    const config = requestConfig("POST", null, user.token)
+    
+    const res = await fetch(api + `/Auth/AddUserToRole?email=${body.email}&rolename=${body.roleName}`, config)
+    .then((res) => res.json())
+    .catch((err) => err);
+    
+    return res;
+}
+
+const removeUserFromRole = async(user, email, rolename) => {
+    const config = requestConfig("DELETE", null, user.token)
+
+    const res = await fetch(api + `/Auth/RemoveUserFromRole?email=${email}}&rolename=${rolename}`, config)
+    .then((res) => res.json())
+    .catch((err) => err);
+
+    return res;
+}
+const removeUserFromAllRoles = async(user, email) => {
+    const config = requestConfig("DELETE", null, user.token)
+
+    const res = await fetch(api + `/Auth/RemoveUserFromAllRoles?email=${email}}`, config)
+    .then((res) => res.json())
+    .catch((err) => err);
+
+    return res;
+}
+
+const deleteUser = async(user, email) => {
+    const config = requestConfig("DELETE", null, user.token)
+
+    const res = await fetch(api + `/Auth/DeleteUser?email=${email}`, config)
+    .then((res) => res.json())
+    .catch((err) => err);
+
+    return res;
+}
+
 const authService = {
     login,
     logout,
     refreshToken,
     createUser,
-    getUsers
+    getUsers,
+    addUserToRole,
+    removeUserFromRole,
+    removeUserFromAllRoles,
+    deleteUser
 };
 
 export default authService;

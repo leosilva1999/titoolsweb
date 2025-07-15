@@ -12,6 +12,7 @@ const initialState = {
     error: false,
     success: false,
     loading: false,
+    message: null,
 };
 
 // sign in an user
@@ -32,8 +33,8 @@ export const login = createAsyncThunk(
 
 export const createUser = createAsyncThunk(
     "auth/createUser",
-    async (user, thunkAPI) => {
-        const data = await authService.createUser(user);
+    async (body, thunkAPI) => {
+        const data = await authService.createUser(body);
 
         //check for errors
         if (data.errors) {
@@ -43,6 +44,63 @@ export const createUser = createAsyncThunk(
         return data;
     }
 )
+
+export const addUserToRole = createAsyncThunk(
+    "auth/addUserToRole",
+    async ({user, body}, thunkAPI) => {
+        const data = await authService.addUserToRole(user, body);
+
+        //check for errors
+        if (data.errors) {
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
+
+export const removeUserFromRole = createAsyncThunk(
+    "auth/removeUserFromRole",
+    async ({user, email, rolename}, thunkAPI) => {
+        const data = await authService.removeUserFromRole(user, email, rolename);
+
+        //check for errors
+        if (data.errors) {
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
+
+export const removeUserFromAllRoles = createAsyncThunk(
+    "auth/removeUserFromAllRoles",
+    async ({user, email}, thunkAPI) => {
+        const data = await authService.removeUserFromAllRoles(user, email);
+
+        //check for errors
+        if (data.errors) {
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
+
+export const deleteUser = createAsyncThunk(
+    "auth/deleteUser",
+    async ({user, email}, thunkAPI) => {
+        const data = await authService.deleteUser(user, email);
+
+        //check for errors
+        if (data.errors) {
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
+
 export const getUsers = createAsyncThunk(
     "auth/getUsers",
     async ({ user, limit, offset }, thunkAPI) => {
@@ -148,6 +206,83 @@ export const authSlice = createSlice({
                 state.error = action.payload?.message || "Erro ao buscar usuários";
                 console.table("rejected: " + state.error)
             })
+
+            //cases para createUser
+            .addCase(createUser.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(createUser.fulfilled, (state) => {
+                state.loading = false;
+                state.success = true;
+                console.log("fulfilled")
+            }).addCase(createUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Erro ao criar usuário";
+                console.table("rejected: " + state.error)
+            })
+           
+            //cases para addUserToRole
+            .addCase(addUserToRole.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(addUserToRole.fulfilled, (state) => {
+                state.loading = false;
+                state.success = true;
+                console.log("fulfilled")
+            }).addCase(addUserToRole.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Erro ao adicionar usuário á role";
+                console.table("rejected: " + state.error)
+            })
+
+            //cases para removeUserFromRole
+            .addCase(removeUserFromRole.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(removeUserFromRole.fulfilled, (state) => {
+                state.loading = false;
+                state.success = true;
+                console.log("fulfilled")
+            }).addCase(removeUserFromRole.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Erro ao remover usuário da role";
+                console.table("rejected: " + state.error)
+            })
+           
+            //cases para removeUserFromAllRoles
+            .addCase(removeUserFromAllRoles.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(removeUserFromAllRoles.fulfilled, (state) => {
+                state.loading = false;
+                state.success = true;
+                console.log("fulfilled")
+            }).addCase(removeUserFromAllRoles.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Erro ao remover usuário das roles";
+                console.table("rejected: " + state.error)
+            })
+
+            //cases para deleteUser
+            .addCase(deleteUser.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(deleteUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.message = action.payload.message || "Usuário deletado!";
+                console.log("fulfilled")
+            }).addCase(deleteUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.status || "Erro ao remover usuário das roles";
+                console.table("rejected: " + state.error)
+            })
+
 
         // cases para refreshToken(desativado)
         /*.addCase(refreshtoken.pending,  (state)=>{
