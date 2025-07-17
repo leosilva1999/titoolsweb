@@ -70,12 +70,32 @@ const refreshToken = async (data) => {
     }
 }
 
-const getUsers = async (user, limit, offset) => {
+const getUsers = async (user, limit, offset, filters = {}) => {
     const config = requestConfig("GET", null, user.token)
 
-    const res = await fetch(api + `/Auth?limit=${limit}&offset=${offset}`, config)
-        .then((res) => res.json())
-        .catch((err) => err);;
+    const params = {
+        limit: Math.min(limit, 300), 
+        offset,
+        ...filters
+    }
+
+    const queryString = Object.keys(params)
+    .filter(key => params[key] != null && params[key] !== "")
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .join("&");
+
+console.log(queryString)
+
+    try {
+        const res = await fetch(api + `/Auth?${queryString}`, config)
+            .then((res) => res.json())
+            .catch((err) => err);
+
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
 
     console.table(res.response);
     

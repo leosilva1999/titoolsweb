@@ -103,8 +103,8 @@ export const deleteUser = createAsyncThunk(
 
 export const getUsers = createAsyncThunk(
     "auth/getUsers",
-    async ({ user, limit, offset }, thunkAPI) => {
-        const data = await authService.getUsers(user, limit, offset);
+    async ({ user, limit, offset, filters }, thunkAPI) => {
+        const data = await authService.getUsers(user, limit, offset, filters);
 
         //check for errors
         if (data.errors) {

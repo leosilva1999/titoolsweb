@@ -13,12 +13,14 @@ import { getUsers, reset } from "../../../slices/authSlice";
 import AddUser from '../../../components/AddUser/AddUser'
 import DeleteUser from '../../../components/DeleteUser/DeleteUser';
 
+import QueryFilter from '../../../QueryFilter/UsersQueryFilter/UsersQueryFilter';
+
 import { formatToBrazilianDate } from '../../../utils/dateFormatter';
 
 
 
 const Users = () => {
-  const { users, usersCount, error, loading, success, message } = useSelector((state) => state.auth);
+  const { users, usersCount } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth) || {}
   const dispatch = useDispatch();
 
@@ -28,22 +30,29 @@ const Users = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
 
+  const [openQueryFilter, setOpenQueryFilter] = useState(false);
+  const [filters, setFilters] = useState({
+          username: "",
+          email: "",
+          role: "",
+      });
+
   const handleShowComponent = (componentName, data = null) => {
     componentName === "AddUser" ? setModalContent(<AddUser />) : null;
     componentName === "DeleteUser" ? setModalContent(<DeleteUser data={data} setModalOpen={setModalOpen} />) : null;
 };
 
   useEffect(() => {
-    dispatch(getUsers({ user, limit, offset }));
+    dispatch(getUsers({ user, limit, offset, filters }));
     console.table(users)
     dispatch(reset());
   }, [])
 
   useEffect(() => {
-    dispatch(getUsers({ user, limit, offset }));
+    dispatch(getUsers({ user, limit, offset, filters }));
     console.table(users)
     dispatch(reset());
-  }, [limit, offset])
+  }, [limit, offset, filters])
 
   return (
     <div className={styles.usersPage}>
@@ -98,7 +107,9 @@ const Users = () => {
         </table>
         <Pagination registerCount={usersCount} limit={limit} setLimit={setLimit} offset={offset} setOffset={setOffset} />
       </div>
-
+            {
+                openQueryFilter && <QueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
+            }
     </div>
   )
 }
