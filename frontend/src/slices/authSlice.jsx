@@ -6,6 +6,7 @@ const refreshToken = sessionStorage.getItem("refreshToken");
 
 const initialState = {
     user: user ? user : null,
+    roles: null,
     users: null,
     usersCount: null,
     //refreshToken: refreshToken ? refreshToken : null,
@@ -42,6 +43,19 @@ export const createUser = createAsyncThunk(
         }
 
         return data;
+    }
+)
+
+export const putUser = createAsyncThunk(
+    "auth/putUser",
+    async({user, userId, body}, thunkAPI) => {
+        const data = await authService.putUser(user, userId, body);
+        
+        if(data.status != 200){
+            return thunkAPI.rejectWithValue(data.message);
+        };
+
+        return {status: data.status, message: data.message};
     }
 )
 
@@ -114,6 +128,21 @@ export const getUsers = createAsyncThunk(
         return data;
     }
 )
+
+export const getRoles = createAsyncThunk(
+    "auth/getRoles",
+    async ({ user, limit, offset }, thunkAPI) => {
+        const data = await authService.getRoles(user, limit, offset);
+
+        //check for errors
+        if (data.errors) {
+            return thunkAPI.rejectWithValue(data.message)
+        }
+
+        return data;
+    }
+)
+
 
 //sign out an user
 export const logout = createAsyncThunk(
@@ -206,6 +235,22 @@ export const authSlice = createSlice({
                 state.error = action.payload?.message || "Erro ao buscar usuários";
                 console.table("rejected: " + state.error)
             })
+            
+            //cases para getRoles
+            .addCase(getRoles.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(getRoles.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.roles = action.payload.roles;
+                console.log("fulfilled")
+            }).addCase(getRoles.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message || "Erro ao buscar roles";
+                console.table("rejected: " + state.error)
+            })
 
             //cases para createUser
             .addCase(createUser.pending, (state) => {
@@ -219,6 +264,22 @@ export const authSlice = createSlice({
             }).addCase(createUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Erro ao criar usuário";
+                console.table("rejected: " + state.error)
+            })
+
+            //cases para putUser
+            .addCase(putUser.pending, (state) => {
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(putUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.message = action.payload.message || "Usuário alterado!";
+                console.log("fulfilled")
+            }).addCase(putUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Erro ao atualizar usuário usuário";
                 console.table("rejected: " + state.error)
             })
            

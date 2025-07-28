@@ -16,6 +16,7 @@ import DeleteUser from '../../../components/DeleteUser/DeleteUser';
 import QueryFilter from '../../../QueryFilter/UsersQueryFilter/UsersQueryFilter';
 
 import { formatToBrazilianDate } from '../../../utils/dateFormatter';
+import UpdateUser from '../../../components/UpdateUser/UpdateUser';
 
 
 
@@ -39,6 +40,7 @@ const Users = () => {
 
   const handleShowComponent = (componentName, data = null) => {
     componentName === "AddUser" ? setModalContent(<AddUser />) : null;
+    componentName === "UpdateUser" ? setModalContent(<UpdateUser selectedUser={data} setModalOpen={setModalOpen} />) : null;
     componentName === "DeleteUser" ? setModalContent(<DeleteUser data={data} setModalOpen={setModalOpen} />) : null;
 };
 
@@ -92,10 +94,10 @@ const Users = () => {
                 <td>{user.userName}</td>
                 <td>{user.email}</td>
                 <td>
-                  <button title="Detalhes" className={styles.editUserButton} /*onClick={() => {
+                  <button title="Detalhes" className={styles.editUserButton} onClick={() => {
                     setModalOpen(!modalOpen);
-                    handleShowComponent("UpdateLoan", loan);
-                  }}*/><FaListUl /></button>
+                    handleShowComponent("UpdateUser", user);
+                  }}><FaListUl /></button>
                   <button title="Apagar" className={styles.deleteUserButton} onClick={() => {
                     setModalOpen(!modalOpen);
                     handleShowComponent("DeleteUser", user.email);

@@ -102,6 +102,37 @@ console.log(queryString)
     return res;
 }
 
+const getRoles = async(user, limit, offset) => {
+    const config =  requestConfig("GET", null, user.token);
+
+    try{
+        const res = await fetch(api + `/Auth/getRoles?limit=${limit}&offset=${offset}`, config)
+            .then((res) => res.json())
+            .catch((err) => err);
+
+        console.table("getRoles res: " + res.error);
+
+        return res;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+const putUser = async(user, userId, body) =>{
+    const config = requestConfig("PUT", body, user.token)
+    
+    try {
+        const res = await fetch(api + `/Auth/updateUser/?Id=${userId}`, config)
+            .then((res) => res.json())
+            .catch((err) => err);
+        console.log("putUser res: " + res);
+
+        return res;
+    } catch (error) {
+        console.log("putUser error: " + error)
+    }
+}
+
 const addUserToRole = async (user, body) => {
     const config = requestConfig("POST", null, user.token)
     
@@ -124,7 +155,7 @@ const removeUserFromRole = async(user, email, rolename) => {
 const removeUserFromAllRoles = async(user, email) => {
     const config = requestConfig("DELETE", null, user.token)
 
-    const res = await fetch(api + `/Auth/RemoveUserFromAllRoles?email=${email}}`, config)
+    const res = await fetch(api + `/Auth/RemoveUserFromAllRoles?email=${email}`, config)
     .then((res) => res.json())
     .catch((err) => err);
 
@@ -147,6 +178,8 @@ const authService = {
     refreshToken,
     createUser,
     getUsers,
+    getRoles,
+    putUser,
     addUserToRole,
     removeUserFromRole,
     removeUserFromAllRoles,

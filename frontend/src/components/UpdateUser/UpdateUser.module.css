@@ -1,0 +1,166 @@
+.addLoanContainer{
+    background-color: #ffffff;
+    color: #363636;
+    padding: 1em 2em;
+    max-width: 100%;
+    min-height: 30vh;
+    /*margin: 2em auto;*/
+    display: grid;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.addLoanContainer a{
+    text-align: center;
+}
+
+.addLoanContainer h2,
+.addLoanContainer h2{
+    text-align: center;
+    font-size: 2.1em;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.addLoanContainer form,
+.addLoanContainer form{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1.5em;
+}
+
+.addLoanTitle{
+    align-items: start;
+}
+
+.inputBox{
+    display: grid;
+    width: 60vh;
+    height: 40px;
+    margin: 10px 0;
+
+}
+
+.inputBox input, select{
+    margin: 0 0 0.5em 0;
+    width: 98%;
+    height: 90%;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid;
+    font-size: 16px;
+}
+
+.react-select__menu {
+  z-index: 1000; /* Garante que o dropdown fique acima do botão */
+}
+
+.AddLoanBtn{
+    background-color: #077920;
+    color: white;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 30px;
+    width: 30%;
+    margin: 10px 0;
+}
+
+.CancelBtn{
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 30px;
+    width: 30%;
+    margin: 10px 0;
+}
+
+.formButtonsContainer{
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    position: relative;
+    z-index: 1;
+}
+
+.brand{
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.loadMoreBtn{
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    border: none;
+    border-top: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.statusBase{   
+    border-radius: 2rem;
+    color: aliceblue;
+}
+
+.statusFinalizado{
+    color: #006b21;
+}
+
+.statusEmAndamento{
+    color: #b30021;
+}
+
+.loansHeader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loansHeader h3{
+    color: #036;
+}
+
+.loansContainer{
+    justify-content: center;
+    align-items: center;
+    padding: 0em 0em 1em;
+    overflow: auto;
+    min-width: 30vw;
+    border-collapse: collapse;
+}
+
+.loansContainer table{
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    min-height: 10vh;
+    margin: none;
+}
+
+.loansContainer th, td{
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
+.evenRow{
+    background-color: #ffffff;
+}
+.oddRow{
+    background-color: #D9D9D9;
+}
+
+.tableHeader{
+    background-color: #036;
+    color: white;
+}
