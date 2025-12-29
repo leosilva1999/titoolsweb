@@ -25,7 +25,7 @@ console.log(queryString)
             .then((res) => res.json())
             .catch((err) => err);
         
-        console.log("equipment service res: " + res);
+        console.table(res);
 
         return res;
     } catch (error) {

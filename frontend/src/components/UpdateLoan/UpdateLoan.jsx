@@ -7,7 +7,7 @@ import { getEquipments, updateStatus } from '../../slices/equipmentSlice';
 import { putLoan, reset } from "../../slices/loanSlice";
 
 import {FaEdit, FaSave} from "react-icons/fa";
-import Select, { components } from 'react-select'
+import AsyncSelect, { components } from 'react-select'
 import { toast } from 'react-toastify';
 
 import { formatToBrazilianDate } from '../../utils/dateFormatter';
@@ -19,24 +19,30 @@ const UpdateLoan = ({ selectedLoan }) => {
     const [returnTime, setReturnTime] = useState("");
 
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [loadedOptions, setLoadedOptions] = useState([]);
     const [loanIds, setLoanIds] = useState([]);
     const { user } = useSelector((state) => state.auth) || {}
     const { availableEquipments, message, error, loading, success } = useSelector((state) => state.equipment);
 
     const [isUpdating, setIsUpdating] = useState(false);
 
-    const [limit, setLimit] = useState(300);
+    const [limit, setLimit] = useState(10);
     const [offset, setOffset] = useState(0);
+    const [searchQuery, setSearchQuery] = useState(null);
 
     const dispatch = useDispatch();
+
+    const loadOptions = async (inputValue, loadedOptions) => {
+        setSearchQuery(inputValue);
+    }
 
     useEffect(() => {
         dispatch(getEquipments({ user, limit, offset }));
     }, [])
 
     useEffect(() => {
-        dispatch(getEquipments({ user, limit, offset, filters: { equipmentLoanStatus: false }, forSelect: true }));
-    }, [limit, offset])
+        dispatch(getEquipments({ user, limit, offset, filters: { equipmentLoanStatus: false, equipmentName: searchQuery }, forSelect: true }));
+    }, [limit, offset, searchQuery])
 
     useEffect(() => {
         if (selectedLoan && selectedLoan.equipments) {
@@ -49,12 +55,18 @@ const UpdateLoan = ({ selectedLoan }) => {
         }
     }, [selectedLoan])
 
-    const options = availableEquipments && availableEquipments.map((equipment) => (
-        {
-            value: equipment.equipmentId,
-            label: equipment.equipmentName
+    useEffect(() => {
+        if(availableEquipments != null){
+            setLoadedOptions(
+                availableEquipments.map((equipment) => (
+                    {
+                        value: equipment.equipmentId,
+                        label: equipment.equipmentName
+                    }
+                ))
+            )
         }
-    ))
+    }, [availableEquipments])
 
     const handleUpdateLoan = async (e) => {
         e.preventDefault();
@@ -174,14 +186,16 @@ const UpdateLoan = ({ selectedLoan }) => {
                     {!isUpdating && <input type="text" disabled={!isUpdating} placeholder={formatToBrazilianDate(selectedLoan.returnTime)} />}
                 </div>}
                 <div className={styles.inputBox}>
-                    <Select
+                    <AsyncSelect
                         isMulti
                         isDisabled={!isUpdating}
-                        isLoading={!options}
+                        isLoading={!loadedOptions}
                         maxMenuHeight={150}
                         menuPlacement="auto"
                         value={selectedOptions}
-                        options={options}
+                        
+                        loadOptions={loadOptions}
+                        defaultOptions={loadedOptions}
                         placeholder="Selecione os equipamentos"
                         components={{ MenuList: CustomMenuList }}
                         onChange={(selectedOptions) => {

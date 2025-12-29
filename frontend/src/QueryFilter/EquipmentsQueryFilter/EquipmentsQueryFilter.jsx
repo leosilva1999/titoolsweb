@@ -4,6 +4,9 @@ import styles from "./EquipmentsQueryFilter.module.css"
 const QueryFilter = ({ setOpenQueryFilter, setFilters, filtersInPage }) => {
     const [equipmentName, setEquipmentName] = useState(filtersInPage.equipmentName);
     const [macAddress, setMacAddress] = useState(filtersInPage.macAddress);
+    const [type, setType] = useState(filtersInPage.type);
+    const [manufacturer, setManufacturer] = useState(filtersInPage.manufacturer);
+    const [model, setModel] = useState(filtersInPage.model);
     const [equipmentLoanStatus, setEquipmentLoanStatus] = useState(filtersInPage.equipmentLoanStatus);
 
 
@@ -13,7 +16,10 @@ const QueryFilter = ({ setOpenQueryFilter, setFilters, filtersInPage }) => {
         const filters = {
             equipmentName,
             equipmentLoanStatus,
-            macAddress
+            macAddress,
+            type,
+            manufacturer,
+            model
         };
 
         setFilters(filters);
@@ -49,6 +55,30 @@ const QueryFilter = ({ setOpenQueryFilter, setFilters, filtersInPage }) => {
                                         value={macAddress}
                                         placeholder='Endereço MAC'
                                         onChange={(e) => setMacAddress(e.target.value)}
+                                    />
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <input
+                                        type='text'
+                                        value={type}
+                                        placeholder='Tipo'
+                                        onChange={(e) => setType(e.target.value)}
+                                    />
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <input
+                                        type='text'
+                                        value={manufacturer}
+                                        placeholder='Fabricante'
+                                        onChange={(e) => setManufacturer(e.target.value)}
+                                    />
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <input
+                                        type='text'
+                                        value={model}
+                                        placeholder='Modelo'
+                                        onChange={(e) => setModel(e.target.value)}
                                     />
                                 </div>
                                 <button type="submit" className={styles.FilterBtn}>Filtrar</button>
