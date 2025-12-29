@@ -14,6 +14,9 @@ const UpdateEquipment = ({ selectedEquipment }) => {
     const [equipmentName, setEquipmentName] = useState(selectedEquipment.equipmentName);
     const [ipAddress, setIpAddress] = useState(selectedEquipment.ipAddress);
     const [macAddress, setMacAddress] = useState(selectedEquipment.macAddress);
+    const [type, setType] = useState(selectedEquipment.type);
+    const [manufacturer, setManufacturer] = useState(selectedEquipment.manufacturer);
+    const [model, setModel] = useState(selectedEquipment.model);
 
     const { user } = useSelector((state) => state.auth) || {}
     const { equipmentWithLoans, message, error, loading, success } = useSelector((state) => state.equipment);
@@ -33,6 +36,9 @@ const UpdateEquipment = ({ selectedEquipment }) => {
         equipmentName && equipmentName != selectedEquipment.equipmentName ? equipment = { ...equipment, equipmentName: equipmentName } : null;
         ipAddress && ipAddress != selectedEquipment.ipAddress ? equipment = { ...equipment, ipAddress: ipAddress } : null;
         macAddress && macAddress != selectedEquipment.macAddress ? equipment = { ...equipment, macAddress: macAddress } : null;
+        type && type != selectedEquipment.type ? equipment = { ...equipment, type: type } : null;
+        manufacturer && manufacturer != selectedEquipment.manufacturer ? equipment = { ...equipment, manufacturer: manufacturer } : null;
+        model && model != selectedEquipment.model ? equipment = { ...equipment, model: model } : null;
 
         dispatch(putEquipment({ user, equipmentId: selectedEquipment.equipmentId, body: equipment }))
     }
@@ -43,6 +49,9 @@ const UpdateEquipment = ({ selectedEquipment }) => {
         setEquipmentName("");
         setIpAddress("");
         setMacAddress("");
+        setType("");
+        setManufacturer("");
+        setModel("");
     }
 
     useEffect(() => {
@@ -96,6 +105,36 @@ const UpdateEquipment = ({ selectedEquipment }) => {
                         disabled={!isUpdating}
                         placeholder={selectedEquipment.macAddress}
                         onChange={(e) => setMacAddress(e.target.value)}
+
+                    />
+                </div>
+                <div className={styles.inputBox}>
+                    <input
+                        type='text'
+                        value={type}
+                        disabled={!isUpdating}
+                        placeholder={selectedEquipment.type}
+                        onChange={(e) => setType(e.target.value)}
+
+                    />
+                </div>
+                <div className={styles.inputBox}>
+                    <input
+                        type='text'
+                        value={manufacturer}
+                        disabled={!isUpdating}
+                        placeholder={selectedEquipment.manufacturer}
+                        onChange={(e) => setManufacturer(e.target.value)}
+
+                    />
+                </div>
+                <div className={styles.inputBox}>
+                    <input
+                        type='text'
+                        value={model}
+                        disabled={!isUpdating}
+                        placeholder={selectedEquipment.model}
+                        onChange={(e) => setModel(e.target.value)}
 
                     />
                 </div>
