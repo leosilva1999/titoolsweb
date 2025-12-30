@@ -12,10 +12,11 @@ import Pagination from '../../components/Pagination/Pagination';
 import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 import UpdateEquipment from '../../components/UpdateEquipment/UpdateEquipment';
 import ReleaseEquipment from '../../components/ReleaseEquipment/ReleaseEquipment';
+import GenerateReport from '../../components/GenerateReport/GenerateReport';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
-import { exportToExcel } from '../../utils/exportToXlsx'
+import { exportToExcel } from '../../utils/exportToXlsx';
 
 const EquipmentList =
   () => {
@@ -30,6 +31,9 @@ const EquipmentList =
     const [filters, setFilters] = useState({
       equipmentName: "",
       macAddress: "",
+      type: "",
+      manufacturer: "",
+      model: "",
       equipmentLoanStatus: "",
     });
 
@@ -47,6 +51,7 @@ const EquipmentList =
       componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} />) : null;
       componentName === "UpdateEquipment" ? setModalContent(<UpdateEquipment selectedEquipment={data} setModalOpen={setModalOpen} />) : null;
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
+      componentName === "GenerateReport" ? setModalContent(<GenerateReport data={data} setModalOpen={setModalOpen} />) : null;
       componentName === "ReleaseEquipment" ? setModalContent(<ReleaseEquipment data={data} />) : null;
     };
 
@@ -59,11 +64,15 @@ const EquipmentList =
     }, [limit, offset, filters])
 
 
+
     const dataToReports = equipments && equipments.map(equip => ({
       ID: equip.equipmentId,
       Nome: equip.equipmentName,
       IP: equip.ipAddress,
       MAC: equip.macAddress,
+      Tipo: equip.type,
+      Fabricante: equip.manufacturer,
+      Modelo: equip.model,
       Status: equip.equipmentLoanStatus ? "Emprestado" : "Disponível"
     }))
 
@@ -99,13 +108,15 @@ const EquipmentList =
               </button>
               <p className={styles.pipe}>|</p>
               <button title="Exportar PDF" className={styles.exportButton} onClick={() => {
-                handleDownloadPdf();
-              }}>
+                        setModalOpen(!modalOpen);
+                        handleShowComponent("GenerateReport", {typeOfReport: "pdf", entity: "Equipment", filters})
+                      }}>
                 <FaFilePdf />
               </button>
               <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
-                exportToExcel(dataToReports, "Equipamentos");
-              }}>
+                        setModalOpen(!modalOpen);
+                        handleShowComponent("GenerateReport", {typeOfReport: "xlsx", entity: "Equipment", filters})
+                      }}>
                 <FaTable />
               </button>
               <p className={styles.pipe}>|</p>
@@ -120,6 +131,8 @@ const EquipmentList =
                 <li key={equipment.equipmentId}>
                   <div className={styles.equipmentBox}>
                     <h2>{equipment.equipmentName}</h2>
+                    <p>{equipment.type}</p>
+                    <p>{equipment.manufacturer} {equipment.model}</p>
                     {equipment.equipmentLoanStatus ?
                       <p style={{ color: "red", fontWeight: "bold" }}>Emprestado</p>
                       :

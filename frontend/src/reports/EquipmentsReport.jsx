@@ -9,14 +9,17 @@ const styles = StyleSheet.create({
 
 const EquipmentsReport = ({data}) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>Relatório de Clientes</Text>
+    <Page size="A4" orientation='landscape' style={styles.page}>
+        <Text style={styles.title}>Relatório de Equipamentos</Text>
         <PdfTable
             columns={[
                 {key: 'ID', title: 'ID'},
                 {key: 'Nome', title: 'Nome'},
                 {key: 'IP', title: 'IP'},
                 {key: 'MAC', title: 'MAC'},
+                {key: 'Tipo', title: 'Tipo'},
+                {key: 'Fabricante', title: 'Fabricante'},
+                {key: 'Modelo', title: 'Modelo'},
                 {key: 'Status', title: 'Status'},
 
             ]}

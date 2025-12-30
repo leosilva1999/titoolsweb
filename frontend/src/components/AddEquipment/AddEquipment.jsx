@@ -10,6 +10,9 @@ const AddEquipment = () => {
     const [nome, setNome] = useState("");
     const [ipAddress, setIpAddress] = useState("");
     const [macAddress, setMacAddress] = useState("");
+    const [type, setType] = useState("");
+    const [manufacturer, setManufacturer] = useState("");
+    const [model, setModel] = useState("");
 
     const { user } = useSelector((state) => state.auth) || {}
     const {error, loading, success, message} = useSelector((state) => state.equipment);
@@ -23,6 +26,9 @@ const AddEquipment = () => {
           equipmentName: nome,
           ipAddress: ipAddress,
           macAddress: macAddress,
+          type: type,
+          manufacturer: manufacturer,
+          model: model,
           qrCode: null,
           equipmentLoanStatus: false,
         };
@@ -77,6 +83,33 @@ const AddEquipment = () => {
                         value={macAddress}
                         placeholder='Endereço MAC'
                         onChange={(e) => setMacAddress(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className={styles.inputBox}>
+                    <input
+                        type="text"
+                        value={type}
+                        placeholder='Tipo'
+                        onChange={(e) => setType(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className={styles.inputBox}>
+                    <input
+                        type="text"
+                        value={manufacturer}
+                        placeholder='Fabricante'
+                        onChange={(e) => setManufacturer(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className={styles.inputBox}>
+                    <input
+                        type="text"
+                        value={model}
+                        placeholder='Modelo'
+                        onChange={(e) => setModel(e.target.value)}
                         required
                     />
                 </div>
