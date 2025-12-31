@@ -12,7 +12,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import DeleteEquipment from '../../components/DeleteEquipment/DeleteEquipment';
 import UpdateEquipment from '../../components/UpdateEquipment/UpdateEquipment';
 import ReleaseEquipment from '../../components/ReleaseEquipment/ReleaseEquipment';
-import GenerateReport from '../../components/GenerateReport/GenerateReport';
+import GenerateEquipmentReport from '../../components/GenerateEquipmentReport/GenerateEquipmentReport';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
@@ -51,7 +51,7 @@ const EquipmentList =
       componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} />) : null;
       componentName === "UpdateEquipment" ? setModalContent(<UpdateEquipment selectedEquipment={data} setModalOpen={setModalOpen} />) : null;
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
-      componentName === "GenerateReport" ? setModalContent(<GenerateReport data={data} setModalOpen={setModalOpen} />) : null;
+      componentName === "GenerateEquipmentReport" ? setModalContent(<GenerateEquipmentReport data={data} setModalOpen={setModalOpen} />) : null;
       componentName === "ReleaseEquipment" ? setModalContent(<ReleaseEquipment data={data} />) : null;
     };
 
@@ -109,13 +109,13 @@ const EquipmentList =
               <p className={styles.pipe}>|</p>
               <button title="Exportar PDF" className={styles.exportButton} onClick={() => {
                         setModalOpen(!modalOpen);
-                        handleShowComponent("GenerateReport", {typeOfReport: "pdf", entity: "Equipment", filters})
+                        handleShowComponent("GenerateEquipmentReport", {typeOfReport: "pdf", entity: "Equipment", filters})
                       }}>
                 <FaFilePdf />
               </button>
               <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
                         setModalOpen(!modalOpen);
-                        handleShowComponent("GenerateReport", {typeOfReport: "xlsx", entity: "Equipment", filters})
+                        handleShowComponent("GenerateEquipmentReport", {typeOfReport: "xlsx", entity: "Equipment", filters})
                       }}>
                 <FaTable />
               </button>

@@ -20,7 +20,7 @@ import LoansQueryFilter from '../../QueryFilter/LoansQueryFilter/LoansQueryFilte
 import DeleteLoan from '../../components/DeleteLoan/DeleteLoan';
 import UpdateLoan from '../../components/UpdateLoan/UpdateLoan';
 import FinishLoan from '../../components/FinishLoan/FinishLoan';
-
+import GenerateLoanReport from '../../components/GenerateLoanReport/GenerateLoanReport';
 
 const LoanList = () => {
 
@@ -46,17 +46,12 @@ const LoanList = () => {
     const [modalContent, setModalContent] = useState("");
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
 
-    const isDownloading = useRef(false);
-    const [reportState, setReportState] = useState({
-        generating: false,
-        downloaded: false,
-    })
-
     const handleShowComponent = (componentName, data = null) => {
         componentName === "AddLoan" ? setModalContent(<AddLoan />) : null;
         componentName === "UpdateLoan" ? setModalContent(<UpdateLoan selectedLoan={data} />) : null;
         componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
         componentName === "FinishLoan" ? setModalContent(<FinishLoan loanToFinish={data} setModalOpen={setModalOpen} />) : null;
+        componentName === "GenerateLoanReport" ? setModalContent(<GenerateLoanReport data={data} setModalOpen={setModalOpen} />) : null;
     };
 
     useEffect(() => {
@@ -71,22 +66,7 @@ const LoanList = () => {
         dispatch(reset());
     }, [limit, offset, filters])
 
-    const dataToReports = loans && loans.result.map(loan => ({
-        ID: loan.loanId,
-        Solicitante: loan.applicantName,
-        Autorizado_por: loan.authorizedBy,
-        Retirada: formatToBrazilianDate(loan.requestTime),
-        Retorno: formatToBrazilianDate(loan.returnTime),
-        Status: loan.loanStatus ? "Em andamento" : "Finalizado"
-    }))
 
-    const handleDownloadPdf = () => {
-        setReportState({
-            generating: true,
-            downloaded: false
-        })
-        isDownloading.current = false;
-    }
 
     return (
         <div>
@@ -110,12 +90,14 @@ const LoanList = () => {
                         </button>
                         <p className={styles.pipe}>|</p>
                         <button title="Exportar PDF" className={styles.exportButton} onClick={() => {
-                            handleDownloadPdf();
+                            setModalOpen(!modalOpen);
+                            handleShowComponent("GenerateLoanReport", {typeOfReport: "pdf", entity: "Loan", filters})
                         }}>
                             <FaFilePdf />
                         </button>
                         <button title="Exportar para Excel" className={styles.exportButton} onClick={() => {
-                            exportToExcel(dataToReports, "Empréstimos");
+                            setModalOpen(!modalOpen);
+                            handleShowComponent("GenerateLoanReport", {typeOfReport: "xlsx", entity: "Loan", filters})
                         }}>
                             <FaTable />
                         </button>
@@ -175,36 +157,6 @@ const LoanList = () => {
             {
                 openQueryFilter && <LoansQueryFilter setOpenQueryFilter={setOpenQueryFilter} setFilters={setFilters} filtersInPage={filters} />
             }
-            {
-                reportState.generating && !reportState.downloaded && (<BlobProvider
-                    document={<LoansReport data={dataToReports} />}
-                >
-                    {({ blob, loading }) => {
-                        if (blob && !loading && !isDownloading.current) {
-                            isDownloading.current = true
-                            const link = document.createElement("a");
-                            link.href = URL.createObjectURL(blob);
-                            link.download = 'emprestimos.pdf';
-                            link.style.display = 'none';
-
-                            link.onclick = () => {
-                                setTimeout(() => {
-                                    document.body.removeChild(link);
-                                    URL.revokeObjectURL(link.href)
-                                    setReportState({
-                                        generating: false,
-                                        downloaded: true
-                                    }, 100);
-                                });
-                            };
-
-                            document.body.appendChild(link);
-                            link.click();
-                        }
-                        return null
-                    }}
-                </BlobProvider>
-                )}
         </div>
     )
 }
