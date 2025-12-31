@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
       borderTopWidth: 0,
     },
     tableCell: {
-      margin: 'auto',
-      marginTop: 5,
+      marginVertical: 5,
+      marginHorizontal: 2,
       fontSize: 10,
     },
     header: {
@@ -36,7 +36,7 @@ const PdfTable = ({columns, data}) => {
   return (
     <View style={styles.table}>
         {/**Cabeçalho */}
-        <View style={[styles.header, styles.tableRow]}>
+        <View style={[styles.header, styles.tableRow]} fixed>
             {columns.map((col) => (
                 <View style={[styles.tableCol, {width: cellWidth}]} key={col.key}>
                     <Text style={styles.tableCell}>{col.title}</Text>
@@ -46,7 +46,7 @@ const PdfTable = ({columns, data}) => {
 
         {/**Dados */}
         {data.map((row, rowIndex) => (
-            <View style={styles.tableRow} key={rowIndex}>
+            <View style={styles.tableRow} wrap={false} key={rowIndex}>
                 {columns.map((col)=>(
                     <View style={[styles.tableCol, {width: cellWidth}]} key={col.key}>
                         <Text style={styles.tableCell}>{row[col.key]}</Text>

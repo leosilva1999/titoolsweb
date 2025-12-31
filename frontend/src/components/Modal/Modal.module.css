@@ -12,6 +12,8 @@
   }
   
   .Modal {
+    display: flex;
+    flex-direction: column;
     background: white;
     padding: none;
     border-radius: 8px;
@@ -19,6 +21,7 @@
     width: auto;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
+    max-height: 80vh;
   }
 
   .modalHeader {
@@ -31,6 +34,8 @@
     margin-top: 20px;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
+    flex: 1;
   }
 
 .timesIcon{
