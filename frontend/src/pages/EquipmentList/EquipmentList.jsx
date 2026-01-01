@@ -16,12 +16,11 @@ import GenerateEquipmentReport from '../../components/GenerateEquipmentReport/Ge
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
-import { exportToExcel } from '../../utils/exportToXlsx';
 
 const EquipmentList =
   () => {
 
-    const { equipments, equipmentCount, error, loading, success } = useSelector((state) => state.equipment);
+    const { equipments, equipmentCount} = useSelector((state) => state.equipment);
     const { user } = useSelector((state) => state.auth) || {}
     const dispatch = useDispatch();
 

@@ -33,8 +33,8 @@ console.log(queryString)
     }
 }
 
-const getEquipmentWithLoans = async(user, equipmentId) => {
-    const config = requestConfig("GET", null, user.token)
+const getEquipmentWithLoans = async( equipmentId) => {
+    const config = requestConfig("GET", null)
 
     try{
         const res = await fetch(api + `/Equipment/${equipmentId}`, config)

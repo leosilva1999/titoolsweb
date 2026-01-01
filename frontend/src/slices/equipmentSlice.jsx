@@ -28,7 +28,7 @@ export const getEquipments = createAsyncThunk(
 export const getEquipmentWithLoans = createAsyncThunk(
     "equipment/getEquipmentWithLoans",
     async({user, equipmentId}, thunkAPI) => {
-        const data = await equipmentService.getEquipmentWithLoans(user, equipmentId);
+        const data = await equipmentService.getEquipmentWithLoans(equipmentId);
 
         if(data.errors){
             return thunkAPI.rejectWithValue(data.errors);

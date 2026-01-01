@@ -11,6 +11,7 @@ import { useAuth } from './hooks/useAuth'
 import Home from './pages/Home/Home'
 import EquipmentList from './pages/EquipmentList/EquipmentList'
 import LoanList from './pages/LoanList/LoanList'
+import Equipment from './pages/Equipment/Equipment'
 import Users from './pages/Auth/Users/Users'
 import Login from './pages/Auth/Login'
 
@@ -40,6 +41,7 @@ function App() {
             <Route path='/users' element={auth ? <Users /> : <Navigate to="/login" />}></Route>
             <Route path='/equipmentlist' element={auth ? <EquipmentList /> : <Navigate to="/login" />}></Route>
             <Route path='/loanlist' element={auth ? <LoanList /> : <Navigate to="/login" />}></Route>
+            <Route path='/equipment/:id' element={<Equipment />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
