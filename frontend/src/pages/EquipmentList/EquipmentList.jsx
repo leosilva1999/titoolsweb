@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styles from "./EquipmentList.module.css"
 
-import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable, FaListUl } from "react-icons/fa";
+import { FaPlus, FaFilter, FaHandshake, FaTrash, FaUndo, FaLaptop, FaFilePdf, FaTable, FaTags, FaListUl } from "react-icons/fa";
 import { BlobProvider } from '@react-pdf/renderer';
 import { useDispatch, useSelector } from "react-redux"
 
@@ -16,6 +16,7 @@ import GenerateEquipmentReport from '../../components/GenerateEquipmentReport/Ge
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
 import EquipmentsReport from '../../reports/equipmentsReport';
+import GenerateLabels from '../../components/GenerateLabels/GenerateLabels';
 
 const EquipmentList =
   () => {
@@ -52,6 +53,7 @@ const EquipmentList =
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
       componentName === "GenerateEquipmentReport" ? setModalContent(<GenerateEquipmentReport data={data} setModalOpen={setModalOpen} />) : null;
       componentName === "ReleaseEquipment" ? setModalContent(<ReleaseEquipment data={data} />) : null;
+      componentName === "GenerateLabels" ? setModalContent(<GenerateLabels data={data} />) : null;
     };
 
     useEffect(() => {
@@ -117,6 +119,12 @@ const EquipmentList =
                         handleShowComponent("GenerateEquipmentReport", {typeOfReport: "xlsx", entity: "Equipment", filters})
                       }}>
                 <FaTable />
+              </button>
+              <button title="Gerar etiquetas" className={styles.exportButton} onClick={() => {
+                        setModalOpen(!modalOpen);
+                        handleShowComponent("GenerateLabels", {filters})
+                      }}>
+                <FaTags />
               </button>
               <p className={styles.pipe}>|</p>
               <button title="Filtrar" className={styles.filterButton} onClick={() => setOpenQueryFilter((prev) => !prev)}>
