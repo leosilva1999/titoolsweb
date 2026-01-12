@@ -18,7 +18,6 @@ const Sidebar = ({ active }) => {
                     <ul>
                         <NavLink className={styles.navlink} to="/"><li><FaHome /><span>Home</span></li></NavLink>
                         <NavLink className={styles.navlink} to="/equipmentlist"><li><FaLaptop /><span>Controle de equipamentos</span></li></NavLink>
-                        <NavLink className={styles.navlink} to="/"><li><FaBullhorn /><span>Atendimentos</span></li></NavLink>
                         <NavLink className={styles.navlink} to="/loanlist"><li><FaHandshake /><span>Empréstimos</span></li></NavLink>
                         <a href="https://wiki.aplac.org.br" target="_blank" className={styles.navlink}><li><FaWikipediaW /><span>Wiki <FaExternalLinkAlt/></span></li></a>
                     </ul>

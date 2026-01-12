@@ -4,7 +4,7 @@ import styles from './GenerateEquipmentReport.module.css';
 
 import { getEquipments, reset } from "../../slices/equipmentSlice";
 import { useSelector, useDispatch } from "react-redux"
-import { toast } from 'react-toastify';
+
 import EquipmentsReport from '../../reports/equipmentsReport';
 import { exportToExcel } from '../../utils/exportToXlsx';
 

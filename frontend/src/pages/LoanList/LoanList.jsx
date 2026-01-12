@@ -1,21 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from "./LoanList.module.css"
 import { FaPlus, FaFilter, FaTrash, FaUndo, FaHandshake, FaListUl, FaFilePdf, FaTable } from "react-icons/fa";
-import { BlobProvider } from '@react-pdf/renderer';
+
 
 import Pagination from '../../components/Pagination/Pagination';
 import Modal from '../../components/Modal/Modal';
 import AddLoan from '../../components/AddLoan/AddLoan';
-import LoansReport from '../../reports/loansReport';
+
 
 import { formatToBrazilianDate } from '../../utils/dateFormatter';
-import { exportToExcel } from '../../utils/exportToXlsx'
 
 //hooks
 import { useSelector, useDispatch } from "react-redux"
 
-import { getLoans, postLoan, reset } from "../../slices/loanSlice";
-import { toast } from 'react-toastify';
+import { getLoans, reset } from "../../slices/loanSlice";
 import LoansQueryFilter from '../../QueryFilter/LoansQueryFilter/LoansQueryFilter';
 import DeleteLoan from '../../components/DeleteLoan/DeleteLoan';
 import UpdateLoan from '../../components/UpdateLoan/UpdateLoan';
