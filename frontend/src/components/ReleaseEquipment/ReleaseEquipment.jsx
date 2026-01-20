@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import styles from "./ReleaseEquipment.module.css";
+
 import { deleteEquipmentFromLoan, reset } from "../../slices/loanSlice";
 import { updateStatus } from "../../slices/equipmentSlice";
 
@@ -14,8 +16,8 @@ const ReleaseEquipment = ({ data }) => {
     const dispatch = useDispatch();
 
     const handleReleaseEquipment = async () => {
-        dispatch(deleteEquipmentFromLoan({ user, equipmentId: data }));
-        dispatch(updateStatus({user, equipmentStatus: false, body: [data]}))
+        await dispatch(deleteEquipmentFromLoan({ user, equipmentId: data })).unwrap();
+        await dispatch(updateStatus({ user, equipmentStatus: false, body: [data] })).unwrap();
     }
 
     useEffect(() => {
@@ -32,8 +34,13 @@ const ReleaseEquipment = ({ data }) => {
 
     return (
         <div>
-            <p>Deseja realmente <label style={{ color: "red", fontWeight: "bold" }}>remover</label> este item do empréstimo atual?</p>
-            <button onClick={() => handleReleaseEquipment()}>Sim</button>
+            <div className={styles.content}>
+                <p className={styles.message}>Deseja realmente <label style={{ color: "red", fontWeight: "bold" }}>remover</label> este item do empréstimo atual?</p>
+                <div className={styles.actions}>
+                    <button className={`${styles.button} ${styles.confirmButton}`} onClick={() => handleReleaseEquipment()}>Sim</button>
+                </div>
+                {loading && <p className={styles.loading}>Removendo...</p>}
+            </div>
         </div>
     )
 }

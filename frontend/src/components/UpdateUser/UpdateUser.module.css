@@ -38,7 +38,7 @@
 .inputBox{
     display: grid;
     width: 60vh;
-    height: 40px;
+    min-height: 40px;
     margin: 10px 0;
 
 }
@@ -53,9 +53,6 @@
     font-size: 16px;
 }
 
-.react-select__menu {
-  z-index: 1000; /* Garante que o dropdown fique acima do botão */
-}
 
 .AddLoanBtn{
     background-color: #077920;
@@ -88,7 +85,7 @@
     align-items: center;
     justify-content:space-around;
     position: relative;
-    z-index: 1;
+    /*z-index: 1;*/
 }
 
 .brand{

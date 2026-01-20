@@ -139,6 +139,7 @@ const AddLoan = ({selectedEquipment}) => {
                         isLoading={!options}
                         maxMenuHeight={150}
                         menuPlacement="auto"
+                        menuPosition="fixed" 
                         value={selectedOptions}
                         options={options}
                         placeholder="Selecione os equipamentos"

@@ -20,7 +20,7 @@ const DeleteUser = ({ data, setModalOpen }) => {
     useEffect(() => {
 
         if (!loading) {
-            if(success && message == `User ${data} removed`){
+            if (success && message == `User ${data} removed`) {
                 toast.success(`Usuário ${data} removido!`);
                 //window.location.reload();
                 dispatch(getUsers({ user, limit: 10, offset: 0 }));
@@ -36,8 +36,13 @@ const DeleteUser = ({ data, setModalOpen }) => {
 
     return (
         <div>
-            <p>Deseja realmente <label style={{ color: "red", fontWeight: "bold" }}>remover</label> este usuário?</p>
-            <button onClick={() => handleDeleteUser()}>{!loading ? "Sim" : "Deletando..."}</button>
+            <div className={styles.content}>
+                <p className={styles.message}>Deseja realmente <span className={styles.highlight}>remover</span> esse usuário?</p>
+                <div className={styles.actions}>
+                    <button className={`${styles.button} ${styles.confirmButton}`} onClick={() => handleDeleteUser()}>{!loading ? "Sim" : "Deletando..."}</button>
+                </div>
+                {loading && <p className={styles.loading}>Removendo...</p>}
+            </div>
         </div>
     )
 }

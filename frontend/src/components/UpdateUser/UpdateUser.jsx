@@ -3,13 +3,12 @@ import styles from "./UpdateUser.module.css"
 
 
 import { useSelector, useDispatch } from "react-redux"
-import { getRoles, putUser, addUserToRole, removeUserFromAllRoles, reset } from "../../slices/authSlice"
+import { getUsers, getRoles, putUser, addUserToRole, removeUserFromAllRoles, removeUserFromRole, reset } from "../../slices/authSlice"
 
 import { FaEdit, FaSave } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import AsyncSelect from 'react-select/async';
 
-import { formatToBrazilianDate } from '../../utils/dateFormatter';
 
 const UpdateUser = ({ selectedUser }) => {
     const [username, setUsername] = useState(selectedUser.userName);
@@ -41,13 +40,32 @@ const UpdateUser = ({ selectedUser }) => {
         email && email != selectedUser.email ? userUpdated = { ...userUpdated, email: email } : null;
         password && password != "passwordhashToUpdade" ? userUpdated = { ...userUpdated, password: password } : null;
 
-        Object.keys(userUpdated).length != 0 && dispatch(putUser({ user, userId: selectedUser.id, body: userUpdated }));
+        Object.keys(userUpdated).length > 0 && dispatch(putUser({ user, userId: selectedUser.id, body: userUpdated }));
 
         let rolesToRemove = selectUserRoleNames.filter(roleName => !roleNames.some(rn => rn === roleName));
+        let rolesToAdd = roleNames.filter(roleName => !selectUserRoleNames.some(rn => rn === roleName));
 
-        rolesToRemove.lenght > 0 && dispatch(removeUserFromAllRoles({ user, email: selectedUser.email }));
+        /*if(rolesToRemove.length > 0)
+            dispatch(removeUserFromAllRoles({ user, email: selectedUser.email }));*/
 
-        roleNames.map(rn => dispatch(addUserToRole({ user, body:{email: selectedUser.email, roleName: rn} })))
+        try {
+            if (rolesToRemove.length > 0) {
+                for (const rtr of rolesToRemove) {
+                    await dispatch(removeUserFromRole({ user, email: selectedUser.email, rolename: rtr })).unwrap();
+                }
+            }
+            if (rolesToAdd.length > 0) {
+                for (const rta of rolesToAdd) {
+                    await dispatch(addUserToRole({ user, body: { email: selectedUser.email, roleName: rta } })).unwrap();
+                }
+            }
+            await dispatch(getUsers({ user, limit: 200, offset: 0 })).unwrap();
+            await dispatch(getRoles({ user, limit: 200, offset: 0 })).unwrap();
+
+            setIsUpdating(!isUpdating);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     const handleCancelEdit = () => {
@@ -59,15 +77,15 @@ const UpdateUser = ({ selectedUser }) => {
     }
 
     useEffect(() => {
-        dispatch(getRoles({user, limit: 200, offset: 0}));
+        dispatch(getRoles({ user, limit: 200, offset: 0 }));
     }, [])
 
     useEffect(() => {
-        if(roles != null){
+        if (roles != null) {
             setLoadOptions(roles.map(role => ({
-            value: role.id,
-            label: role.name
-        })));
+                value: role.id,
+                label: role.name
+            })));
         }
     }, [roles])
 
@@ -132,11 +150,12 @@ const UpdateUser = ({ selectedUser }) => {
                     <label>Perfis de acesso</label>
                     <AsyncSelect
                         isMulti
-                        isSearchable={false} 
+                        isSearchable={false}
                         //loadOptions={loadOptions}
                         defaultOptions={loadOptions}
                         isDisabled={!isUpdating}
                         menuPlacement="auto"
+                        menuPosition="fixed"                     
                         cacheOptions
                         debounceTime={500}
                         value={defaultOptions}

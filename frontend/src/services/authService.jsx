@@ -136,7 +136,7 @@ const putUser = async(user, userId, body) =>{
 const addUserToRole = async (user, body) => {
     const config = requestConfig("POST", null, user.token)
     
-    const res = await fetch(api + `/Auth/AddUserToRole?email=${body.email}&rolename=${body.roleName}`, config)
+    const res = await fetch(api + `/Auth/AddUserToRole?email=${body.email}&roleName=${body.roleName}`, config)
     .then((res) => res.json())
     .catch((err) => err);
     
@@ -146,7 +146,7 @@ const addUserToRole = async (user, body) => {
 const removeUserFromRole = async(user, email, rolename) => {
     const config = requestConfig("DELETE", null, user.token)
 
-    const res = await fetch(api + `/Auth/RemoveUserFromRole?email=${email}}&rolename=${rolename}`, config)
+    const res = await fetch(api + `/Auth/RemoveUserFromRole?email=${email}&roleName=${rolename}`, config)
     .then((res) => res.json())
     .catch((err) => err);
 
