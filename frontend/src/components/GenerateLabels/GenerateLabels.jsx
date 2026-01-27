@@ -68,6 +68,14 @@ const GenerateLabels = ({ data }) => {
         prepareData();
     }, [equipments]);
 
+    const buildLabelsWithSkips = () => {
+        const skip = parseInt(labelsToSkip) || 0;
+
+        const emptyLabels = Array.from({length: skip}, () => null)
+
+        return [...emptyLabels, ...dataToReports];
+    }
+
     const handleDownloadPdf = (e) => {
         e.preventDefault();
         setReportState({
@@ -94,7 +102,7 @@ const GenerateLabels = ({ data }) => {
                     <div className={styles.checkBoxContainer}>
                         <input
                             type="checkbox"
-                            skippingLabel={isSkippingLabel}
+                            skippinglabel={isSkippingLabel}
                             onChange={() => setIsSkippingLabel(prev => !prev)}
                         />
                         <p>Pular etiquetas usadas</p>
@@ -116,23 +124,24 @@ const GenerateLabels = ({ data }) => {
             {
                 reportState.generating && !reportState.downloaded && (<BlobProvider
                     document={<PdfLabels
-                        data={dataToReports}
+                        data={buildLabelsWithSkips()}
                         renderLabel={(item) => (
-                            <>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <View style={{ flex: 1, paddingRight: 4 }}>
-                                        <Text style={labelTextStyles.small}>ID: {String(item.ID) ?? ''}</Text>
-                                        <Text style={labelTextStyles.name}>{String(item.Nome) ?? ''}</Text>
-                                        <Text style={labelTextStyles.normal}>{String(item.Tipo) ?? ''}</Text>
-                                        <Text style={labelTextStyles.normal}>{String(item.Fabricante) ?? ''} {String(item.Modelo) ?? ''}</Text>
-                                        <Text style={labelTextStyles.normal}>{String(item.MAC) ?? ''}</Text>
+                            item ? (
+                                <>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <View style={{ flex: 1, paddingRight: 4 }}>
+                                            <Text style={labelTextStyles.small}>ID: {String(item.ID) ?? ''}</Text>
+                                            <Text style={labelTextStyles.name}>{String(item.Nome) ?? ''}</Text>
+                                            <Text style={labelTextStyles.normal}>{String(item.Tipo) ?? ''}</Text>
+                                            <Text style={labelTextStyles.normal}>{String(item.Fabricante) ?? ''} {String(item.Modelo) ?? ''}</Text>
+                                            <Text style={labelTextStyles.normal}>{String(item.MAC) ?? ''}</Text>
+                                        </View>
+                                        {item.qrCode && <Image
+                                            src={item.qrCode}
+                                            style={{ width: 40, height: 40 }}
+                                        />}
                                     </View>
-                                    <Image
-                                        src={item.qrCode}
-                                        style={{ width: 40, height: 40 }}
-                                    />
-                                </View>
-                            </>
+                                </>) : null
                         )}
                     />}
                 >
@@ -141,7 +150,7 @@ const GenerateLabels = ({ data }) => {
                             isDownloading.current = true
                             const link = document.createElement("a");
                             link.href = URL.createObjectURL(blob);
-                            link.download = 'emprestimos.pdf';
+                            link.download = 'etiquetas.pdf';
                             link.style.display = 'none';
 
                             link.onclick = () => {
