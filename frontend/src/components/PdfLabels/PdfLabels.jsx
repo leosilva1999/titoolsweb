@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     label: {
         width: '6.35cm',
         height: '2.5cm',
-        border: '1px solid #000',
-        borderRadius: 6,
+        /*border: '1px solid #000',*/
+        /*borderRadius: 6,*/
         padding: 4,
 
         /* Espaçamento entre colunas */

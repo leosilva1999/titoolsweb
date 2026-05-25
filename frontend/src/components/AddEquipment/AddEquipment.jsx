@@ -74,7 +74,6 @@ const AddEquipment = () => {
                         value={ipAddress}
                         placeholder='Endereço Ip'
                         onChange={(e) => setIpAddress(e.target.value)}
-                        required
                     />
                 </div>
                 <div className={styles.inputBox}>
@@ -83,7 +82,6 @@ const AddEquipment = () => {
                         value={macAddress}
                         placeholder='Endereço MAC'
                         onChange={(e) => setMacAddress(e.target.value)}
-                        required
                     />
                 </div>
                 <div className={styles.inputBox}>

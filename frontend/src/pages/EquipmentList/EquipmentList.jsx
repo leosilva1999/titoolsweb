@@ -15,7 +15,6 @@ import ReleaseEquipment from '../../components/ReleaseEquipment/ReleaseEquipment
 import GenerateEquipmentReport from '../../components/GenerateEquipmentReport/GenerateEquipmentReport';
 import AddLoan from '../../components/AddLoan/AddLoan';
 import EquipmentsQueryFilter from '../../QueryFilter/EquipmentsQueryFilter/EquipmentsQueryFilter';
-import EquipmentsReport from '../../reports/equipmentsReport';
 import GenerateLabels from '../../components/GenerateLabels/GenerateLabels';
 
 const EquipmentList =

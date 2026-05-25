@@ -30,7 +30,7 @@ const createUser = async (body) => {
     try {
 
         const res = await fetch(api + "/Auth/register", config)
-            .then((res) => res.json())
+            //.then((res) => res.json())
             .catch((err) => err);
 
         if (res) {

@@ -1,222 +1,262 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import equipmentService from "../services/equipmentService";
 
 const initialState = {
-    equipments: null,
-    equipmentWithLoans: null,
-    availableEquipments: null,
-    equipmentCount: null,
-    error: false,
-    success: false,
-    loading: false,
-    message: null
-}
-
+  equipments: null,
+  equipmentWithLoans: null,
+  availableEquipments: null,
+  equipmentCount: null,
+  error: false,
+  success: false,
+  loading: false,
+  message: null,
+};
 
 export const getEquipments = createAsyncThunk(
-    "equipment/getEquipments",
-    async({user, limit, offset, filters, forSelect = false}, thunkAPI) => {
-        const data = await equipmentService.getEquipments(user, limit, offset, filters);
+  "equipment/getEquipments",
+  async ({ user, limit, offset, filters, forSelect = false }, thunkAPI) => {
+    const data = await equipmentService.getEquipments(
+      user,
+      limit,
+      offset,
+      filters,
+    );
 
-        if(data.errors){
-            return thunkAPI.rejectWithValue(data.errors);
-        }
-        return {...data, meta: {forSelect}};
+    if (data.errors) {
+      return thunkAPI.rejectWithValue({
+        status: data.status,
+        message: data.message || data.Message,
+      });
     }
-)
+    return { ...data, meta: { forSelect } };
+  },
+);
 
 export const getEquipmentWithLoans = createAsyncThunk(
-    "equipment/getEquipmentWithLoans",
-    async({user, equipmentId}, thunkAPI) => {
-        const data = await equipmentService.getEquipmentWithLoans(equipmentId);
+  "equipment/getEquipmentWithLoans",
+  async ({ user, equipmentId }, thunkAPI) => {
+    const data = await equipmentService.getEquipmentWithLoans(equipmentId);
 
-        if(data.errors){
-            return thunkAPI.rejectWithValue(data.errors);
-        }
-        return data;
+    if (data.errors) {
+      return thunkAPI.rejectWithValue({
+        status: data.status,
+        message: data.message || data.Message,
+      });
     }
-)
+    return data;
+  },
+);
 
 export const postEquipment = createAsyncThunk(
-    "equipment/postEquipment",
-    async({user, body}, thunkAPI) => {
-        const data = await equipmentService.postEquipment(user, body);
+  "equipment/postEquipment",
+  async ({ user, body }, thunkAPI) => {
+    const data = await equipmentService.postEquipment(user, body);
 
-        if(data.status != "Created"){
-            //toast.error(data.message || 'Ocorreu um erro.');
-            return thunkAPI.rejectWithValue(data.Message);
-        }
-
-        //toast.success(data.message || 'Operação realizada com sucesso!');
-        return data;
+    if (data.status != "Created") {
+      //toast.error(data.message || 'Ocorreu um erro.');
+      return thunkAPI.rejectWithValue({
+        status: data.status,
+        message: data.message || data.Message,
+      });
     }
-)
+
+    //toast.success(data.message || 'Operação realizada com sucesso!');
+    return data;
+  },
+);
 
 export const putEquipment = createAsyncThunk(
-    "equipment/putEquipment",
-    async({user, equipmentId, body}, thunkAPI) => {
-        const data = await equipmentService.putEquipment(user, equipmentId, body);
-        
-        if(data.status != 204){
-            return thunkAPI.rejectWithValue(data.message);
-        };
+  "equipment/putEquipment",
+  async ({ user, equipmentId, body }, thunkAPI) => {
+    const data = await equipmentService.putEquipment(user, equipmentId, body);
 
-        return {status: data.status, message: "NoContent"};
+    if (data.status != 204) {
+      return thunkAPI.rejectWithValue({
+        status: data.status,
+        message: data.message || data.Message,
+      });
     }
-)
+
+    return { status: data.status, message: "NoContent" };
+  },
+);
 
 export const deleteEquipment = createAsyncThunk(
-    "equipment/deleteEquipment",
-    async({user, equipmentId}, thunkAPI) => {
-        const data = await equipmentService.deleteEquipment(user, equipmentId);
+  "equipment/deleteEquipment",
+  async ({ user, equipmentId }, thunkAPI) => {
+    const data = await equipmentService.deleteEquipment(user, equipmentId);
 
-        if(data.status != "OK"){
-            return thunkAPI.rejectWithValue(data.message);
-        }
-
-        return data;
+    if (data.status != "OK") {
+      return thunkAPI.rejectWithValue({
+        status: data.status,
+        message: data.message || data.Message,
+      });
     }
-)
+
+    return data;
+  },
+);
 
 export const updateStatus = createAsyncThunk(
-    "equipment/updateStatus",
-    async({user, equipmentStatus, body}, thunkAPI) => {
-        const data = await equipmentService.updateStatus(user, equipmentStatus, body);
+  "equipment/updateStatus",
+  async ({ user, equipmentStatus, body }, thunkAPI) => {
+    const data = await equipmentService.updateStatus(
+      user,
+      equipmentStatus,
+      body,
+    );
 
-        if(data.status != 204){
-            return thunkAPI.rejectWithValue(data.message);
-        }
-
-        return {status: data.status, message: "NoContent"};
+    if (data.status != 204) {
+      return thunkAPI.rejectWithValue({
+        status: data.status,
+        message: data.message || data.Message,
+      });
     }
-)
+
+    return { status: data.status, message: "NoContent" };
+  },
+);
 
 export const equipmentSlice = createSlice({
-    name: "equipment",
-    initialState,
-    reducers: {
-        reset: (state) => {
-            console.log("Resetando estado...");
-            state.loading = false;
-            state.error = false;
-            state.success = false;
-            state.message = null;
-        },
+  name: "equipment",
+  initialState,
+  reducers: {
+    reset: (state) => {
+      console.log("Resetando estado...");
+      state.loading = false;
+      state.error = false;
+      state.success = false;
+      state.message = null;
     },
-    extraReducers: (builder) => {
-        builder
-        //get equipments
-        .addCase(getEquipments.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(getEquipments.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.success = true;
-            state.error = null;
-            if(action.payload.meta?.forSelect){
-                state.availableEquipments = action.payload.equipmentList;
-            }else{
-                state.equipments = action.payload.equipmentList;
-                state.equipmentCount = action.payload.equipmentCount;   
-            }
-            console.log("fulfilled")
-        }).addCase(getEquipments.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-            state.equipment = null;
-            console.log("rejected: " + state.error)
-        })
+  },
+  extraReducers: (builder) => {
+    builder
+      //get equipments
+      .addCase(getEquipments.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        console.log("pending");
+      })
+      .addCase(getEquipments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        if (action.payload.meta?.forSelect) {
+          state.availableEquipments = action.payload.equipmentList;
+        } else {
+          state.equipments = action.payload.equipmentList;
+          state.equipmentCount = action.payload.equipmentCount;
+        }
+        console.log("fulfilled");
+      })
+      .addCase(getEquipments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.equipment = null;
+        console.log("rejected: " + state.error);
+      })
 
+      //get equipment with loans
+      .addCase(getEquipmentWithLoans.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        console.log("pending");
+      })
+      .addCase(getEquipmentWithLoans.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.equipmentWithLoans = action.payload;
+        console.log("fullfiled");
+      })
+      .addCase(getEquipmentWithLoans.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload?.status || true;
+        state.message = action.payload?.message || "Erro buscar empréstimos";
+      })
 
-        //get equipment with loans
-        .addCase(getEquipmentWithLoans.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(getEquipmentWithLoans.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.success = true;
-            state.equipmentWithLoans = action.payload;
-            console.log("fullfiled");
-        }).addCase(getEquipmentWithLoans.rejected, (state, action)=>{
-            state.loading = false;
-            state.success = false;
-            state.error = action.payload.status;
-            state.message = action.payload?.message || "Erro buscar empréstimos";
-        })
-        
-        //post equipments
-        .addCase(postEquipment.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(postEquipment.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.success = true;
-            state.error = null;
-            state.message = action.payload;
-            console.log("fullfiled");
-        }).addCase(postEquipment.rejected, (state, action)=>{
-            state.loading = false;
-            state.success = false;
-            state.error = action.payload.status;
-            state.message = action.payload.message
-        })
-        
-        // cases pra putEquipment
-            .addCase(putEquipment.pending, (state)=>{
-                state.loading = true;
-                state.error = false;
-                console.log("pending")
-            }).addCase(putEquipment.fulfilled, (state)=>{
-                state.loading = false;
-                state.success = true;
-                state.message = "Equipamento alterado com sucesso!";
-                console.log("fullfiled");
-            }).addCase(putEquipment.rejected, (state, action)=>{
-                state.loading = false;
-                state.success = false;
-                state.error = action.payload.status;
-                state.message = action.payload?.message || "Erro ao alterar equipamento";
-            })
+      //post equipments
+      .addCase(postEquipment.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        console.log("pending");
+      })
+      .addCase(postEquipment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.message = action.payload;
+        console.log("fullfiled");
+      })
+      .addCase(postEquipment.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload?.status || true;
+        state.message =
+          action.payload?.message || "Erro ao cadastrar equipamento";
+      })
 
-        //delete equipments
-        .addCase(deleteEquipment.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(deleteEquipment.fulfilled, (state, action)=>{
-            state.loading = false;
-            state.success = true;
-            state.error = null;
-            state.message = action.payload.message;
-            console.log("fullfiled");
-        }).addCase(deleteEquipment.rejected, (state, action)=>{
-            state.loading = false;
-            state.success = false;
-            state.error = action.payload.status;
-            state.message = action.payload.message
-        })
+      // cases pra putEquipment
+      .addCase(putEquipment.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        console.log("pending");
+      })
+      .addCase(putEquipment.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.message = "Equipamento alterado com sucesso!";
+        console.log("fullfiled");
+      })
+      .addCase(putEquipment.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload?.status || true;
+        state.message =
+          action.payload?.message || "Erro ao alterar equipamento";
+      })
 
-        //update equipment status
-        .addCase(updateStatus.pending, (state)=>{
-            state.loading = true;
-            state.error = false;
-            console.log("pending")
-        }).addCase(updateStatus.fulfilled, (state)=>{
-            state.loading = false;
-            state.success = true;
-            state.error = null;
-            state.message = "NoContent";
-            console.log("fulfilled");
-        }).addCase(updateStatus.rejected, (state, action)=>{
-            state.loading = false;
-            state.success = false;
-            state.error = action.payload.status;
-            state.message = action.payload.message;
-        })
-    }})
+      //delete equipments
+      .addCase(deleteEquipment.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        console.log("pending");
+      })
+      .addCase(deleteEquipment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.message = action.payload.message;
+        console.log("fullfiled");
+      })
+      .addCase(deleteEquipment.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload?.status || true;
+        state.message = action.payload.message;
+      })
 
-    export const {reset} = equipmentSlice.actions;
-    export default equipmentSlice.reducer;
+      //update equipment status
+      .addCase(updateStatus.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        console.log("pending");
+      })
+      .addCase(updateStatus.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.message = "NoContent";
+        console.log("fulfilled");
+      })
+      .addCase(updateStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload?.status || true;
+        state.message = action.payload.message;
+      });
+  },
+});
+
+export const { reset } = equipmentSlice.actions;
+export default equipmentSlice.reducer;

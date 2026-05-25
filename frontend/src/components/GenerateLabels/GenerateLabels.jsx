@@ -44,7 +44,7 @@ const GenerateLabels = ({ data }) => {
         if (!equipments || equipments.length === 0) return;
 
         const prepareData = async () => {
-            const baseUrl = "http://localhost:5173/equipment";
+            const baseUrl = "http://10.143.129.3:3000/equipment";
 
             const prepared = await Promise.all(
                 equipments.map(async (equip) => {

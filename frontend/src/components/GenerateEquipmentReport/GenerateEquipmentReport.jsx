@@ -5,7 +5,7 @@ import styles from './GenerateEquipmentReport.module.css';
 import { getEquipments, reset } from "../../slices/equipmentSlice";
 import { useSelector, useDispatch } from "react-redux"
 
-import EquipmentsReport from '../../reports/equipmentsReport';
+import EquipmentsReport from '../../reports/EquipmentsReport';
 import { exportToExcel } from '../../utils/exportToXlsx';
 
 const GenerateEquipmentReport = ({ data }) => {
