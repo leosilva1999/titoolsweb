@@ -115,7 +115,7 @@ const LoanList = () => {
                             <th>Ações</th>
                         </thead>
                         <tbody className={styles.tableBody}>
-                            {loans && loans.result.map((loan, index) => (
+                            {loans && loans.map((loan, index) => (
                                 <tr className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                                     <td>{loan.loanId}</td>
                                     <td>{loan.applicantName}</td>
