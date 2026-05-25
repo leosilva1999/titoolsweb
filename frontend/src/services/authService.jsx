@@ -24,8 +24,8 @@ const login = async (data) => {
 
 //create an user
 
-const createUser = async (body) => {
-    const config = requestConfig("POST", body.user)
+const createUser = async (user, body) => {
+    const config = requestConfig("POST", body.user, user.token)
 
     try {
 

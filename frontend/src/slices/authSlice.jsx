@@ -35,7 +35,7 @@ export const login = createAsyncThunk(
 export const createUser = createAsyncThunk(
     "auth/createUser",
     async (body, thunkAPI) => {
-        const data = await authService.createUser(body);
+        const data = await authService.createUser(user, body);
 
         //check for errors
         if (data.errors) {
