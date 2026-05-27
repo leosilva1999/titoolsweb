@@ -42,11 +42,11 @@ const EquipmentList =
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
 
     const handleShowComponent = (componentName, data = null) => {
-      componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} />) : null;
+      componentName === "AddEquipment" ? setModalContent(<AddEquipment data={data} setModalOpen={setModalOpen} />) : null;
       componentName === "UpdateEquipment" ? setModalContent(<UpdateEquipment selectedEquipment={data} setModalOpen={setModalOpen} />) : null;
       componentName === "DeleteEquipment" ? setModalContent(<DeleteEquipment data={data} setModalOpen={setModalOpen} />) : null;
       componentName === "GenerateEquipmentReport" ? setModalContent(<GenerateEquipmentReport data={data} setModalOpen={setModalOpen} />) : null;
-      componentName === "ReleaseEquipment" ? setModalContent(<ReleaseEquipment data={data} />) : null;
+      componentName === "ReleaseEquipment" ? setModalContent(<ReleaseEquipment data={data}  setModalOpen={setModalOpen} />) : null;
       componentName === "GenerateLabels" ? setModalContent(<GenerateLabels data={data} />) : null;
     };
 
@@ -140,6 +140,7 @@ const EquipmentList =
                           setModalContent(
                             <AddLoan
                               selectedEquipment={selected}
+                               setModalOpen={setModalOpen} 
                               onClose={() => setModalOpen(false)}
                             />
                           )

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./AddLoan.module.css"
 
 import { useSelector, useDispatch } from "react-redux"
-import { getEquipments, updateStatus } from '../../slices/equipmentSlice';
-import { postLoan, reset } from "../../slices/loanSlice";
+import { getEquipments, updateStatus, reset as equipmentReset } from '../../slices/equipmentSlice';
+import { postLoan, reset as loanReset } from "../../slices/loanSlice";
 import Select, { components } from 'react-select'
 import { toast } from 'react-toastify';
 
-const AddLoan = ({selectedEquipment}) => {
+const AddLoan = ({selectedEquipment, setModalOpen}) => {
     const [applicantName, setApplicantName] = useState("");
     const [authorizedBy, setAuthorizedBy] = useState("");
     const [requestTime, setRequestTime] = useState("");
@@ -15,7 +15,8 @@ const AddLoan = ({selectedEquipment}) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [loanIds, setLoanIds] = useState([]);
     const { user } = useSelector((state) => state.auth) || {}
-    const { availableEquipments, message, error, loading, success } = useSelector((state) => state.equipment);
+    const { availableEquipments, error: equipmentError, loading: equipmentLoading, success: equipmentSuccess, message: equipmentMessage } = useSelector((state) => state.equipment);
+    const { error: loanError, loading: loanLoading, success: loanSuccess, message: loanMessage } = useSelector((state) => state.loan);
     const [limit, setLimit] = useState(300);
     const [offset, setOffset] = useState(0);
 
@@ -55,23 +56,30 @@ const AddLoan = ({selectedEquipment}) => {
             equipmentIds: loanIds
         };
 
-        dispatch(postLoan({ user, body: loan }));
-        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds }));
+        dispatch(postLoan({ user, body: loan })).unwrap();
+        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds })).unwrap();
+        dispatch(getEquipments({ user, limit: 10, offset: 0 }));
+        setModalOpen(false);
     }
 
     //const handleShowMoreSelect = async
 
+    useEffect(() => {
+        if (loanLoading == false && loanSuccess == false && loanMessage != null) {
+            toast.error(loanMessage ? loanMessage : 'Ocorreu um erro.');
+        }
+    }, [loanError, loanLoading, loanSuccess, loanMessage, dispatch])
 
     useEffect(() => {
-        if (loading == false && success == true && message != null) {
-            toast.success(message ? message.message : 'Operação realizada com sucesso!')
-            dispatch(reset())
+        if (equipmentLoading == false && equipmentSuccess == true && equipmentMessage != null) {
+            toast.success('Emprestimo realizado!');
+            dispatch(equipmentReset());
+            dispatch(loanReset())
         }
-        else if (loading == false && success == false && message != null) {
-            toast.error(message ? message.message : 'Ocorreu um erro.');
-            dispatch(reset())
+        else if (equipmentLoading == false && equipmentSuccess == false && equipmentMessage != null) {
+            toast.error(equipmentMessage ? equipmentMessage : 'Ocorreu um erro.');
         }
-    }, [success, error, message, dispatch])
+    }, [equipmentError, equipmentLoading, equipmentSuccess, equipmentMessage, dispatch])
 
 
     useEffect(() => {
@@ -91,7 +99,7 @@ const AddLoan = ({selectedEquipment}) => {
             <components.MenuList{...props}>
                 {children}
                 <button onClick={() => loadMoreEquipmentsSelect()} className={styles.loadMoreBtn}>
-                    {loading ? "Carregando..." : "Carregar mais"}
+                    {equipmentLoading ? "Carregando..." : "Carregar mais"}
                 </button>
             </components.MenuList>
         )
@@ -152,13 +160,13 @@ const AddLoan = ({selectedEquipment}) => {
                 </div>
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={equipmentLoading}
                     className={styles.AddLoanBtn}
                 >
-                    {loading ? "Adicionando..." : "Adicionar"}
+                    {equipmentLoading ? "Adicionando..." : "Adicionar"}
                 </button>
             </form>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {equipmentError && <p style={{ color: "red" }}>{equipmentError}</p>}
             {/*success && <p style={{ color: "green" }}>{message.message}</p>*/}
         </div>
     )

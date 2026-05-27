@@ -62,8 +62,8 @@ const deleteEquipmentFromLoan = async(user, equipmentId) =>{
     
     try {
         const res = await fetch(api + `/Loans/deleteequipmentfromloan/${equipmentId}`, config)
-        console.log("deleteEquipmentFromLoan res: ");
-        console.dir(res)
+            .then((res) => res.json())
+            .catch((err) => err);
 
         return res
     } catch (error) {

@@ -98,8 +98,8 @@ const updateStatus = async(user, equipmentStatus, body) => {
     
     try{
         const res = await fetch(api + `/Equipment/updatestatus/${equipmentStatus}`, config)
-            .then((res) => res.json())
-            .catch((err) => err);
+            //.then((res) => res.json())
+            //.catch((err) => err);
 
             return res;
     }catch(error){

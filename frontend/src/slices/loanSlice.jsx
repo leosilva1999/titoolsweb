@@ -52,11 +52,11 @@ export const deleteEquipmentFromLoan = createAsyncThunk(
     async({user, equipmentId}, thunkAPI) => {
         const data = await loanService.deleteEquipmentFromLoan(user, equipmentId);
         
-        if(data.status != 204){
-            return thunkAPI.rejectWithValue(data.message);
+        if(data.status != "OK"){
+            return thunkAPI.rejectWithValue(data);
         };
 
-        return {status: data.status, message: "NoContent"};
+        return {status: data.status, message: data.message};
     }
 )
 
@@ -154,7 +154,24 @@ export const loanSlice = createSlice({
                 state.error = action.payload.status;
                 state.message = action.payload?.message || "Erro ao deletar empréstimo";
             })
+
+            // Cases para deleteEquipmentFromLoan
+            .addCase(deleteEquipmentFromLoan.pending, (state)=>{
+                state.loading = true;
+                state.error = false;
+                console.log("pending")
+            }).addCase(deleteEquipmentFromLoan.fulfilled, (state, action)=>{
+                state.loading = false;
+                state.success = true;
+                state.message = action.payload?.message || "Equipamento removido com sucesso!";
+                console.log("fullfiled");
+            }).addCase(deleteEquipmentFromLoan.rejected, (state, action)=>{
+                state.loading = false;
+                state.success = false;
+                state.error = action.payload?.status || "InternalServerError";
+                state.message = action.payload?.message || "Erro ao deletar empréstimo";
+            })
         }})
-    
+            
         export const {reset} = loanSlice.actions;
         export default loanSlice.reducer;
