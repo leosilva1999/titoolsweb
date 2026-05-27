@@ -56,8 +56,8 @@ const AddLoan = ({selectedEquipment, setModalOpen}) => {
             equipmentIds: loanIds
         };
 
-        dispatch(postLoan({ user, body: loan })).unwrap();
-        dispatch(updateStatus({user, equipmentStatus: true , body: loanIds })).unwrap();
+        await dispatch(postLoan({ user, body: loan })).unwrap();
+        await dispatch(updateStatus({user, equipmentStatus: true , body: loanIds })).unwrap();
         dispatch(getEquipments({ user, limit: 10, offset: 0 }));
         setModalOpen(false);
     }
