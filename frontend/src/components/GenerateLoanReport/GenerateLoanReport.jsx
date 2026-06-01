@@ -21,7 +21,7 @@ const GenerateLoanReport = ({ data }) => {
     downloaded: false,
   })
 
-  const dataToReports = loans && loans.result.map(loan => ({
+  const dataToReports = loans && loans.map(loan => ({
     ID: loan.loanId,
     Solicitante: loan.applicantName,
     Autorizado_por: loan.authorizedBy,

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import styles from './DeleteLoan.module.css';
+
 import { getLoans, deleteLoan, reset } from "../../slices/loanSlice";
 import { useSelector, useDispatch } from "react-redux"
 import { toast } from 'react-toastify';
@@ -34,8 +36,10 @@ const DeleteLoan = ({ data, setModalOpen }) => {
 
     return (
         <div>
-            <p>Deseja realmente <label style={{ color: "red", fontWeight: "bold" }}>remover</label> este item?</p>
-            <button onClick={() => handleDeleteLoan()}>{!loading ? "Sim" : "Deletando..."}</button>
+            <div className={styles.content}>
+                <p className={styles.message}>Deseja realmente <span className={styles.highlight}>remover</span> este item?</p>
+                <button className={`${styles.button} ${styles.confirmButton}`} onClick={() => handleDeleteLoan()}>{!loading ? "Sim" : "Deletando..."}</button>
+            </div>
         </div>
     )
 }
