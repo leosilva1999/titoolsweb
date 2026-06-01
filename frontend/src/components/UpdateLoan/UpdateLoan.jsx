@@ -205,7 +205,7 @@ const UpdateLoan = ({ selectedLoan }) => {
                     />
                 </div>
                 <div className={styles.formButtonsContainer}>
-                    {!isUpdating && <button
+                    {!isUpdating && selectedLoan.loanStatus && <button
                         type="button"
                         disabled={loading}
                         className={styles.AddLoanBtn}

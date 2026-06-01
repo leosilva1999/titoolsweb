@@ -76,8 +76,8 @@ const deleteLoan = async(user, loanId) => {
 
     try{
         const res = await fetch(api + `/Loans/${loanId}`, config)
-            /** .then((res) => res.json())
-            .catch((err) => err)*/
+            .then((res) => res.json())
+            .catch((err) => err)
 
             console.log("deleteLoan res: " + res);
 

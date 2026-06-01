@@ -65,11 +65,11 @@ export const deleteLoan = createAsyncThunk(
     async({user, loanId}, thunkAPI) => {
         const data = await loanService.deleteLoan(user, loanId);
 
-        if(data.status != 204){
+        if(data.status != "OK"){
             return thunkAPI.rejectWithValue(data.message);
         }
 
-        return data;
+         return {status: data.status, message: data.message};;
     }
 )
 

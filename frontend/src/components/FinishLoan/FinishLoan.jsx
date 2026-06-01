@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styles from "./FinishLoan.module.css"
 
-import { putLoan, reset } from "../../slices/loanSlice";
-import { updateStatus } from '../../slices/equipmentSlice';
+import { getLoans, putLoan, reset } from "../../slices/loanSlice";
+import { updateStatus, reset as equipmentReset } from '../../slices/equipmentSlice';
 import { useSelector, useDispatch } from "react-redux"
 import { formatToISO } from '../../utils/dateFormatter';
 import { toast } from 'react-toastify';
@@ -10,6 +10,10 @@ import { toast } from 'react-toastify';
 const FinishLoan = ({ loanToFinish, setModalOpen }) => {
 
     const [returnTime, setReturnTime] = useState("");
+
+    const [filters, setFilters] = useState({
+        orderByDescending: true
+    });
 
     const { user } = useSelector((state) => state.auth) || {}
     const { error, loading, success, message } = useSelector((state) => state.loan);
@@ -19,9 +23,10 @@ const FinishLoan = ({ loanToFinish, setModalOpen }) => {
     const handleFinishLoan = async(e) => {
         e.preventDefault();
 
-        dispatch(putLoan({ user, loanId: loanToFinish.loanId, body: { loanStatus: false, returnTime: returnTime } }));
+        await dispatch(putLoan({ user, loanId: loanToFinish.loanId, body: { loanStatus: false, returnTime: returnTime } })).unwrap();
         let loanEquipments = loanToFinish.equipments.map(e => e.equipmentId)
-        dispatch(updateStatus({ user, equipmentStatus: false, body: loanEquipments }))
+        await dispatch(updateStatus({ user, equipmentStatus: false, body: loanEquipments })).unwrap();
+        dispatch(getLoans({ user, limit: 10, offset: 0, filters }));
         setModalOpen(false);
     }
 
@@ -30,16 +35,14 @@ const FinishLoan = ({ loanToFinish, setModalOpen }) => {
     },[])
 
     useEffect(() => {
-
-        if (!loading) {
-            if (success && message == "NoContent") {
-                toast.success('Operação realizada com sucesso!');
-                window.location.reload();
+            if (loading == false && success == true && message != null) {
+                toast.success('Empréstimo Finalizado!');
+                dispatch(equipmentReset());
                 dispatch(reset());
-            }
-        }
+            }        
         else if (error) {
             toast.error(message ? message : 'Erro ao finalizar o empréstimo.');
+            dispatch(equipmentReset());
             dispatch(reset());
         }
     }, [success, message, dispatch, error, setModalOpen])

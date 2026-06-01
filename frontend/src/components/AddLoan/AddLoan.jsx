@@ -3,7 +3,7 @@ import styles from "./AddLoan.module.css"
 
 import { useSelector, useDispatch } from "react-redux"
 import { getEquipments, updateStatus, reset as equipmentReset } from '../../slices/equipmentSlice';
-import { postLoan, reset as loanReset } from "../../slices/loanSlice";
+import { getLoans, postLoan, reset as loanReset } from "../../slices/loanSlice";
 import Select, { components } from 'react-select'
 import { toast } from 'react-toastify';
 
@@ -45,6 +45,11 @@ const AddLoan = ({selectedEquipment, setModalOpen}) => {
         }
     ))
 
+    const [filters, setFilters] = useState({
+        orderByDescending: true
+    });
+    
+
     const handleAddLoan = async (e) => {
         e.preventDefault();
 
@@ -59,6 +64,7 @@ const AddLoan = ({selectedEquipment, setModalOpen}) => {
         await dispatch(postLoan({ user, body: loan })).unwrap();
         await dispatch(updateStatus({user, equipmentStatus: true , body: loanIds })).unwrap();
         dispatch(getEquipments({ user, limit: 10, offset: 0 }));
+        dispatch(getLoans({ user, limit: 10, offset: 0, filters }));
         setModalOpen(false);
     }
 

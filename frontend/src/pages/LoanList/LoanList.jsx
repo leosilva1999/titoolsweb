@@ -45,9 +45,9 @@ const LoanList = () => {
     const [openQueryFilter, setOpenQueryFilter] = useState(false);
 
     const handleShowComponent = (componentName, data = null) => {
-        componentName === "AddLoan" ? setModalContent(<AddLoan />) : null;
-        componentName === "UpdateLoan" ? setModalContent(<UpdateLoan selectedLoan={data} />) : null;
-        componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} />) : null;
+        componentName === "AddLoan" ? setModalContent(<AddLoan setModalOpen={setModalOpen} />) : null;
+        componentName === "UpdateLoan" ? setModalContent(<UpdateLoan selectedLoan={data} setModalOpen={setModalOpen} />) : null;
+        componentName === "DeleteLoan" ? setModalContent(<DeleteLoan data={data} setModalOpen={setModalOpen} />) : null;
         componentName === "FinishLoan" ? setModalContent(<FinishLoan loanToFinish={data} setModalOpen={setModalOpen} />) : null;
         componentName === "GenerateLoanReport" ? setModalContent(<GenerateLoanReport data={data} setModalOpen={setModalOpen} />) : null;
     };
