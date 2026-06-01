@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./AddEquipment.module.css"
 
-import {postEquipment, reset} from "../../slices/equipmentSlice";
+import {getEquipments, postEquipment, reset} from "../../slices/equipmentSlice";
 import {useSelector, useDispatch} from "react-redux"
 import { toast } from 'react-toastify';
 
-const AddEquipment = () => {
+const AddEquipment = ({setModalOpen}) => {
 
     const [nome, setNome] = useState("");
     const [ipAddress, setIpAddress] = useState("");
@@ -33,7 +33,9 @@ const AddEquipment = () => {
           equipmentLoanStatus: false,
         };
     
-        dispatch(postEquipment({user, body: equipment}))
+        await dispatch(postEquipment({user, body: equipment})).unwrap();
+        dispatch(getEquipments({ user, limit: 10, offset: 0 }));
+        setModalOpen(false);
       }
 
       useEffect(()=>{
