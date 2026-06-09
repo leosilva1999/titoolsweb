@@ -85,6 +85,17 @@ const GenerateLabels = ({ data }) => {
         isDownloading.current = false;
     }
 
+    const getNameStyle = (name) => {
+    if (name.length > 40) {
+        return {
+            ...labelTextStyles.small,
+            fontWeight: 'bold'
+        };
+    }
+
+    return labelTextStyles.name;
+    };
+
     useEffect(() => {
         dispatch(getEquipments({ user, limit: 300, offset: 0, filters: data.filters }));
     }, [])
@@ -131,7 +142,7 @@ const GenerateLabels = ({ data }) => {
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <View style={{ flex: 1, paddingRight: 4 }}>
                                             <Text style={labelTextStyles.small}>ID: {String(item.ID) ?? ''}</Text>
-                                            <Text style={labelTextStyles.name}>{String(item.Nome) ?? ''}</Text>
+                                            <Text style={getNameStyle(item.Nome)} maxLines={2}>{String(item.Nome) ?? ''}</Text>
                                             <Text style={labelTextStyles.normal}>{String(item.Tipo) ?? ''}</Text>
                                             <Text style={labelTextStyles.normal}>{String(item.Fabricante) ?? ''} {String(item.Modelo) ?? ''}</Text>
                                             <Text style={labelTextStyles.normal}>{String(item.MAC) ?? ''}</Text>
