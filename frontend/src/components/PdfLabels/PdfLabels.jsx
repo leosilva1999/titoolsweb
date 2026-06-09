@@ -5,9 +5,9 @@ const styles = StyleSheet.create({
     page: {
         marginBottom: '0',
         marginTop: '0',
-        paddingTop: '0.8cm',
-        paddingBottom: '0.8cm',
-        paddingHorizontal: '0.75cm',
+        paddingTop: '0.4cm',
+        paddingBottom: '0.4cm',
+        paddingHorizontal: '0.3cm',
     },
 
     labelsContainer: {
@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
     },
 
     label: {
-        width: '6.35cm',
-        height: '2.5cm',
-        /*border: '1px solid #000',*/
-        /*borderRadius: 6,*/
+        width: '6.6cm',
+        height: '2.63cm',
+        //border: '1px solid #000',
+        //borderRadius: 6,
         padding: 4,
 
         /* Espaçamento entre colunas */
